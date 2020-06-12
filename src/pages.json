@@ -3,7 +3,7 @@
 		{
 			"path": "pages/main/main",
 			"style": {
-				"navigationBarTitleText": "登录模板"
+				"navigationBarTitleText": "宅享生活"
 			}
 		}, {
 			"path": "pages/login/login",
@@ -23,7 +23,17 @@
 		}, {
 			"path": "pages/user/user",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "个人中心"
+			}
+		}, {
+			"path": "pages/shop/shop",
+			"style": {
+				"navigationBarTitleText": "商城"
+			}
+		}, {
+			"path": "pages/notice/notice",
+			"style": {
+				"navigationBarTitleText": "公告"
 			}
 		}
 	],
@@ -31,17 +41,32 @@
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",
 		"backgroundColor": "#ffffff",
-		"list": [{
-			"pagePath": "pages/main/main",
-			"text": "首页",
-			"iconPath": "static/img/home.png",
-			"selectedIconPath": "static/img/homeHL.png"
-		}, {
-			"pagePath": "pages/user/user",
-			"text": "我的",
-			"iconPath": "static/img/user.png",
-			"selectedIconPath": "static/img/userHL.png"
-		}]
+		"list": [
+			{
+				"pagePath": "pages/main/main",
+				"text": "首页",
+				"iconPath": "static/img/home.png",
+				"selectedIconPath": "static/img/homeHL.png"
+			},
+			{
+				"pagePath": "pages/shop/shop",
+				"text": "商城",
+				"iconPath": "static/img/user.png",
+				"selectedIconPath": "static/img/userHL.png"
+			},
+			{
+				"pagePath": "pages/notice/notice",
+				"text": "公告",
+				"iconPath": "static/img/user.png",
+				"selectedIconPath": "static/img/userHL.png"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"text": "我的",
+				"iconPath": "static/img/user.png",
+				"selectedIconPath": "static/img/userHL.png"
+			}
+		]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
