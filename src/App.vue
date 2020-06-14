@@ -1,10 +1,44 @@
 <script>
+    import * as common from './common/common'
 	export default {
-		onLaunch: function() {
+        globalData: {
+          code: ''
+        },
+		async onLaunch () {
 			console.log('App Launch');
+			// // 获取微信code
+          await common.wxLogin()
+          // 获取用户信息
+          await common.wxGetUser()
+          let res = await common.login()
+          if (!res.success) {
+            if (res.errorCode === '1005') { // 请扫描房产二维码
+              uni.showModal({
+                title: '提示',
+                content: res.errorMessage,
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定');
+                  } else if (res.cancel) {
+                    console.log('用户点击取消');
+                  }
+                }
+              });
+            }
+          }
 		},
 		onShow: function() {
 			console.log('App Show');
+          uni.checkSession({
+            success () {
+              //session_key 未过期，并且在本生命周期一直有效
+            },
+            fail () {
+              console.log('fail')
+              common.wxLogin()
+            }
+          })
 		},
 		onHide: function() {
 			console.log('App Hide');
@@ -15,6 +49,7 @@
 <style>
 	/* 头条小程序需要把 iconfont 样式放到组件外 */
 	@import "components/m-icon/m-icon.css";
+    @import "common/common.scss";
 
 	/*每个页面公共css */
 	page {

@@ -20,6 +20,11 @@ const store = new Vuex.Store({
 		logout(state) {
 			state.userName = "";
 			state.hasLogin = false;
+		},
+		setStateData (state, obj = {}) {
+			Object.keys(obj).forEach(key => {
+				state[key] = obj[key]
+			})
 		}
 	}
 })
