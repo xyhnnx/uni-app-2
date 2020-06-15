@@ -2,31 +2,15 @@
     import * as common from './common/common'
 	export default {
         globalData: {
-          code: ''
+          code: '',
+          encryptedData: '',
+          iv: '',
+          wxUserInfo: {}
         },
 		async onLaunch () {
 			console.log('App Launch');
 			// // 获取微信code
           await common.wxLogin()
-          // 获取用户信息
-          await common.wxGetUser()
-          let res = await common.login()
-          if (!res.success) {
-            if (res.errorCode === '1005') { // 请扫描房产二维码
-              uni.showModal({
-                title: '提示',
-                content: res.errorMessage,
-                showCancel: false,
-                success: function (res) {
-                  if (res.confirm) {
-                    console.log('用户点击确定');
-                  } else if (res.cancel) {
-                    console.log('用户点击取消');
-                  }
-                }
-              });
-            }
-          }
 		},
 		onShow: function() {
 			console.log('App Show');

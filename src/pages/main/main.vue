@@ -24,10 +24,7 @@
                 </swiper>
             </view>
             <view class="height10"></view>
-            <view>
-                <!--<button type="primary" @click="scanningCode">扫码</button>-->
-                <button open-type="getUserInfo" @getuserinfo="getUserInfo">扫码</button>
-            </view>
+
             <view class="height10"></view>
             <view class="card-box panel-section">
                 <view class="item">
@@ -37,11 +34,11 @@
                     <view>物业缴费</view>
                 </view>
                 <view class="split"></view>
-                <view class="item">
+                <view class="item" @click="toDetail('/pages/repair/repair')">
                     <view>
                         <image mode="aspectFit" class="img" src="../../static/img/oval-image.png" alt=""/>
                     </view>
-                    <view>保修投诉</view>
+                    <view>报修投诉</view>
                 </view>
             </view>
             <view class="height10"></view>
@@ -125,12 +122,7 @@
           }
         });
       },
-      getUserInfo(res) {
-        console.log('getUserInfo', res)
-        getApp().globalData.encryptedData = res.detail.encryptedData
-        getApp().globalData.iv = res.detail.iv
-        this.scanningCode()
-      },
+
       showActionSheet () {
         uni.showActionSheet({
           itemList: ['A', 'B', 'C'],
@@ -140,6 +132,13 @@
           fail: function (res) {
             console.log(res.errMsg);
           }
+        });
+      },
+      toDetail (url) {
+        console.log(url)
+        //在起始页面跳转到test.vue页面并传递参数
+        uni.navigateTo({
+          url
         });
       }
     },

@@ -1,16 +1,23 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
-			"path": "pages/main/main",
+			"path": "pages/auth-login/auth-login",
 			"style": {
-				"navigationBarTitleText": "宅享生活"
+				"navigationBarTitleText": "登录"
 			}
-		}, {
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录"
 			}
-		}, {
+		},
+		{
+			"path": "pages/main/main",
+			"style": {
+				"navigationBarTitleText": "宅享生活"
+			}
+		},  {
 			"path": "pages/reg/reg",
 			"style": {
 				"navigationBarTitleText": "注册"
@@ -34,6 +41,11 @@
 			"path": "pages/notice/notice",
 			"style": {
 				"navigationBarTitleText": "公告"
+			}
+		}, {
+			"path": "pages/repair/repair",
+			"style": {
+				"navigationBarTitleText": "报修投诉"
 			}
 		}
 	],
