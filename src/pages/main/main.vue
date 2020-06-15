@@ -5,11 +5,15 @@
         </view>
         <view class="content-box">
             <view>
+                <button @click="showActionSheet">小区选择</button>
+            </view>
+            <view class="height10"></view>
+            <view class="card-box">
                 <swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
                         :duration="duration">
                     <swiper-item>
                         <view class="swiper-item">
-                            <image mode="aspectFit" class="img" src="../../static/img/banner1.png" alt=""/>
+                            <image mode="scaleToFill" class="img" src="../../static/img/banner1.png" alt=""/>
                         </view>
                     </swiper-item>
                     <swiper-item>
@@ -23,6 +27,42 @@
             <view>
                 <!--<button type="primary" @click="scanningCode">扫码</button>-->
                 <button open-type="getUserInfo" @getuserinfo="getUserInfo">扫码</button>
+            </view>
+            <view class="height10"></view>
+            <view class="card-box panel-section">
+                <view class="item">
+                    <view>
+                        <image mode="aspectFit" class="img" src="../../static/img/image.png" alt=""/>
+                    </view>
+                    <view>物业缴费</view>
+                </view>
+                <view class="split"></view>
+                <view class="item">
+                    <view>
+                        <image mode="aspectFit" class="img" src="../../static/img/oval-image.png" alt=""/>
+                    </view>
+                    <view>保修投诉</view>
+                </view>
+            </view>
+            <view class="height10"></view>
+            <view class="panel-title">
+                居家服务
+            </view>
+            <view class="height5"></view>
+            <view class="card-box panel-section">
+                <view class="item">
+                    <view>
+                        <image mode="aspectFit" class="img" src="../../static/img/oval-3-image.png" alt=""/>
+                    </view>
+                    <view>居家服务</view>
+                </view>
+                <view class="split"></view>
+                <view class="item">
+                    <view>
+                        <image mode="aspectFit" class="img" src="../../static/img/oval-4-image.png" alt=""/>
+                    </view>
+                    <view>配送商品</view>
+                </view>
             </view>
         </view>
     </view>
@@ -79,7 +119,7 @@
           fail() {
             uni.showModal({
               title: '提示',
-              content: '扫描失败；请重试',
+              content: '扫码失败；请重试',
               showCancel: false
             });
           }
@@ -90,6 +130,17 @@
         getApp().globalData.encryptedData = res.detail.encryptedData
         getApp().globalData.iv = res.detail.iv
         this.scanningCode()
+      },
+      showActionSheet () {
+        uni.showActionSheet({
+          itemList: ['A', 'B', 'C'],
+          success: function (res) {
+            console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+          },
+          fail: function (res) {
+            console.log(res.errMsg);
+          }
+        });
       }
     },
     onLoad() {
@@ -132,7 +183,7 @@
         height: 0;
 
         .background-primary {
-            height: 60px;
+            height: 130px;
             background-color: $uni-color-primary;
         }
     }
@@ -151,5 +202,31 @@
 
     .content-box {
         padding: 10px;
+    }
+
+    .panel-section {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        .split{
+            width: 1px;
+            height: 70px;
+            background-color: $uni-border-color;
+        }
+        .item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .img {
+                width: 50px;
+                height: 50px;
+                margin-right: 5px;
+            }
+        }
+    }
+    .panel-title {
+        font-weight: bold;
     }
 </style>
