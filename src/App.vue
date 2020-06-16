@@ -30,10 +30,11 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	/* 头条小程序需要把 iconfont 样式放到组件外 */
 	@import "components/m-icon/m-icon.css";
     @import "common/common.scss";
+    @import "common/iconfont.css";
 
 	/*每个页面公共css */
 	page {
@@ -146,8 +147,12 @@
 		margin-top: 25px;
 		padding: 10px;
 	}
-
-	button.primary {
-		background-color: #0faeff;
-	}
+    // 覆盖样式
+    button.primary {
+        background-color: $uni-color-primary
+    }
+    button.primary.button-hover{
+        background-color: $uni-color-primary;
+        opacity: 0.8;
+    }
 </style>

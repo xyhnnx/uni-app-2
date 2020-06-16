@@ -36,7 +36,7 @@
         isDevtools: false,
         // 扫码进入的页面的参数
         onLoadInfo: {
-          roomId: 283672
+          roomId: 361111
         }
       }
     },
@@ -117,8 +117,8 @@
         // 获取用户信息
         let res2 = await common.login({
           roomId: this.onLoadInfo.roomId,
-          EncryptedDataStr: getApp().globalData.encryptedData,
-          IV: getApp().globalData.iv
+          // EncryptedDataStr: getApp().globalData.encryptedData,
+          // IV: getApp().globalData.iv
         })
         console.log('common.login', res2)
         if (!res2.success) {
