@@ -10,7 +10,11 @@ const store = new Vuex.Store({
 		 */
 		forcedLogin: true,
 		hasLogin: false,
-		userName: ""
+		userName: "",
+		// 用戶管理所有room
+		roomList: [],
+		// 当前room
+		currentRoom: {}
 	},
 	mutations: {
 		login(state, userName) {

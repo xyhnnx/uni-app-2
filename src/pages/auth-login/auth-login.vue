@@ -42,7 +42,7 @@
     },
     computed: mapState(['forcedLogin']),
     methods: {
-      ...mapMutations(['login']),
+      ...mapMutations(['login','setStateData']),
       initProvider() {
         const filters = ['weixin', 'qq', 'sinaweibo'];
         uni.getProvider({
@@ -113,13 +113,16 @@
         }
       },
       async login () {
-        console.log(encodeURIComponent('roomId=283672'))
+        uni.showLoading({
+          title: '登录中'
+        });
         // 获取用户信息
         let res2 = await common.login({
           roomId: this.onLoadInfo.roomId,
           // EncryptedDataStr: getApp().globalData.encryptedData,
           // IV: getApp().globalData.iv
         })
+        uni.hideLoading()
         console.log('common.login', res2)
         if (!res2.success) {
           if (res2.errorCode === '1005') { // 请扫描房产二维码
@@ -136,6 +139,11 @@
               }
             });
           }
+        } else {
+          this.setStateData({
+            'roomList': res2.data.roomInfos || [],
+            'currentRoom': res2.data.roomInfos && res2.data.roomInfos[0]
+          })
         }
         uni.showModal({
           title: '提示',

@@ -5,7 +5,7 @@
         </view>
         <view class="content-box">
             <view>
-                <button @click="showActionSheet">小区选择</button>
+                <button @click="showActionSheet">{{(currentRoom && currentRoom.roomName) || '未关联房间'}}</button>
             </view>
             <view class="height10"></view>
             <view class="card-box">
@@ -67,7 +67,8 @@
 
 <script>
   import {
-    mapState
+    mapState,
+    mapMutations
   } from 'vuex'
   import * as api from '../../api/api'
   import * as common from '../../common/common'
@@ -82,8 +83,9 @@
         duration: 500
       }
     },
-    computed: mapState(['forcedLogin', 'hasLogin', 'userName']),
+    computed: mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom']),
     methods: {
+      ...mapMutations(['setStateData']),
       scanningCode() {
         console.log('scanningCodescanningCode')
         // 允许从相机和相册扫码
@@ -125,9 +127,11 @@
 
       showActionSheet () {
         uni.showActionSheet({
-          itemList: ['A', 'B', 'C'],
-          success: function (res) {
-            console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+          itemList: this.roomList.map(e => e.roomName),
+          success: (res) => {
+            this.setStateData({
+              currentRoom: this.roomList[res.tapIndex]
+            })
           },
           fail: function (res) {
             console.log(res.errMsg);

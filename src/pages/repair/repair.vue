@@ -1,6 +1,6 @@
 <template>
     <view class="content">
-        <view class="page-title">中建大观</view>
+        <view class="page-title">{{(currentRoom && currentRoom.roomName) || '未关联房间'}}</view>
         <view class="height5"></view>
 
         <view class="text-area-box">
@@ -55,6 +55,10 @@
 </template>
 
 <script>
+  import {
+    mapState,
+    mapMutations
+  } from 'vuex'
   import service from '../../service.js';
   import mInput from '../../components/m-input.vue';
   import uniList from "@/components/uni-list/uni-list.vue"
@@ -73,6 +77,7 @@
         imgFileList: []
       }
     },
+    computed: mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom']),
     methods: {
       chooseImg () {
         uni.chooseImage({
