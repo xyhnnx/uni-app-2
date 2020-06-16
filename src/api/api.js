@@ -18,6 +18,14 @@ export async function getAdvert(data) {
     url: `${apiHost}/api/Login/GetAdvert`,
   });
 }
+// 3.上传文件
+export async function uploadFile(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/Upload/uploadfile`,
+  });
+}
 
 
 

@@ -60,6 +60,7 @@
     mapMutations
   } from 'vuex'
   import service from '../../service.js';
+  import * as api from '../../api/api'
   import mInput from '../../components/m-input.vue';
   import uniList from "@/components/uni-list/uni-list.vue"
   import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
@@ -99,9 +100,16 @@
           title: 'xxx',
           duration: 3000
         });
+        this.uploadImgItem()
       },
       bindTextAreaBlur: function (e) {
         console.log(e.detail.value)
+      },
+      // 上传文件
+      async uploadImgItem() {
+        api.uploadFile({
+          files: this.imgFileList
+        })
       }
     }
   }
