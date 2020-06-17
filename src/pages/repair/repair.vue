@@ -10,10 +10,10 @@
             <view class="img-list">
                 <view class="img-item" v-for="(item, index) in imageList" key="item">
                     <image mode="aspectFit" class="img" :src="item" alt=""/>
-                    <view @click="delImg(index)" class="close">x</view>
+                    <view @click="delImg(index)" class="close">×</view>
                 </view>
             </view>
-            <view class="plus-box" @click="chooseImg" v-if="imageList.length === 0">
+            <view class="plus-box" @click="chooseImg" v-if="imageList.length < 4">
                 <view class="plus-btn">
                     +
                 </view>
@@ -27,21 +27,21 @@
         <view class="input-group">
             <view class="input-row">
                 <text class="title">类型</text>
-                <m-input class="input" type="text" focus disabled v-model="email" placeholder="请选择"></m-input>
+                <m-input class="input" type="text" focus disabled v-model="formData.servicesTypeName" placeholder="请选择"></m-input>
                 <text class="iconfont icon-jiantouyou "></text>
             </view>
             <view class="input-row">
                 <text class="title">户号</text>
-                <m-input class="input" type="text" disabled v-model="email" placeholder="请选择"></m-input>
+                <m-input class="input" type="text" disabled v-model="formData.roomName" placeholder="请选择"></m-input>
                 <text class="iconfont icon-jiantouyou "></text>
             </view>
             <view class="input-row">
                 <text class="title">联系人</text>
-                <m-input class="input" type="text" v-model="email" placeholder="请输入"></m-input>
+                <m-input class="input" type="text" v-model="formData.contacts" placeholder="请输入"></m-input>
             </view>
             <view class="input-row">
                 <text class="title">手机号</text>
-                <m-input class="input" type="text" v-model="email" placeholder="请输入"></m-input>
+                <m-input class="input" type="text" v-model="formData.contactsPhone" placeholder="请输入"></m-input>
             </view>
         </view>
 
@@ -49,7 +49,7 @@
         <view class="height10"></view>
         <view class="height10"></view>
         <view>
-            <button type="primary" class="primary" @tap="findPassword">提交</button>
+            <button type="primary" class="primary" @tap="submit">提交</button>
         </view>
     </view>
 </template>
@@ -75,58 +75,78 @@
       return {
         email: '',
         imageList: [],
-        imgFileList: []
+        formData: {
+          "servicesType": 0,
+          "servicesTypeName": '',
+          "contentInfo": "",
+          "contacts": "",
+          "contactsPhone": "",
+          "serviceTypeID": 0,
+          "roomID": 0,
+          "roomName": '',
+          "photos": [
+          ]
+        }
       }
     },
     computed: mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom']),
     methods: {
       chooseImg () {
         uni.chooseImage({
-          count: 4, //默认9
+          count: 4 - this.imageList.length, //默认9
           success: (res) => {
-            console.log(res)
-            this.imageList = res.tempFilePaths
-            this.imgFileList = res.tempFiles
-            this.uploadFile()
+            this.imageList.push(...res.tempFilePaths)
+            console.log(JSON.stringify(this.imageList))
           }
         });
       },
-      uploadFile () {
-        uni.uploadFile({
-          url: getApp().globalData.uploadFileUrl, //仅为示例，非真实的接口地址
-          filePath: this.imageList[0],
-          name: 'uploadfile_ant',
-          formData: {
-            'uploadfile_ant': this.imageList[0]
-          },
-          header: {
-            token: uni.getStorageSync('jwtToken') || ''
-          },
-          success: (uploadFileRes) => {
-            console.log('uploadFileRes.data', uploadFileRes.data);
-          }
-        });
+      async uploadFile (path) {
+        let arr = []
+        for(let i = 0;i < this.imageList; i++) {
+          arr.push(uploadItem(this.imageList[i]))
+        }
+        let uploadItem = () => {
+          return new Promise((resolve) => {
+            uni.uploadFile({
+              url: getApp().globalData.uploadFileUrl, // 仅为示例，非真实的接口地址
+              filePath: this.imageList[i],
+              name: 'uploadfile_ant',
+              formData: {
+                'uploadfile_ant': this.imageList[0]
+              },
+              header: {
+                token: uni.getStorageSync('jwtToken') || ''
+              },
+              success: (uploadFileRes) => {
+                resolve(uploadFileRes.data)
+              }
+            });
+          })
+        }
+        return Promise.all(arr)
       },
       delImg (i) {
         this.imageList.splice(i, 1)
-        this.imgFileList.splice(i, 1)
       },
-      findPassword() {
-        uni.showToast({
-          icon: 'none',
-          title: 'xxx',
-          duration: 3000
+      async submit() {
+        let phones = await this.uploadFile();
+        let res = await api.serviceInsert(this.formData)
+        uni.showModal({
+          title: '提示',
+          content: 'xxxxxx',
+          showCancel: false,
+          success: function (res3) {
+            if (res3.confirm) {
+              console.log('用户点击确定');
+            } else if (res3.cancel) {
+              console.log('用户点击取消');
+            }
+          }
         });
-        this.uploadImgItem()
       },
       bindTextAreaBlur: function (e) {
         console.log(e.detail.value)
-      },
-      // 上传文件
-      async uploadImgItem() {
-        api.uploadFile({
-          files: this.imgFileList
-        })
+        this.formData.contentInfo = e.detail.value
       },
       async getRepairType () {
         let res = await api.getRepairType({
@@ -152,19 +172,21 @@
 
     .text-area-box {
         padding: 20px;
-        height: 80px;
+        height: 20px;
         background-color: #fff;
     }
     .img-box{
         padding: 10px;
         background-color: #fff;
         .img-list{
+            width: calc(100vw - 20px);
+            height: 100px;
             display: flex;
             overflow: auto;
             padding-top: 20px;
             .img-item{
-                width: 100px;
-                height: 100px;
+                width: 80px;
+                height: 80px;
                 margin-right: 20px;
                 border: 1px solid $uni-border-color;
                 display: flex;
@@ -175,28 +197,29 @@
                     position: absolute;
                     right: -10px;
                     top: -10px;
-                    color: #000;
-                    border-radius: 5px;
+                    border-radius: 10px;
                     width: 20px;
                     height: 20px;
                     flex: 14px;
                     line-height: 20px;
                     text-align: center;
                     background-color: red;
+                    color: #fff;
                 }
             }
         }
         .plus-box {
+            margin-top: 5px;
             display: flex;
             align-items: center;
             .plus-btn {
-                width: 100px;
-                height: 100px;
+                width: 60px;
+                height: 60px;
                 border: 1px solid $uni-border-color;
-                font-size: 50px;
+                font-size: 40px;
                 color: $uni-border-color;
                 text-align: center;
-                line-height: 100px;
+                line-height: 60px;
             }
             .tip {
                 margin-left: 10px;

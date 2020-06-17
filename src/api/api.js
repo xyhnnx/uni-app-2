@@ -35,5 +35,14 @@ export async function getRepairType(data) {
     url: `${apiHost}/api/Service/GetRepairType`,
   });
 }
+//
+// 插入报修/投诉单
+export async function serviceInsert(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/Service/Insert`,
+  });
+}
 
 
