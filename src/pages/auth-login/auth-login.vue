@@ -4,7 +4,7 @@
             <view class="oauth-image" v-for="provider in providerList" :key="provider.value">
 
                 <!-- #ifdef MP-WEIXIN -->
-                <button class="login-btn" open-type="getUserInfo" @getuserinfo="getUserInfo">
+                <button class="login-btn" open-type="getPhoneNumber" @getphonenumber="getUserInfo">
                     <image class="img" :src="provider.image" @tap="oauth(provider.value)"></image>
                     微信授权登录
                 </button>
@@ -99,7 +99,8 @@
         });
       },
       async getUserInfo(res) {
-        if (res.detail.userInfo) {
+        console.log(res)
+        if (res.detail) {
           console.log('getUserInfo', res)
           getApp().globalData.encryptedData = res.detail.encryptedData
           getApp().globalData.iv = res.detail.iv
@@ -140,6 +141,7 @@
             });
           }
         } else {
+          uni.setStorageSync('jwtToken', res2.data.jwtToken)
           this.setStateData({
             'roomList': res2.data.roomInfos || [],
             'currentRoom': res2.data.roomInfos && res2.data.roomInfos[0]

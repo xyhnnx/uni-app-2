@@ -2,9 +2,13 @@
     import * as common from './common/common'
 	export default {
         globalData: {
+          uploadFileUrl: 'http://wy.962460.com/handler/api/UploadHandler.ashx?method=ProcessRequest',
+          // 图片前缀
+          filePrefix: 'http://wy.962460.com',
           code: '',
           encryptedData: '',
           iv: '',
+          jwtToken: '',
           wxUserInfo: {}
         },
 		async onLaunch () {

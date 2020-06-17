@@ -26,6 +26,14 @@ export async function uploadFile(data) {
     url: `${apiHost}/api/Upload/uploadfile`,
   });
 }
-
+//
+// 获取报修类型
+export async function getRepairType(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/Service/GetRepairType`,
+  });
+}
 
 

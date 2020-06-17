@@ -84,9 +84,26 @@
         uni.chooseImage({
           count: 4, //默认9
           success: (res) => {
-            console.log(JSON.stringify(res.tempFilePaths));
+            console.log(res)
             this.imageList = res.tempFilePaths
             this.imgFileList = res.tempFiles
+            this.uploadFile()
+          }
+        });
+      },
+      uploadFile () {
+        uni.uploadFile({
+          url: getApp().globalData.uploadFileUrl, //仅为示例，非真实的接口地址
+          filePath: this.imageList[0],
+          name: 'uploadfile_ant',
+          formData: {
+            'uploadfile_ant': this.imageList[0]
+          },
+          header: {
+            token: uni.getStorageSync('jwtToken') || ''
+          },
+          success: (uploadFileRes) => {
+            console.log('uploadFileRes.data', uploadFileRes.data);
           }
         });
       },
@@ -110,7 +127,15 @@
         api.uploadFile({
           files: this.imgFileList
         })
+      },
+      async getRepairType () {
+        let res = await api.getRepairType({
+          courtId: this.currentRoom.courtId
+        })
       }
+    },
+    onLoad () {
+      this.getRepairType()
     }
   }
 </script>

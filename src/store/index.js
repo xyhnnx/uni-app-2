@@ -14,7 +14,7 @@ const store = new Vuex.Store({
 		// 用戶管理所有room
 		roomList: [],
 		// 当前room
-		currentRoom: {}
+		currentRoom: {"roomId":361111,"roomName":"1栋1单元301","courtId":619,"courtName":"沃得雅苑","companyId":162,"companyName":"江苏百事帮物业服务有限公司"}
 	},
 	mutations: {
 		login(state, userName) {

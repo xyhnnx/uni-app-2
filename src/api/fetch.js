@@ -1,15 +1,16 @@
-let token  = ''
+
 
 
 
 // Await
 export async function request (obj = {}) {
+  let jwtToken  = uni.getStorageSync('jwtToken') || '';
   let [error, res] = await uni.request({
     url: obj.url,
     data: obj.data || {},
     method: obj.method ? `${obj.method}`.toUpperCase() : 'GET',
     header: {
-      token
+      token: jwtToken
     }
   });
   if (error) {
