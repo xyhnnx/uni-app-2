@@ -4,13 +4,13 @@
 
 // Await
 export async function request (obj = {}) {
-  let jwtToken  = uni.getStorageSync('jwtToken') || '';
+  let jwtToken  = 'Bearer ' + uni.getStorageSync('jwtToken') || '';
   let [error, res] = await uni.request({
     url: obj.url,
     data: obj.data || {},
     method: obj.method ? `${obj.method}`.toUpperCase() : 'GET',
     header: {
-      token: jwtToken
+      Authorization: jwtToken
     }
   });
   if (error) {
@@ -23,16 +23,23 @@ export async function request (obj = {}) {
   }
   res = res.data || {}
   return res
-  // if (res.success) {
-  //   return res
-  // } else {
-  //   uni.showToast({
-  //     title: `服务器繁忙，请稍后重试（${res.errorCode}:${res.errorMessage}）`,
-  //     duration: 2000,
-  //     icon: 'none'
-  //   });
-  //   return false
-  // }
+  if (res.success) {
+    return res
+  } else if(res.errorCode) {
+    uni.showToast({
+      title: `${res.errorCode}:${res.errorMessage}`,
+      duration: 2000,
+      icon: 'none'
+    });
+    return false
+  } else {
+    uni.showToast({
+      title: `服务器繁忙，请稍后重试（${res.errorCode}:${res.errorMessage}）`,
+      duration: 2000,
+      icon: 'none'
+    });
+    return false
+  }
 
 
   // else if ([406, 407, 500].includes(res.state)) {

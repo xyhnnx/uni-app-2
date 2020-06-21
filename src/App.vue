@@ -1,5 +1,10 @@
 <script>
+    import Vue from 'vue'
     import * as common from './common/common'
+    import uniPopup from './components/uni-popup/uni-popup'
+    import myPopupSelect from './components/my-components/my-popup-select'
+    Vue.component('uni-popup',uniPopup)
+    Vue.component('my-popup-select',myPopupSelect)
 	export default {
         globalData: {
           uploadFileUrl: 'http://wy.962460.com/handler/api/UploadHandler.ashx?method=ProcessRequest',

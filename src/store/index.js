@@ -11,8 +11,9 @@ const store = new Vuex.Store({
 		forcedLogin: true,
 		hasLogin: false,
 		userName: "",
+		serviceTypeList: [{label: '报修',value:1},{label: '投诉',value:2}],
 		// 用戶管理所有room
-		roomList: [],
+		roomList: [{"roomId":361111,"roomName":"1栋1单元301","courtId":619,"courtName":"沃得雅苑","companyId":162,"companyName":"江苏百事帮物业服务有限公司"}],
 		// 当前room
 		currentRoom: {"roomId":361111,"roomName":"1栋1单元301","courtId":619,"courtName":"沃得雅苑","companyId":162,"companyName":"江苏百事帮物业服务有限公司"}
 	},

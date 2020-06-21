@@ -76,17 +76,12 @@
   export default {
     data() {
       return {
-        background: ['color1', 'color2', 'color3'],
-        indicatorDots: true,
-        autoplay: true,
-        interval: 2000,
-        duration: 500
       }
     },
-    computed: mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom']),
+    computed: mapState(['serviceTypeList', 'hasLogin', 'userName', 'roomList','currentRoom']),
     methods: {
       ...mapMutations(['setStateData']),
-      scanningCode() {
+      test() {
         console.log('scanningCodescanningCode')
         // 允许从相机和相册扫码
         uni.scanCode({
@@ -123,9 +118,13 @@
             });
           }
         });
-      },
 
-      showActionSheet () {
+        uni.showToast({
+          icon: 'none',
+          title: '已发送重置邮件至注册邮箱，请注意查收。',
+          duration: 3000
+        });
+
         uni.showActionSheet({
           itemList: this.roomList.map(e => e.roomName),
           success: (res) => {
@@ -137,42 +136,26 @@
             console.log(res.errMsg);
           }
         });
-      },
-      toDetail (url) {
-        console.log(url)
         //在起始页面跳转到test.vue页面并传递参数
         uni.navigateTo({
-          url
+          url: '/pages/repair/repair'
         });
-      }
+        uni.reLaunch({
+          url: '/pages/main/main',
+        });
+
+
+        uni.showModal({
+          title: '提示',
+          content: '扫码失败；请重试',
+          showCancel: false
+        });
+
+
+
+      },
     },
     onLoad() {
-      // if (!this.hasLogin) {
-      // 	uni.showModal({
-      // 		title: '未登录',
-      // 		content: '您未登录，需要登录后才能继续',
-      // 		/**
-      // 		 * 如果需要强制登录，不显示取消按钮
-      // 		 */
-      // 		showCancel: !this.forcedLogin,
-      // 		success: (res) => {
-      // 			if (res.confirm) {
-      // 				/**
-      // 				 * 如果需要强制登录，使用reLaunch方式
-      // 				 */
-      // 				if (this.forcedLogin) {
-      // 					uni.reLaunch({
-      // 						url: '../login/login'
-      // 					});
-      // 				} else {
-      // 					uni.navigateTo({
-      // 						url: '../login/login'
-      // 					});
-      // 				}
-      // 			}
-      // 		}
-      // 	});
-      // }
     }
   }
 </script>
