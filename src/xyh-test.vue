@@ -5,8 +5,8 @@
         </view>
         <view class="content-box">
             <view>
-                <button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>
-            </view>
+            <button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>
+        </view>
             <view class="height10"></view>
             <view class="card-box">
                 <swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
@@ -70,7 +70,7 @@
     mapState,
     mapMutations
   } from 'vuex'
-  import * as api from '../../api/api'
+  import * as api from './api/api'
   import * as common from '../../common/common'
 
   export default {
@@ -150,7 +150,6 @@
           content: '扫码失败；请重试',
           showCancel: false
         });
-
 
 
       },

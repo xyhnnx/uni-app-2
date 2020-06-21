@@ -44,5 +44,42 @@ export async function serviceInsert(data) {
     url: `${apiHost}/api/Service/Insert`,
   });
 }
+// /api/Notice/GetList
+// 根据openid和小区id获取公告
+export async function getNoticeList(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/Notice/GetList`,
+  });
+}
+///api/Notice/GetDetail
+// 获取公告详情
+export async function getNoticeDetail(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/Notice/GetDetail`,
+  });
+}
 
+///api/PayCall/GetList
+// 获取催缴列表
+export async function getPayCallList(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/PayCall/GetList`,
+  });
+}
+
+///api/PayCall/GetDetail
+// 获取催缴详情
+export async function getPayCallDetail(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/PayCall/GetDetail`,
+  });
+}
 

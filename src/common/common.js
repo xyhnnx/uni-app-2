@@ -1,5 +1,4 @@
 import * as api from '../api/api'
-
 export const wxLogin = async function () {
   // session_key 已经失效，需要重新执行登录流程
   return new Promise((resolve) => {

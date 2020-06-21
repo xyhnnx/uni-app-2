@@ -47,6 +47,16 @@
 			"style": {
 				"navigationBarTitleText": "报修投诉"
 			}
+		}, {
+			"path": "pages/notice/detail",
+			"style": {
+				"navigationBarTitleText": "公告详情"
+			}
+		}, {
+			"path": "pages/notice/payCallDetail",
+			"style": {
+				"navigationBarTitleText": "催缴详情"
+			}
 		}
 	],
 	"tabBar": {

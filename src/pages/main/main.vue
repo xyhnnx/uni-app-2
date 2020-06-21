@@ -127,7 +127,7 @@
 
       showActionSheet () {
         uni.showActionSheet({
-          itemList: this.roomList.map(e => e.roomName),
+          itemList: this.roomList.map(e => e.courtName),
           success: (res) => {
             this.setStateData({
               currentRoom: this.roomList[res.tapIndex]

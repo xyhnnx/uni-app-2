@@ -1,27 +1,182 @@
 <template>
     <view class="content">
-        <view class="btn-row">
-            公告；；；
+        <view class="head-box">
+            <uni-segmented-control :current="currentTabIndex"
+                                   :values="items"
+                                   @clickItem="onClickItem"
+                                   style-type="text"
+                                   :active-color="primaryColor">
+            </uni-segmented-control>
+            <view>
+                <button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>
+            </view>
+        </view>
+        <view class="height10"></view>
+        <view class="content">
+            <view v-if="currentTabIndex === 0">
+                <!-- 包含图片 -->
+                <uni-list v-if="listModal && listModal.length">
+                    <uni-list-item :title="item.title"
+                                   @click="noticeItemClick(item)"
+                                   v-for="(item, index) in listModal"
+                                   :key="index"
+                                   :note="item.time"
+                                   :show-arrow="false"
+                                   thumb="/static/img/qq.png">
+                        <template v-slot:right="">
+                            <view class="list-right-box">
+                                <text v-if="item.isTop" class="txt">置顶</text>
+                                <text v-if="!item.isRead" class="dot">·</text>
+                            </view>
+                        </template>
+                    </uni-list-item>
+                </uni-list>
+                <no-data v-else></no-data>
+            </view>
+            <view v-if="currentTabIndex === 1">
+                <!-- 包含图片 -->
+                <uni-list v-if="list2Modal && list2Modal.length">
+                    <uni-list-item :title="item.roomName"
+                                   @click="payCallItemClick(item)"
+                                   v-for="(item, index) in list2Modal"
+                                   :key="index"
+                                   :note="item.time"
+                                   :show-arrow="false"
+                                   thumb="/static/img/qq.png">
+                        <template v-slot:right="">
+                            <view class="list-right-box">
+                                <text v-if="!item.isRead" class="dot">·</text>
+                            </view>
+                        </template>
+                    </uni-list-item>
+                </uni-list>
+                <no-data v-else></no-data>
+            </view>
         </view>
     </view>
 </template>
 
 <script>
+  import * as api from '../../api/api'
+  import * as common from '../../common/common'
+  import * as util from '../../common/util'
+  import UniSegmentedControl from '../../components/uni-segmented-control/uni-segmented-control'
+  import UniList from '../../components/uni-list/uni-list'
+  import UniListItem from '../../components/uni-list-item/uni-list-item'
+  import NoData from '../../components/my-components/no-data'
   import {
     mapState,
     mapMutations
   } from 'vuex'
 
   export default {
+    components: {
+      UniSegmentedControl,
+      UniList,
+      UniListItem,
+      NoData
+    },
     computed: {
-      ...mapState(['hasLogin', 'forcedLogin'])
+      ...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
+      listModal() {
+        if (this.noticeList && this.noticeList.length) {
+          return this.noticeList.map(e => {
+            return {
+              ...e,
+              time: util.dateFormat(new Date(e.publishDate).getTime())
+            }
+          })
+        }
+      },
+      list2Modal() {
+        if (this.payCallList && this.payCallList.length) {
+          return this.payCallList.map(e => {
+            return {
+              ...e,
+              time: util.dateFormat(new Date(e.payCallTm).getTime())
+            }
+          })
+        }
+      }
+    },
+    data() {
+      return {
+        items: ['公告', '催缴通知'],
+        currentTabIndex: 0,
+        noticeList: [],
+        payCallList: []
+      }
     },
     methods: {
-      ...mapMutations(['logout']),
+      ...mapMutations(['setStateData']),
+      onClickItem(e) {
+        if (this.currentTabIndex !== e.currentIndex) {
+          this.currentTabIndex = e.currentIndex;
+        }
+      },
+      showActionSheet() {
+        uni.showActionSheet({
+          itemList: this.roomList.map(e => e.courtName),
+          success: (res) => {
+            this.setStateData({
+              currentRoom: this.roomList[res.tapIndex]
+            })
+          },
+          fail: function (res) {
+            console.log(res.errMsg);
+          }
+        });
+      },
+      async getNoticeList() {
+        let res = await api.getNoticeList({
+          courtId: this.currentRoom.courtId
+        })
+        if (res.success) {
+          this.noticeList = res.data
+        }
+      },
+      async getPayCallList() {
+        let res = await api.getPayCallList({
+          courtId: this.currentRoom.courtId
+        })
+        if (res.success) {
+          this.payCallList = res.data
+        }
+      },
+      noticeItemClick (item) {
+        uni.navigateTo({
+          url: `/pages/notice/detail?noticeId=${item.id}`
+        });
+      },
+      payCallItemClick (item) {
+        uni.navigateTo({
+          url: `/pages/notice/payCallDetail?payCallId=${item.id}`
+        });
+      }
+    },
+    onLoad() {
+      // d获取公告
+      this.getNoticeList()
+      // 催缴通知
+      this.getPayCallList()
     }
   }
 </script>
 
-<style>
-
+<style scoped lang="scss">
+    .head-box {
+        background-color: #fff;
+    }
+   .list-right-box{
+       display: flex;
+       align-items: center;
+       color: $uni-color-subtitle;
+       .dot{
+           color: $uni-color-primary;
+           font-size: 70px;
+           height: 8px;
+           margin-left: 5px;
+           line-height: 0;
+       }
+   }
 </style>
