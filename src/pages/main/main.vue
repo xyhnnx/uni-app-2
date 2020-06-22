@@ -5,7 +5,7 @@
         </view>
         <view class="content-box">
             <view>
-                <button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>
+                <change-room-btn></change-room-btn>
             </view>
             <view class="height10"></view>
             <view class="card-box">
@@ -27,7 +27,7 @@
 
             <view class="height10"></view>
             <view class="card-box panel-section">
-                <view class="item">
+                <view class="item" @click="toDetail('/pages/pay/pay')">
                     <view>
                         <image mode="aspectFit" class="img" src="../../static/img/image.png" alt=""/>
                     </view>
@@ -72,8 +72,12 @@
   } from 'vuex'
   import * as api from '../../api/api'
   import * as common from '../../common/common'
+  import ChangeRoomBtn from '../../common/change-room-btn'
 
   export default {
+    components: {
+      ChangeRoomBtn
+    },
     data() {
       return {
         background: ['color1', 'color2', 'color3'],
@@ -121,20 +125,6 @@
               content: '扫码失败；请重试',
               showCancel: false
             });
-          }
-        });
-      },
-
-      showActionSheet () {
-        uni.showActionSheet({
-          itemList: this.roomList.map(e => e.courtName),
-          success: (res) => {
-            this.setStateData({
-              currentRoom: this.roomList[res.tapIndex]
-            })
-          },
-          fail: function (res) {
-            console.log(res.errMsg);
           }
         });
       },
