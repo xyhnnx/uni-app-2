@@ -1,8 +1,45 @@
 <template>
-	<view class="content">
-		<view class="btn-row">
-			<button v-if="!hasLogin" type="primary" class="primary" @tap="bindLogin">登录</button>
-			<button v-if="hasLogin" type="default" @tap="bindLogout">退出登录</button>
+	<view class="content padding0">
+		<view class="height0">
+			<view class="background-primary"></view>
+		</view>
+		<view class="content-box">
+
+			<view class="height10"></view>
+			<view class="card-box">
+				<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
+						:duration="duration">
+					<swiper-item>
+						<view class="swiper-item">
+							<image mode="scaleToFill" class="img" src="../../static/img/banner1.png" alt=""/>
+						</view>
+					</swiper-item>
+					<swiper-item>
+						<view class="swiper-item">
+							<image mode="scaleToFill" class="img" src="../../static/img/banner1.png" alt=""/>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+			<view class="height10"></view>
+
+			<view class="height10"></view>
+			<view class="card-box panel-section">
+				<view class="item" @click="toDetail('/pages/pay/pay')">
+					<view>
+						<image mode="aspectFit" class="img" src="../../static/img/image.png" alt=""/>
+					</view>
+					<view>我的缴费</view>
+				</view>
+				<view class="split"></view>
+				<view class="item" @click="toDetail('/pages/repair/repair')">
+					<view>
+						<image mode="aspectFit" class="img" src="../../static/img/oval-image.png" alt=""/>
+					</view>
+					<view>我的报修投诉</view>
+				</view>
+			</view>
+			<view class="height10"></view>
 		</view>
 	</view>
 </template>
@@ -12,33 +49,156 @@
 		mapState,
 		mapMutations
 	} from 'vuex'
+	import * as api from '../../api/api'
+	import * as common from '../../common/common'
+	import ChangeRoomBtn from '../../common/change-room-btn'
 
 	export default {
-		computed: {
-			...mapState(['hasLogin', 'forcedLogin'])
+		components: {
+			ChangeRoomBtn
 		},
+		data() {
+			return {
+				background: ['color1', 'color2', 'color3'],
+				indicatorDots: true,
+				autoplay: true,
+				interval: 2000,
+				duration: 500
+			}
+		},
+		computed: mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom']),
 		methods: {
-			...mapMutations(['logout']),
-			bindLogin() {
-				uni.navigateTo({
-					url: '../login/login',
+			...mapMutations(['setStateData']),
+			scanningCode() {
+				console.log('scanningCodescanningCode')
+				// 允许从相机和相册扫码
+				uni.scanCode({
+					success: async function (res) {
+						console.log('uni.scanCode', res)
+						let res2 = await common.login({
+							RoomId: res.result,
+							EncryptedDataStr: getApp().globalData.encryptedData,
+							IV: getApp().globalData.iv
+						})
+						console.log('common.login', res2)
+						if (!res2.success) {
+							if (res2.errorCode === '1005') { // 请扫描房产二维码
+								uni.showModal({
+									title: '提示',
+									content: res2.errorMessage,
+									showCancel: false,
+									success: function (res3) {
+										if (res3.confirm) {
+											console.log('用户点击确定');
+										} else if (res3.cancel) {
+											console.log('用户点击取消');
+										}
+									}
+								});
+							}
+						}
+					},
+					fail() {
+						uni.showModal({
+							title: '提示',
+							content: '扫码失败；请重试',
+							showCancel: false
+						});
+					}
 				});
 			},
-			bindLogout() {
-				this.logout();
-				/**
-				 * 如果需要强制登录跳转回登录页面
-				 */
-				if (this.forcedLogin) {
-					uni.reLaunch({
-						url: '../login/login',
-					});
-				}
+			toDetail (url) {
+				console.log(url)
+				//在起始页面跳转到test.vue页面并传递参数
+				// uni.navigateTo({
+				// 	url
+				// });
 			}
+		},
+		onLoad() {
+			// if (!this.hasLogin) {
+			// 	uni.showModal({
+			// 		title: '未登录',
+			// 		content: '您未登录，需要登录后才能继续',
+			// 		/**
+			// 		 * 如果需要强制登录，不显示取消按钮
+			// 		 */
+			// 		showCancel: !this.forcedLogin,
+			// 		success: (res) => {
+			// 			if (res.confirm) {
+			// 				/**
+			// 				 * 如果需要强制登录，使用reLaunch方式
+			// 				 */
+			// 				if (this.forcedLogin) {
+			// 					uni.reLaunch({
+			// 						url: '../login/login'
+			// 					});
+			// 				} else {
+			// 					uni.navigateTo({
+			// 						url: '../login/login'
+			// 					});
+			// 				}
+			// 			}
+			// 		}
+			// 	});
+			// }
 		}
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
+	.padding0 {
+		padding: 0;
+	}
 
+	.height0 {
+		height: 0;
+
+		.background-primary {
+			height: 130px;
+			background-color: $uni-color-primary;
+		}
+	}
+
+	.swiper {
+		border-radius: 10px;
+		overflow: hidden;
+		background-color: #fff;
+		.swiper-item {
+			.img {
+				width: 100%;
+				display: block;
+			}
+		}
+	}
+
+	.content-box {
+		padding: 10px;
+	}
+
+	.panel-section {
+		padding: 10px;
+		display: flex;
+		align-items: center;
+		background-color: #fff;
+		.split{
+			width: 1px;
+			height: 70px;
+			background-color: $uni-border-color;
+		}
+		.item {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.img {
+				width: 50px;
+				height: 50px;
+				margin-right: 5px;
+			}
+		}
+	}
+	.panel-title {
+		font-weight: bold;
+	}
 </style>
