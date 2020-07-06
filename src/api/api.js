@@ -82,4 +82,3 @@ export async function getPayCallDetail(data) {
     url: `${apiHost}/api/PayCall/GetDetail`,
   });
 }
-

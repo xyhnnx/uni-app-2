@@ -11,14 +11,9 @@
             <view class="card-box">
                 <swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
                         :duration="duration">
-                    <swiper-item>
+                    <swiper-item v-for="(item,index) in adData" :key="index" @click="bannerClick(index)">
                         <view class="swiper-item">
-                            <image mode="scaleToFill" class="img" src="../../static/img/banner1.png" alt=""/>
-                        </view>
-                    </swiper-item>
-                    <swiper-item>
-                        <view class="swiper-item">
-                            <image mode="scaleToFill" class="img" src="../../static/img/banner1.png" alt=""/>
+                            <image mode="scaleToFill" class="img" :src="item.link_url" alt=""/>
                         </view>
                     </swiper-item>
                 </swiper>
@@ -84,7 +79,15 @@
         indicatorDots: true,
         autoplay: true,
         interval: 2000,
-        duration: 500
+        duration: 500,
+        adData: [
+          {
+            link_url: '../../static/img/banner1.png'
+          },
+          {
+            link_url: '../../static/img/banner1.png'
+          },
+        ]
       }
     },
     computed: mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom']),
@@ -134,9 +137,22 @@
         uni.navigateTo({
           url
         });
+      },
+      bannerClick (index) {
+        console.log(index)
+      },
+      async getAdvert () {
+        let res = await api.getAdvert({
+          advertPage: 2
+        })
+        if(res.success && res.data && res.data.length) {
+          this.adData = res.data
+        }
+        console.log(res);
       }
     },
     onLoad() {
+      this.getAdvert()
       // if (!this.hasLogin) {
       // 	uni.showModal({
       // 		title: '未登录',
@@ -163,6 +179,7 @@
       // 		}
       // 	});
       // }
+
     }
   }
 </script>
