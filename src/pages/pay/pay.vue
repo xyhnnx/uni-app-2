@@ -1,7 +1,19 @@
 <template>
     <view class="content">
         <change-room-btn></change-room-btn>
+        <view class="card-box">
+            <view class="list-item">
+                <view>
+                    <view></view>
+                    <view>收款单位</view>
+                </view>
+                <view>
+                    <view>百事物业服务公司</view>
+                </view>
+            </view>
+        </view>
         <button @click="toDetail">立即缴费</button>
+        <button @click="toPayItem">缴费账单</button>
     </view>
 </template>
 
@@ -52,6 +64,12 @@
         uni.navigateTo({
           url: '/pages/pay/pay-detail'
         });
+      },
+      toPayItem () {
+        //在起始页面跳转到test.vue页面并传递参数
+        uni.navigateTo({
+          url: '/pages/pay/pay-item'
+        });
       }
     },
     onLoad(e) {
@@ -63,4 +81,11 @@
 </script>
 
 <style scoped lang="scss">
+    .card-box{
+        background-color: #fff;
+        margin: 20px 10px;
+    }
+    .list-item{
+
+    }
 </style>

@@ -62,7 +62,14 @@
 			"style": {
 				"navigationBarTitleText": "物业缴费"
 			}
-		}, {
+		},
+		{
+			"path": "pages/pay/pay-item",
+			"style": {
+				"navigationBarTitleText": "缴费账单"
+			}
+		},
+		{
 			"path": "pages/pay/pay-detail",
 			"style": {
 				"navigationBarTitleText": "缴费详情"
