@@ -1,6 +1,6 @@
 import {request} from './fetch.js'
 
-const apiHost = 'http://47.98.255.154:4399'
+const apiHost = 'http://www.bsb_test.962460.com'
 
 // 登录
 export async function login(data) {
@@ -44,6 +44,15 @@ export async function serviceInsert(data) {
     url: `${apiHost}/api/Service/Insert`,
   });
 }
+// 6.我的报修列表Url+/ api/ Service/GetList
+export async function getServiceList(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/Service/GetList`,
+  });
+}
+
 // /api/Notice/GetList
 // 根据openid和小区id获取公告
 export async function getNoticeList(data) {

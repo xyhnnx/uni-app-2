@@ -32,22 +32,32 @@
 			"style": {
 				"navigationBarTitleText": "个人中心"
 			}
-		}, {
+		},
+		{
 			"path": "pages/shop/shop",
 			"style": {
 				"navigationBarTitleText": "商城"
 			}
-		}, {
+		},
+		{
 			"path": "pages/notice/notice",
 			"style": {
 				"navigationBarTitleText": "公告"
 			}
-		}, {
+		},
+		{
 			"path": "pages/repair/repair",
 			"style": {
 				"navigationBarTitleText": "报修投诉"
 			}
-		}, {
+		},
+		{
+			"path": "pages/repair/repair-list",
+			"style": {
+				"navigationBarTitleText": "我的报修投诉"
+			}
+		},
+		{
 			"path": "pages/notice/detail",
 			"style": {
 				"navigationBarTitleText": "公告详情"
@@ -84,26 +94,26 @@
 			{
 				"pagePath": "pages/main/main",
 				"text": "首页",
-				"iconPath": "static/img/home.png",
-				"selectedIconPath": "static/img/homeHL.png"
+				"iconPath": "static/img/首页.png",
+				"selectedIconPath": "static/img/首页1.png"
 			},
 			{
 				"pagePath": "pages/shop/shop",
 				"text": "商城",
-				"iconPath": "static/img/user.png",
-				"selectedIconPath": "static/img/userHL.png"
+				"iconPath": "static/img/商城.png",
+				"selectedIconPath": "static/img/商城1.png"
 			},
 			{
 				"pagePath": "pages/notice/notice",
 				"text": "公告",
-				"iconPath": "static/img/user.png",
-				"selectedIconPath": "static/img/userHL.png"
+				"iconPath": "static/img/公告.png",
+				"selectedIconPath": "static/img/公告1.png"
 			},
 			{
 				"pagePath": "pages/user/user",
 				"text": "我的",
-				"iconPath": "static/img/user.png",
-				"selectedIconPath": "static/img/userHL.png"
+				"iconPath": "static/img/我的.png",
+				"selectedIconPath": "static/img/我的1.png"
 			}
 		]
 	},

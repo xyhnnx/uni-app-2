@@ -32,7 +32,7 @@
 					<view>我的缴费</view>
 				</view>
 				<view class="split"></view>
-				<view class="item" @click="toDetail('/pages/repair/repair')">
+				<view class="item" @click="toDetail('/pages/repair/repair-list')">
 					<view>
 						<image mode="aspectFit" class="img" src="../../static/img/oval-image.png" alt=""/>
 					</view>
@@ -110,9 +110,9 @@
 			toDetail (url) {
 				console.log(url)
 				//在起始页面跳转到test.vue页面并传递参数
-				// uni.navigateTo({
-				// 	url
-				// });
+				uni.navigateTo({
+					url
+				});
 			}
 		},
 		onLoad() {

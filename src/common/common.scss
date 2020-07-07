@@ -16,3 +16,7 @@
    box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 3px 0px;
    border-radius: 10px;
  }
+button[plain]{
+  color: $uni-color-primary!important;
+  border-color: $uni-color-primary!important;
+}

@@ -14,7 +14,15 @@
             : styleType === 'text'
               ? '#000'
               : activeColor}"
-			 class="segmented-control__text">{{ item }}</text>
+			 class="segmented-control__text">
+				<template v-if="item && item.label">
+					{{item.label}}
+					<text :style="{color: activeColor}">{{item.value}}</text>
+				</template>
+				<template v-else>
+					{{item}}
+				</template>
+			</text>
 		</view>
 	</view>
 </template>
