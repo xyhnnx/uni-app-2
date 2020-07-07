@@ -17,7 +17,7 @@
 			<view class="card-item">
 				<view class="title">
 					<image mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
-					<text>1期一栋101</text>
+					<text>1期一栋1001</text>
 				</view>
 				<view class="content-box">
 					<view class="head">
