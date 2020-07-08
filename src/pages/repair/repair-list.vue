@@ -14,21 +14,20 @@
 		</view>
 		<view class="height10"></view>
 		<view class="content">
-			<view class="card-item">
+			<view class="card-item" v-for="(item, index) in listModal" :key="index">
 				<view class="title">
 					<image mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
-					<text>1期一栋1001</text>
+					<text>{{item.roomName}}</text>
 				</view>
 				<view class="content-box">
 					<view class="head">
-						<view>【报修】 2020-12-12 11:12:12</view>
+						<view>【报修】 {{item.createDate}}</view>
 						<view class="btn-text">待处理></view>
 					</view>
 					<view class="body">
-						<view>这里是文字这里是文字这里是文字这88里是文字这里是文字</view>
-						<view>
-							<image mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
-							<image mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
+						<view>{{item.contentInfo}}</view>
+						<view v-if="item.servicePhotos && item.servicePhotos.length">
+							<image v-for="img in item.servicePhotos" :key="item" mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
 						</view>
 					</view>
 					<view class="foot">
@@ -67,9 +66,11 @@
 		computed: {
 			...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
 			listModal() {
+				if(this.dataList && this.dataList.length) {
+					return this.dataList
+				}
+				return []
 			},
-			list2Modal() {
-			}
 		},
 		data() {
 			return {
@@ -96,8 +97,7 @@
 					},
 				],
 				currentTabIndex: 0,
-				noticeList: [],
-				payCallList: []
+				dataList: []
 			}
 		},
 		methods: {
