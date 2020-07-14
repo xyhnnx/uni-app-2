@@ -6,6 +6,7 @@ import store from './store'
 Vue.config.productionTip = false
 
 Vue.prototype.$store = store
+Vue.prototype.$filePrefix = 'http://wy.962460.com'
 
 App.mpType = 'app'
 

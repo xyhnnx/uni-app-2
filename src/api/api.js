@@ -91,3 +91,19 @@ export async function getPayCallDetail(data) {
     url: `${apiHost}/api/PayCall/GetDetail`,
   });
 }
+// 9.报修设置状态
+export async function setServiceStatus(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/Service/UpdateStatus`,
+  });
+}
+// 12.删除报修
+export async function deleteService(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/Service/Delete`,
+  });
+}

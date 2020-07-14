@@ -6,7 +6,7 @@
 			</view>
 			<view class="height5"></view>
 			<uni-segmented-control :current="currentTabIndex"
-								   :values="items"
+								   :values="items.filter(e=>e.isShow)"
 								   @clickItem="onClickItem"
 								   style-type="text"
 								   :active-color="primaryColor">
@@ -21,20 +21,45 @@
 				</view>
 				<view class="content-box">
 					<view class="head">
-						<view>【报修】 {{item.createDate}}</view>
-						<view class="btn-text">待处理></view>
+						<view>【{{servicesTypeEnum[item.servicesType]}}】 {{getTime(item.createDate)}}</view>
+						<view class="btn-text">{{getStatus(item.state)}}></view>
 					</view>
 					<view class="body">
 						<view>{{item.contentInfo}}</view>
 						<view v-if="item.servicePhotos && item.servicePhotos.length">
-							<image v-for="img in item.servicePhotos" :key="item" mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
+							<image v-for="img in item.servicePhotos" :key="item" mode="aspectFit" class="img" :src="getSrc(img)" alt=""/>
 						</view>
 					</view>
 					<view class="foot">
 						<view></view>
 						<view class="right">
-							<button class="btn" type="primary" plain="true">按钮</button>
-							<button class="btn" type="primary" plain="true">按钮</button>
+							<!--// 待处理-->
+							<template v-if="item.state === 0">
+								<button class="btn" type="primary" plain="true" @click="cancelClick(item)">取消</button>
+								<button class="btn" type="primary" plain="true">编辑</button>
+							</template>
+							<!--// 处理中-->
+							<template v-else-if="item.state === 1">
+							</template>
+							<!--// 待确认-->
+							<template v-else-if="item.state === 2">
+								<button class="btn" type="primary" plain="true">未完成服务</button>
+								<button class="btn" type="primary" plain="true">完成服务</button>
+							</template>
+							<!--// 已完成-->
+							<template v-else-if="item.state === 10">
+								<button class="btn" type="primary" plain="true">评价</button>
+
+							</template>
+							<!--// 已退回-->
+							<template v-else-if="item.state === 5">
+								<button class="btn" type="primary" plain="true" @click="deleteClick(item)">删除</button>
+								<button class="btn" type="primary" plain="true">编辑</button>
+							</template>
+							<!--// 已取消-->
+							<template v-else-if="item.state === 6">
+								<button class="btn" type="primary" plain="true" @click="deleteClick(item)">删除</button>
+							</template>
 						</view>
 					</view>
 				</view>
@@ -67,41 +92,142 @@
 			...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
 			listModal() {
 				if(this.dataList && this.dataList.length) {
-					return this.dataList
+					let currentStatus = this.items[this.currentTabIndex].state
+					if(currentStatus === '') {
+						return this.dataList
+					} else {
+						return this.dataList.filter(e=>{
+							return e.state === currentStatus
+						})
+					}
 				}
 				return []
+			},
+			items () {
+				// -1-全部,10-已完成,0-待处理,1-处理中,2-待确认,5-已退回,6-已取消
+				return [
+					{
+						label: '全部',
+						value: '',
+						state: '',
+						isShow: true
+					},
+					{
+						label: '待处理',
+						value: this.dataList.filter(e => e.state ===0).length,
+						state: 0,
+						isShow: true
+					},
+					{
+						label: '处理中',
+						value: this.dataList.filter(e => e.state ===1).length,
+						state: 1,
+						isShow: true
+					},
+					{
+						label: '待确认',
+						value: this.dataList.filter(e => e.state ===2).length,
+						state: 2,
+						isShow: true
+					},
+					{
+						label: '已完成',
+						value: this.dataList.filter(e => e.state === 10).length,
+						state: 10,
+						isShow: true
+					},
+					{
+						label: '已退回',
+						value: this.dataList.filter(e => e.state === 5).length,
+						state: 5,
+						isShow: false
+					},
+					{
+						label: '已取消',
+						value: this.dataList.filter(e => e.state === 6).length,
+						state: 6,
+						isShow: false
+					}
+				]
 			},
 		},
 		data() {
 			return {
-				items: [
-					{
-						label: '全部',
-						value: ''
-					},
-					{
-						label: '待处理',
-						value: 1
-					},
-					{
-						label: '处理中',
-						value: 1
-					},
-					{
-						label: '待确认',
-						value: 1
-					},
-					{
-						label: '已完成',
-						value: 1
-					},
-				],
+				servicesTypeEnum:{
+					1: '报修',
+					2: '投诉'
+				},
 				currentTabIndex: 0,
 				dataList: []
 			}
 		},
 		methods: {
 			...mapMutations(['setStateData']),
+			getSrc(src) {
+				return `${this.$filePrefix}/${src.replace('~', '')}`
+			},
+			getTime (e) {
+				return util.dateFormat(new Date(e).getTime())
+			},
+			getStatus(state) {
+				let item = this.items.find(e => {
+					return e.state === state
+				})
+				return item && item.label
+			},
+			deleteClick (item) {
+				uni.showModal({
+					title: '提示',
+					content: `确定要删除当前${this.servicesTypeEnum[item.servicesType]}信息吗？`,
+					showCancel: true,
+					success: async (res3) => {
+						if (res3.confirm) {
+							console.log('用户点击确定');
+							let res =  await api.deleteService({
+								serviceId: item.serviceId
+							})
+							if(res.success) {
+								uni.showToast({
+									icon: 'none',
+									title: '操作成功！'
+								});
+								this.getServiceList()
+							}
+						} else if (res3.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+			},
+			cancelClick (item) {
+				uni.showModal({
+					title: '提示',
+					content: `确定要取消当前${this.servicesTypeEnum[item.servicesType]}信息吗？`,
+					showCancel: true,
+					success: async (res3) => {
+						if (res3.confirm) {
+							console.log('用户点击确定');
+							let res =  await api.setServiceStatus({
+								serviceId: item.serviceId,
+								changeStateId: 6
+							})
+							if(res.success) {
+								uni.showToast({
+									icon: 'none',
+									title: '操作成功！'
+								});
+								this.getServiceList()
+							}
+						} else if (res3.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+
+			},
+			changeState(state) {
+
+			},
 			onClickItem(e) {
 				if (this.currentTabIndex !== e.currentIndex) {
 					this.currentTabIndex = e.currentIndex;
@@ -133,6 +259,7 @@
 		},
 		onLoad() {
 			this.getServiceList()
+			console.log(this.filePrefix)
 		}
 	}
 </script>
