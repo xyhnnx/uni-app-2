@@ -107,3 +107,19 @@ export async function deleteService(data) {
     url: `${apiHost}/api/Service/Delete`,
   });
 }
+// 17.获取缴费列表
+export async function getRoomChargeItemDatas(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/PaymentBill/GetRoomChargeItemDatas`,
+  });
+}
+// 19 根据小区id获取小区下房产信息
+export async function getUserRoom(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/User/GetRoom`,
+  });
+}

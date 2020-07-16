@@ -20,3 +20,9 @@ button[plain]{
   color: $uni-color-primary!important;
   border-color: $uni-color-primary!important;
 }
+button.radius{
+  border-radius: 23px;
+}
+button[type=primary] {
+  background-color: $uni-color-primary!important;
+}

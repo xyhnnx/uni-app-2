@@ -85,7 +85,9 @@
     },
     data() {
       return {
-        query: {},
+        query: {
+          roomId: 361111
+        },
         detail: {}
       }
     },
@@ -104,10 +106,21 @@
         uni.navigateTo({
           url: '/pages/pay/pay-detail'
         });
+      },
+      async getRoomChargeItemDatas () {
+        let res = await api.getRoomChargeItemDatas({
+          roomId: this.query.roomId
+        })
+        console.log(res)
+        if(res.success) {
+
+        }
       }
     },
     onLoad(e) {
+      console.log(e)
       this.query = e
+      this.getRoomChargeItemDatas()
     }
   }
 </script>
