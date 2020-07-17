@@ -25,7 +25,7 @@
 
 			<view class="height10"></view>
 			<view class="card-box panel-section">
-				<view class="item" @click="toDetail('/pages/pay/pay')">
+				<view class="item" @click="toDetail('/pages/pay/pay-list')">
 					<view>
 						<image mode="aspectFit" class="img" src="../../static/img/image.png" alt=""/>
 					</view>

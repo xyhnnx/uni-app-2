@@ -84,6 +84,12 @@
 			"style": {
 				"navigationBarTitleText": "缴费详情"
 			}
+		},
+		{
+			"path": "pages/pay/pay-list",
+			"style": {
+				"navigationBarTitleText": "我的缴费"
+			}
 		}
 	],
 	"tabBar": {

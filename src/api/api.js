@@ -123,3 +123,12 @@ export async function getUserRoom(data) {
     url: `${apiHost}/api/User/GetRoom`,
   });
 }
+
+// 15.我的历史缴费列表
+export async function getPaymentBillList(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/PaymentBill/GetList`,
+  });
+}
