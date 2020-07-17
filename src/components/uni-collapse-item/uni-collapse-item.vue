@@ -3,6 +3,7 @@
 	 class="uni-collapse-cell">
 		<view class="uni-collapse-cell__title" @click="onClick">
 			<image v-if="thumb" :src="thumb" class="uni-collapse-cell__title-img" />
+			<slot name="title-left"></slot>
 			<text class="uni-collapse-cell__title-text">{{ title }}</text>
 			<!-- #ifdef MP-ALIPAY -->
 			<view :class="{ 'uni-collapse-cell__title-arrow-active': isOpen, 'uni-collapse-cell--animation': showAnimation === true }"
@@ -10,6 +11,7 @@
 				<uni-icons color="#bbb" size="20" type="arrowdown" />
 			</view>
 			<!-- #endif -->
+			<slot name="right"></slot>
 			<!-- #ifndef MP-ALIPAY -->
 			<uni-icons :class="{ 'uni-collapse-cell__title-arrow-active': isOpen, 'uni-collapse-cell--animation': showAnimation === true }"
 			 class="uni-collapse-cell__title-arrow" color="#bbb" size="20" type="arrowdown" />
@@ -156,6 +158,7 @@
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
+		background-color: #fff;
 	}
 
 	.uni-collapse-cell__title:active {

@@ -22,7 +22,7 @@ export async function request (obj = {}) {
     return
   }
   res = res.data || {}
-  return res
+
   if (res.success) {
     return res
   } else if(res.errorCode) {
@@ -34,7 +34,7 @@ export async function request (obj = {}) {
     return false
   } else {
     uni.showToast({
-      title: `服务器繁忙，请稍后重试（${res.errorCode}:${res.errorMessage}）`,
+      title: `服务器繁忙，请稍后重试（${res.errorCode || ''}:${res.errorMessage || ''}）`,
       duration: 2000,
       icon: 'none'
     });
