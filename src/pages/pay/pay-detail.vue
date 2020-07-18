@@ -5,13 +5,13 @@
                 待缴金额
             </view>
             <view class="value">
-                ￥2222
+                ￥{{query.total || 0}}
             </view>
             <view class="text">
-                小区室号：中间大关-1期1栋111
+                小区室号：{{payRoom.courtName ||''}}-{{payRoom.roomName||''}}
             </view>
             <view class="text">
-                收款单位：xx公司
+                收款单位：{{payRoom.comp}}
             </view>
         </view>
         <view class="btn-box">
@@ -44,10 +44,15 @@
     },
     computed: {
       ...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
+      payRoom () {
+        return this.roomList.find(e => `${e.roomId}` === `${this.query.roomId}`)
+      },
     },
     data() {
       return {
-        query: {},
+        query: {
+          roomId: 361111
+        },
         detail: {}
       }
     },
@@ -63,6 +68,7 @@
       },
     },
     onLoad(e) {
+      console.log(e)
       this.query = e
       // d获取公告
       this.getNoticeDetail()

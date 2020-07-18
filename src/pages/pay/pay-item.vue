@@ -3,7 +3,7 @@
     <view class="content">
         <view class="header">
             <view></view>
-            <view>中建大关：101号房</view>
+            <view>{{(payRoom && payRoom.courtName) || '未关联房间'}}：{{(payRoom && payRoom.roomName) || '未关联房间'}}</view>
         </view>
         <view class="select-all-box">
             <view class="tip">请选择要缴费的项目</view>
@@ -16,20 +16,48 @@
         <checkbox-group @change="checkboxChange">
             <!-- 手风琴效果accordion="true" -->
             <uni-collapse class="collapse-box">
-                <uni-collapse-item class="collapse-box-item" :title="item.name" v-for="item in items" :key="item.value">
+                <uni-collapse-item class="collapse-box-item" :title="item.itemName" v-for="item in items" :key="item.value">
                     <view slot="title-left" @click.stop>
-                        <checkbox :value="item.value" :checked="item.checked" />
+                        <checkbox :value="item.keyID" :checked="item.checked" />
                     </view>
-                    <view slot="right" class="money">100</view>
+                    <view slot="right" class="money">{{item.realChargeBalance}}</view>
                     <view class="item-content">
-                        <view class="item-content">
-                            <view>面积</view>
-                            <view>收费标准</view>
-                        </view>
-                        <view class="item-content">
-                            <view>面积</view>
-                            <view>收费标准</view>
-                        </view>
+                        <template v-if="item.isDaiShou">
+                            <view class="item-content" v-for="detailItem in item.details">
+                                <view>{{detailItem.paymentCycle}}</view>
+                                <view>{{detailItem.chargeAmount}}</view>
+                            </view>
+                            <view class="item-content">
+                                <view>实缴金额</view>
+                                <view>{{item.realChargeBalance}}</view>
+                            </view>
+                            <view class="item-content">
+                                <view>可用余额</view>
+                                <view>{{item.currentCanBalance}}</view>
+                            </view>
+                        </template>
+                        <template v-else>
+                            <view class="item-content">
+                                <view>面积</view>
+                                <view>{{item.floorSpace}}</view>
+                            </view>
+                            <view class="item-content">
+                                <view>收费标准</view>
+                                <view>{{item.chargingStandard}}</view>
+                            </view>
+                            <view class="item-content">
+                                <view>上次缴止日期</view>
+                                <view>{{item.lastBillDate}}</view>
+                            </view>
+                            <view class="item-content">
+                                <view>缴费周期</view>
+                                <view>{{item.paymentCycle}}</view>
+                            </view>
+                            <view class="item-content">
+                                <view>应缴金额</view>
+                                <view>{{item.balance}}</view>
+                            </view>
+                        </template>
                     </view>
                 </uni-collapse-item>
             </uni-collapse>
@@ -37,7 +65,7 @@
         <view class="flex-bottom">
             <view class="left">
                 <text class="label">合计：</text>
-                <text class="value">￥2222</text>
+                <text class="value">￥{{total}}</text>
             </view>
             <view class="right" @click="toDetail">
                 付款
@@ -75,6 +103,16 @@
     },
     computed: {
       ...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
+      payRoom () {
+        return this.roomList.find(e => `${e.roomId}` === `${this.query.roomId}`)
+      },
+      total () {
+        let total = 0
+        this.items.filter(e => e.checked).forEach(e=>{
+          total += Number(e.realChargeBalance)
+        })
+        return total.toFixed(2)
+      }
     },
     data() {
       return {
@@ -82,32 +120,7 @@
           roomId: 361111
         },
         detail: {},
-        items: [{
-          value: 'USA',
-          name: '费用1'
-        },
-          {
-            value: 'CHN',
-            name: '费用1',
-            checked: 'true'
-          },
-          {
-            value: 'BRA',
-            name: '费用2'
-          },
-          {
-            value: 'JPN',
-            name: '费用3'
-          },
-          {
-            value: 'ENG',
-            name: '费用4'
-          },
-          {
-            value: 'FRA',
-            name: '费用5'
-          }
-        ],
+        items: [],
         checkAll: false
       }
     },
@@ -122,10 +135,27 @@
         }
       },
       toDetail () {
-        //在起始页面跳转到test.vue页面并传递参数
-        uni.navigateTo({
-          url: '/pages/pay/pay-detail'
-        });
+        let payList = this.items.filter(e => e.checked)
+        if(payList.length) {
+          const url = util.webUrlSplicing(
+            '/pages/pay/pay-detail',
+            {
+              total: this.total,
+              keyIDs: payList.map(e=>e.keyID).join(','),
+              roomId: this.query.roomId
+            }
+          )
+          //在起始页面跳转到test.vue页面并传递参数
+          uni.navigateTo({
+            url
+          });
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: '请选择要缴费的项目!'
+          });
+        }
+
       },
       async getRoomChargeItemDatas () {
         let res = await api.getRoomChargeItemDatas({
@@ -133,6 +163,7 @@
         })
         console.log(res)
         if(res.success) {
+          this.items = res.data
 
         }
       },
@@ -144,23 +175,24 @@
           this.$set(item,'checked',!isCheckAll)
         }
       },
-      checkboxChange: function (e) {
+      checkboxChange (e) {
         var items = this.items,
           values = e.detail.value;
+        console.log(values)
         for (var i = 0, lenI = items.length; i < lenI; ++i) {
           const item = items[i]
-          if(values.includes(item.value)){
+          if(values.includes(`${item.keyID}`)){
             this.$set(item,'checked',true)
           }else{
             this.$set(item,'checked',false)
           }
         }
-        console.log(this.items.filter(e => !!e.checked))
+        console.log(this.items,this.items.filter(e => !!e.checked))
       }
     },
     onLoad(e) {
       console.log(e)
-      this.query = e
+      // this.query = e
       this.getRoomChargeItemDatas()
     }
   }

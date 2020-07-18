@@ -40,3 +40,10 @@ export function dateFormat (time, format = 'yyyy-MM-dd hh:mm:ss') {
   }
   return format
 }
+
+// web URL 拼接
+export function webUrlSplicing(url, params) {
+  const paramArray = Object.entries(params).map(paramItemArr => `${paramItemArr[0]}=${paramItemArr[1]}`)
+  const paramString = paramArray.join('&')
+  return `${url}?${paramString}`
+}
