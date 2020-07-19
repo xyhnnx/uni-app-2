@@ -8,7 +8,7 @@
 		</view>
 		<view class="height10"></view>
 		<view class="content">
-			<view class="card-item" v-for="(item, index) in listModal" :key="index">
+			<view class="card-item" v-for="(item, index) in listModal" :key="index" @click="toDetail(item)">
 				<view class="title-top"> {{getTime(item.chargeTime)}}</view>
 				<view class="title">
 					<image mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
@@ -98,6 +98,18 @@
 					this.dataList = res.data
 				}
 			},
+			toDetail (item) {
+				const url = util.webUrlSplicing(
+						'/pages/pay/pay-item-detail',
+						{
+							payNo: item.payNo
+						}
+				)
+				//在起始页面跳转到test.vue页面并传递参数
+				uni.navigateTo({
+					url
+				});
+			}
 		},
 		onLoad() {
 			this.getPaymentBillList()

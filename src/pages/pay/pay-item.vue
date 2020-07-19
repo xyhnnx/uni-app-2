@@ -248,6 +248,7 @@
         display: flex;
         box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 3px 0px;
         padding-left: 10px;
+        background-color: #fff;
         .left {
             flex: 1;
             line-height: 48px;

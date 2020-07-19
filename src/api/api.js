@@ -132,3 +132,12 @@ export async function getPaymentBillList(data) {
     url: `${apiHost}/api/PaymentBill/GetList`,
   });
 }
+
+// 16.我的缴费详情
+export async function getPaymentGetDetail(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/PaymentBill/GetDetail`,
+  });
+}

@@ -90,6 +90,12 @@
 			"style": {
 				"navigationBarTitleText": "我的缴费"
 			}
+		},
+		{
+			"path": "pages/pay/pay-item-detail",
+			"style": {
+				"navigationBarTitleText": "缴费详情"
+			}
 		}
 	],
 	"tabBar": {
