@@ -49,6 +49,5 @@
 		flex: 1;
 		/* #endif */
 		flex-direction: column;
-		background-color: $uni-bg-color;
 	}
 </style>

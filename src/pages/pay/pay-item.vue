@@ -18,7 +18,7 @@
             <uni-collapse class="collapse-box">
                 <uni-collapse-item class="collapse-box-item" :title="item.itemName" v-for="item in items" :key="item.value">
                     <view slot="title-left" @click.stop>
-                        <checkbox :value="item.keyID" :checked="item.checked" />
+                        <checkbox color="#fb7349" :value="item.keyID" :checked="item.checked" />
                     </view>
                     <view slot="right" class="money">{{item.realChargeBalance}}</view>
                     <view class="item-content">
@@ -225,16 +225,20 @@
     }
     .collapse-box {
         .collapse-box-item {
+            margin-bottom: 5px;
+            background-color: #fff;
             .money {
                 margin-right: 5px;
+                color: $uni-color-primary;
             }
             .item-content {
-                padding: 10px;
+                background-color: #fff;
+                padding: 10px 10px 10px 20px;
                 .item-content {
                     display: flex;
                     justify-content: space-between;
-                    color: $uni-text-color-grey-2;
                     font-size: 12px;
+                    color: $uni-text-color-grey;
                 }
             }
         }

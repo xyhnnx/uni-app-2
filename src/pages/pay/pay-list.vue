@@ -4,9 +4,7 @@
 			<view>
 				<button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>
 			</view>
-			<view class="height5"></view>
 		</view>
-		<view class="height10"></view>
 		<view class="content">
 			<view class="card-item" v-for="(item, index) in listModal" :key="index" @click="toDetail(item)">
 				<view class="title-top"> {{getTime(item.chargeTime)}}</view>
@@ -135,7 +133,6 @@
 		}
 	}
 	.card-item{
-		margin-bottom: 20px;
 		.title-top{
 			padding: 0 10px;
 			color: $uni-color-primary;
@@ -146,6 +143,7 @@
 			background-color: #fff;
 			display: flex;
 			line-height: 32px;
+			border-bottom: 1px solid $uni-border-color;
 			.img{
 				width: 30px;
 				height: 30px;
@@ -153,7 +151,7 @@
 			align-items: center;
 		}
 		.content-box{
-			padding: 0 10px;
+			padding: 5px 10px;
 			background-color: #fff;
 			.head{
 				line-height: 50px;

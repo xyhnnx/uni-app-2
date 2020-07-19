@@ -7,48 +7,48 @@
         </view>
         <view class="content-box">
             <view class="item">
-                <view>户号</view>
-                <view>{{detail.roomName}}</view>
+                <view class="label">户号</view>
+                <view class="value">{{detail.roomName}}</view>
             </view>
             <view class="item">
-                <view>缴费项目</view>
-                <view>{{detail.itemName}}</view>
+                <view class="label">缴费项目</view>
+                <view class="value">{{detail.itemName}}</view>
             </view>
             <view class="item">
-                <view>缴费周期</view>
-                <view>{{getTime2(detail.realLastPayDate)}}~{{getTime2(detail.realStopPayDate)}}</view>
+                <view class="label">缴费周期</view>
+                <view class="value">{{getTime2(detail.realLastPayDate)}}~{{getTime2(detail.realStopPayDate)}}</view>
             </view>
             <view class="item">
-                <view>应缴金额</view>
-                <view>{{detail.realMoney}}</view>
+                <view class="label">应缴金额</view>
+                <view class="value">{{detail.realMoney}}</view>
             </view>
             <view class="item">
-                <view>实缴金额</view>
-                <view>{{detail.realAllMoney}}</view>
+                <view class="label">实缴金额</view>
+                <view class="value red">{{detail.realAllMoney}}</view>
             </view>
             <view class="item">
-                <view>订单号</view>
-                <view>{{detail.tradeNo}}</view>
+                <view class="label">订单号</view>
+                <view class="value">{{detail.tradeNo}}</view>
             </view>
             <view class="item">
-                <view>流水号</view>
-                <view>{{detail.payNo}}</view>
+                <view class="label">流水号</view>
+                <view class="value">{{detail.payNo}}</view>
             </view>
             <view class="item">
-                <view>结算方式</view>
-                <view>{{detail.settleType}}</view>
+                <view class="label">结算方式</view>
+                <view class="value">{{detail.settleType}}</view>
             </view>
             <view class="item">
-                <view>来源</view>
-                <view>{{detail.paySource}}</view>
+                <view class="label">来源</view>
+                <view class="value">{{detail.paySource}}</view>
             </view>
             <view class="item">
-                <view>凭证号</view>
-                <view>{{detail.voucherNo}}</view>
+                <view class="label">凭证号</view>
+                <view class="value">{{detail.voucherNo}}</view>
             </view>
             <view class="item">
-                <view>缴费时间</view>
-                <view>{{detail.chargeTime}}</view>
+                <view class="label">缴费时间</view>
+                <view class="value">{{detail.chargeTime}}</view>
             </view>
         </view>
     </view>
@@ -107,7 +107,7 @@
     methods: {
       ...mapMutations(['setStateData']),
       getTime2 (e) {
-        return util.dateFormat(new Date(e).getTime(),'yyyy-MM-dd')
+        return util.dateFormat(new Date(e).getTime(),'yyyy-MM-dd') || ''
       },
       async getPaymentGetDetail() {
         console.log(this.query.payNo)
@@ -145,6 +145,15 @@
             justify-content: space-between;
             border-bottom: 1px solid $uni-border-color;
             line-height: 48px;
+            .label{
+                color: #333;
+            }
+            .value{
+                color: #666;
+            }
+            .red{
+                color: red;
+            }
         }
     }
 </style>

@@ -11,11 +11,11 @@
                 小区室号：{{payRoom.courtName ||''}}-{{payRoom.roomName||''}}
             </view>
             <view class="text">
-                收款单位：{{payRoom.comp}}
+                收款单位：{{payRoom.companyName}}
             </view>
         </view>
         <view class="btn-box">
-            <button type="primary" class="radius">立即缴费</button>
+            <button type="primary" class="radius" @click="tolist">立即缴费</button>
         </view>
         <view class="fixed-bottom">
             数据来源于江苏百事帮电子商务有限公司
@@ -66,6 +66,18 @@
           this.detail = res.data || {}
         }
       },
+      tolist () {
+        const url = util.webUrlSplicing(
+          '/pages/pay/pay-list',
+          {
+          }
+        )
+        //在起始页面跳转到test.vue页面并传递参数
+        uni.reLaunch({
+          url
+        });
+      }
+
     },
     onLoad(e) {
       console.log(e)

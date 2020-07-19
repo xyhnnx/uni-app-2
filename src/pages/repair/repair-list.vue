@@ -35,30 +35,30 @@
 						<view class="right">
 							<!--// 待处理-->
 							<template v-if="item.state === 0">
-								<button class="btn" type="primary" plain="true" @click="cancelClick(item)">取消</button>
-								<button class="btn" type="primary" plain="true">编辑</button>
+								<button class="btn" type="primary" @click="cancelClick(item)">取消</button>
+								<button class="btn" type="primary">编辑</button>
 							</template>
 							<!--// 处理中-->
 							<template v-else-if="item.state === 1">
 							</template>
 							<!--// 待确认-->
 							<template v-else-if="item.state === 2">
-								<button class="btn" type="primary" plain="true">未完成服务</button>
-								<button class="btn" type="primary" plain="true">完成服务</button>
+								<button class="btn" type="primary">未完成服务</button>
+								<button class="btn" type="primary">完成服务</button>
 							</template>
 							<!--// 已完成-->
 							<template v-else-if="item.state === 10">
-								<button class="btn" type="primary" plain="true">评价</button>
+								<button class="btn" type="primary">评价</button>
 
 							</template>
 							<!--// 已退回-->
 							<template v-else-if="item.state === 5">
-								<button class="btn" type="primary" plain="true" @click="deleteClick(item)">删除</button>
-								<button class="btn" type="primary" plain="true">编辑</button>
+								<button class="btn" type="primary" @click="deleteClick(item)">删除</button>
+								<button class="btn" type="primary">编辑</button>
 							</template>
 							<!--// 已取消-->
 							<template v-else-if="item.state === 6">
-								<button class="btn" type="primary" plain="true" @click="deleteClick(item)">删除</button>
+								<button class="btn" type="primary" @click="deleteClick(item)">删除</button>
 							</template>
 						</view>
 					</view>
@@ -322,6 +322,7 @@
 					margin: 0;
 					margin-left: 10px;
 					font-size: 14px;
+					color: #fff;
 				}
 			}
 

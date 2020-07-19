@@ -50,6 +50,7 @@
 		min-height: 100%;
 		display: flex;
 		font-size: 16px;
+        color: #333;
 	}
 
 	/* #ifdef MP-BAIDU */
@@ -93,7 +94,7 @@
 		display: flex;
 		flex: 1;
 		flex-direction: column;
-		background-color: #efeff4;
+		background-color: #f1f1f1;
 	}
 
 	.input-group {
