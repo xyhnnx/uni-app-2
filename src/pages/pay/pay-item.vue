@@ -161,7 +161,6 @@
         let res = await api.getRoomChargeItemDatas({
           roomId: this.query.roomId
         })
-        console.log(res)
         if(res.success) {
           this.items = res.data
 
@@ -178,7 +177,6 @@
       checkboxChange (e) {
         var items = this.items,
           values = e.detail.value;
-        console.log(values)
         for (var i = 0, lenI = items.length; i < lenI; ++i) {
           const item = items[i]
           if(values.includes(`${item.keyID}`)){
@@ -187,12 +185,10 @@
             this.$set(item,'checked',false)
           }
         }
-        console.log(this.items,this.items.filter(e => !!e.checked))
       }
     },
     onLoad(e) {
-      console.log(e)
-      // this.query = e
+      this.query = e
       this.getRoomChargeItemDatas()
     }
   }

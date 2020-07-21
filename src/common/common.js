@@ -56,9 +56,11 @@ export const wxAuthorize = function (scope = 'scope.userInfo') {
 }
 
 export const login = async function (obj = {}) {
-  let res = await api.login({
+  let data = {
     Code: getApp().globalData.code,
     ...obj
-  })
+  }
+  console.log(JSON.stringify(data))
+  let res = await api.login(data)
   return res
 }

@@ -36,7 +36,7 @@
         isDevtools: false,
         // 扫码进入的页面的参数
         onLoadInfo: {
-          roomId: 361111
+          roomId: 361102
         }
       }
     },
@@ -119,12 +119,11 @@
         });
         // 获取用户信息
         let res2 = await common.login({
-          roomId: this.onLoadInfo.roomId,
-          // EncryptedDataStr: getApp().globalData.encryptedData,
-          // IV: getApp().globalData.iv
+          // roomId: this.onLoadInfo.roomId,
+          EncryptedDataStr: getApp().globalData.encryptedData,
+          IV: getApp().globalData.iv
         })
         uni.hideLoading()
-        console.log('common.login', res2)
         if (!res2.success) {
           if (res2.errorCode === '1005') { // 请扫描房产二维码
             uni.showModal({
@@ -146,26 +145,13 @@
             'roomList': res2.data.roomInfos || [],
             'currentRoom': res2.data.roomInfos && res2.data.roomInfos[0]
           })
+          this.toMain()
         }
-        uni.showModal({
-          title: '提示',
-          content: res2.errorMessage,
-          showCancel: false,
-          success: function (res3) {
-            if (res3.confirm) {
-              console.log('用户点击确定');
-            } else if (res3.cancel) {
-              console.log('用户点击取消');
-            }
-          }
-        });
-        this.toMain()
       },
       toMain(userName) {
         uni.reLaunch({
           url: '../main/main',
         });
-
       }
     },
     async onLoad (option) {

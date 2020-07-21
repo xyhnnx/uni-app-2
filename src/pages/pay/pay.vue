@@ -11,12 +11,8 @@
                     <view>收款单位</view>
                 </view>
                 <view class="select-box">
-                    <view>
-                        <uni-combox :labelWidth="0" disabled
-                                    :candidates="selectArr1"
-                                    placeholder="请选择收款单位"
-                                    v-model="selectIndex1">
-                        </uni-combox>
+                    <view class="text">
+                        {{currentRoom.companyName}}
                     </view>
                 </view>
             </view>
@@ -73,16 +69,8 @@
     },
     computed: {
       ...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
-      selectArr1Data() {
-        console.log(this.roomList)
-        console.log(this.currentRoom)
-        return this.roomList.filter((e)=>e.courtId === this.currentRoom.courtId)
-      },
-      selectArr1 () {
-        return this.selectArr1Data.map(e=>e.companyName)
-      },
       selectArr2Data() {
-        return this.roomList.filter(e=>e.companyId === this.selectArr1Data[this.selectIndex1].companyId)
+        return this.roomList.filter(e=>e.companyId === this.currentRoom.companyId)
       },
       selectArr2 () {
         return this.selectArr2Data.map(e=>e.roomName)
@@ -92,7 +80,6 @@
       return {
         query: {},
         detail: {},
-        selectIndex1: 0,
         selectIndex2: 0
       }
     },
@@ -114,6 +101,7 @@
       },
       toPayItem () {
         let roomId = this.selectArr2Data[this.selectIndex2].roomId
+        console.log(roomId,'roomId')
         //在起始页面跳转到test.vue页面并传递参数
         uni.navigateTo({
           url: `/pages/pay/pay-item?roomId=${roomId}`
@@ -154,6 +142,9 @@
         .select-box {
             margin-left: 20px;
             border-bottom: 1px solid $uni-border-color;
+            .text {
+                line-height: 41px;
+            }
         }
     }
     .icon-tick-box {

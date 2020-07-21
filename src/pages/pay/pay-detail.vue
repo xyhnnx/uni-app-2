@@ -80,7 +80,6 @@
 
     },
     onLoad(e) {
-      console.log(e)
       this.query = e
       // d获取公告
       this.getNoticeDetail()

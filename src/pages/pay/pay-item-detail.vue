@@ -120,7 +120,7 @@
       },
     },
     onLoad(e) {
-      // this.query = e
+      this.query = e
       this.getPaymentGetDetail()
     }
   }

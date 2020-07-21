@@ -36,11 +36,19 @@
     methods: {
       ...mapMutations(['setStateData']),
       showActionSheet () {
+        let arr = []
+        this.roomList.forEach(e=>{
+          if(!arr.some(e2=>e2.courtId === e.courtId)) {
+            if(arr.length<=6) {
+              arr.push(e)
+            }
+          }
+        })
         uni.showActionSheet({
-          itemList: this.roomList.map(e => e.courtName),
+          itemList: arr.map(e => e.courtName),
           success: (res) => {
             this.setStateData({
-              currentRoom: this.roomList[res.tapIndex]
+              currentRoom: arr[res.tapIndex]
             })
           },
           fail: function (res) {
