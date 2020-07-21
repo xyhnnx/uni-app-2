@@ -26,6 +26,7 @@
                 <view class="select-box">
                     <view>
                         <uni-combox :labelWidth="0" disabled
+                                    :key="currentRoom.companyName"
                                     :candidates="selectArr2"
                                     placeholder="请选择户号"
                                     v-model="selectIndex2">
@@ -70,11 +71,20 @@
     computed: {
       ...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
       selectArr2Data() {
-        return this.roomList.filter(e=>e.companyId === this.currentRoom.companyId)
+        return this.roomList.filter(e=>e.courtId === this.currentRoom.courtId)
       },
       selectArr2 () {
         return this.selectArr2Data.map(e=>e.roomName)
       },
+    },
+    watch: {
+      currentRoom () {
+        console.log('currentRoom')
+        this.selectIndex2 = 100
+        setTimeout(e=>{
+          this.selectIndex2 = 0
+        },10)
+      }
     },
     data() {
       return {
