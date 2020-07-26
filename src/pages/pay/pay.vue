@@ -79,7 +79,6 @@
     },
     watch: {
       currentRoom () {
-        console.log('currentRoom')
         this.selectIndex2 = 100
         setTimeout(e=>{
           this.selectIndex2 = 0
@@ -111,7 +110,6 @@
       },
       toPayItem () {
         let roomId = this.selectArr2Data[this.selectIndex2].roomId
-        console.log(roomId,'roomId')
         //在起始页面跳转到test.vue页面并传递参数
         uni.navigateTo({
           url: `/pages/pay/pay-item?roomId=${roomId}`

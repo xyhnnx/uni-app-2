@@ -5,7 +5,6 @@ export const wxLogin = async function () {
     uni.login({
       provider: 'weixin',
       success: function (loginRes) {
-        console.log(loginRes);
         getApp().globalData.code = loginRes.code
         resolve()
       }
@@ -21,8 +20,6 @@ export const wxGetUser = async function () {
       uni.getUserInfo({
         provider: 'weixin',
         success: function (infoRes) {
-          console.log(infoRes)
-          console.log('用户昵称为：' + infoRes.userInfo.nickName);
           resolve(true)
         },
         fail() {
@@ -60,7 +57,6 @@ export const login = async function (obj = {}) {
     Code: getApp().globalData.code,
     ...obj
   }
-  console.log(JSON.stringify(data))
   let res = await api.login(data)
   return res
 }

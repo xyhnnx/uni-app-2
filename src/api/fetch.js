@@ -22,7 +22,7 @@ export async function request (obj = {}) {
     return
   }
   res = res.data || {}
-  console.log(res)
+  console.log(obj.url, res)
   if (res.success) {
     return res
   } else if(res.errorCode) {

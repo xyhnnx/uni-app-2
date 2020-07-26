@@ -153,7 +153,6 @@
           arr.push(uploadItem(this.imageList[i]))
         }
 
-        console.log('arr',arr)
         return await Promise.all(arr)
       },
       delImg (i) {
@@ -233,7 +232,6 @@
         }
       },
       bindTextAreaBlur: function (e) {
-        console.log(e.detail.value)
         this.formData.contentInfo = e.detail.value
       },
       async getRepairType () {
@@ -259,21 +257,18 @@
       // 类型-确认
       pickerServiceTypeConfirm (item) {
         this.$refs.refServiceType.close()
-        console.log(item)
         this.formData.servicesTypeName = item.label
         this.formData.servicesType = item.value
       },
       // 报修类型-确认
       pickerRepairTypeConfirm (item) {
         this.$refs.refRepair.close()
-        console.log(item)
         this.formData.repairName = item.repairType
         this.formData.serviceTypeID = item.serviceId
       },
       // 户号-确认
       pickerRoomConfirm (item) {
         this.$refs.refRoomList.close()
-        console.log(item)
         this.formData.roomName = item.roomName
         this.formData.roomID = item.roomId
       },

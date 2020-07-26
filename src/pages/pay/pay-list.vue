@@ -111,7 +111,6 @@
 		},
 		onLoad() {
 			this.getPaymentBillList()
-			console.log(this.filePrefix)
 		}
 	}
 </script>

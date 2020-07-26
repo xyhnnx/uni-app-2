@@ -110,7 +110,6 @@
         return util.dateFormat(new Date(e).getTime(),'yyyy-MM-dd') || ''
       },
       async getPaymentGetDetail() {
-        console.log(this.query.payNo)
         let res = await api.getPaymentGetDetail({
           payNo: this.query.payNo
         })

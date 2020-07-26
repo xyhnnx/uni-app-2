@@ -148,7 +148,6 @@
         if(res.success && res.data && res.data.length) {
           this.adData = res.data
         }
-        console.log(res);
       }
     },
     onLoad() {

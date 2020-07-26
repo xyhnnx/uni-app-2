@@ -99,9 +99,7 @@
         });
       },
       async getUserInfo(res) {
-        console.log(res)
         if (res.detail) {
-          console.log('getUserInfo', res)
           getApp().globalData.encryptedData = res.detail.encryptedData
           getApp().globalData.iv = res.detail.iv
           // this.toMain(res.detail.userInfo.nickName);
@@ -155,12 +153,11 @@
       }
     },
     async onLoad (option) {
-      console.log('onLoad', option)
+      // console.log('onLoad', option)
       // 扫码参数在这里
       // this.onLoadInfo = option
     },
     async onReady(option) {
-      console.log(option)
       this.initPosition();
       this.initProvider();
       // #ifdef MP-WEIXIN

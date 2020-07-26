@@ -251,7 +251,6 @@
 					courtId: this.currentRoom.courtId,
 					stateId: -1
 				})
-				console.log(res)
 				if (res.success) {
 					this.dataList = res.data
 				}
@@ -259,7 +258,6 @@
 		},
 		onLoad() {
 			this.getServiceList()
-			console.log(this.filePrefix)
 		}
 	}
 </script>
