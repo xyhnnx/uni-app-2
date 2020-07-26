@@ -20,7 +20,7 @@
                     <view slot="title-left" @click.stop>
                         <checkbox color="#fb7349" :value="item.keyID" :checked="item.checked" />
                     </view>
-                    <view slot="right" class="money">{{item.realChargeBalance}}</view>
+                    <view slot="right" class="money">{{item.balance}}</view>
                     <view class="item-content">
                         <template v-if="item.isDaiShou">
                             <view class="item-content" v-for="detailItem in item.details">
@@ -28,8 +28,8 @@
                                 <view>{{detailItem.chargeAmount}}</view>
                             </view>
                             <view class="item-content">
-                                <view>实缴金额</view>
-                                <view>{{item.realChargeBalance}}</view>
+                                <view>应缴金额</view>
+                                <view>{{item.balance}}</view>
                             </view>
                             <view class="item-content">
                                 <view>可用余额</view>
@@ -37,7 +37,7 @@
                             </view>
                         </template>
                         <template v-else>
-                            <view class="item-content">
+                            <view class="item-content" v-if="showSpace(item)">
                                 <view>面积</view>
                                 <view>{{item.floorSpace}}</view>
                             </view>
@@ -56,6 +56,10 @@
                             <view class="item-content">
                                 <view>应缴金额</view>
                                 <view>{{item.balance}}</view>
+                            </view>
+                            <view class="item-content">
+                                <view>可用余额</view>
+                                <view>{{item.currentCanBalance}}</view>
                             </view>
                         </template>
                     </view>
@@ -126,6 +130,13 @@
     },
     methods: {
       ...mapMutations(['setStateData']),
+      // 显示面积
+      showSpace (item) {
+        if(`${item.itemName}`.includes('车位')) {
+          return false
+        }
+        return true
+      },
       async getNoticeDetail() {
         let res = await api.getNoticeDetail({
           noticeId: this.query.noticeId
