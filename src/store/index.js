@@ -12,6 +12,7 @@ const store = new Vuex.Store({
 		forcedLogin: true,
 		hasLogin: false,
 		userName: "",
+		userInfo: {},
 		serviceTypeList: [{label: '报修',value:1},{label: '投诉',value:2}],
 		// 用戶管理所有room
 		roomList: [{"roomId":361111,"roomName":"1栋1单元301","courtId":619,"courtName":"沃得雅苑","companyId":162,"companyName":"江苏百事帮物业服务有限公司"}],
@@ -19,6 +20,10 @@ const store = new Vuex.Store({
 		currentRoom: {"roomId":361111,"roomName":"1栋1单元301","courtId":619,"courtName":"沃得雅苑","companyId":162,"companyName":"江苏百事帮物业服务有限公司"}
 	},
 	mutations: {
+		async setUserInfo(state, data) {
+			console.log(data,'data')
+			state.userInfo = data || {}
+		},
 		login(state, userName) {
 			state.userName = userName || '新用户';
 			state.hasLogin = true;

@@ -1,4 +1,10 @@
 @font-face {
+	font-family: texticons;
+	font-weight: normal;
+	font-style: normal;
+	src: url('https://at.alicdn.com/t/font_702773_g9f89om4v3j.ttf') format('truetype');
+}
+@font-face {
 	font-family: uniicons;
 	font-weight: normal;
 	font-style: normal;

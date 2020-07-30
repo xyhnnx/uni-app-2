@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="head-box">
 			<view>
-				<button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>
+				<change-room-btn></change-room-btn>
 			</view>
 		</view>
 		<view class="content">
@@ -73,20 +73,6 @@
 			},
 			changeState(state) {
 
-			},
-
-			showActionSheet() {
-				uni.showActionSheet({
-					itemList: this.roomList.map(e => e.courtName),
-					success: (res) => {
-						this.setStateData({
-							currentRoom: this.roomList[res.tapIndex]
-						})
-					},
-					fail: function (res) {
-						console.log(res.errMsg);
-					}
-				});
 			},
 			async getPaymentBillList() {
 				let res = await api.getPaymentBillList({

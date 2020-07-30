@@ -99,6 +99,8 @@
         });
       },
       async getUserInfo(res) {
+        // // 获取微信code
+        await common.wxLogin()
         if (res.detail) {
           getApp().globalData.encryptedData = res.detail.encryptedData
           getApp().globalData.iv = res.detail.iv

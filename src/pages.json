@@ -27,8 +27,15 @@
 			"style": {
 				"navigationBarTitleText": "找回密码"
 			}
-		}, {
+		},
+		{
 			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		},
+		{
+			"path": "pages/user/user-detail",
 			"style": {
 				"navigationBarTitleText": "个人中心"
 			}

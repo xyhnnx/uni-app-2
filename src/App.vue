@@ -20,6 +20,7 @@
 			console.log('App Launch');
 			// // 获取微信code
           await common.wxLogin()
+          await common.getUserInfo()
 		},
 		onShow: function() {
 			console.log('App Show');

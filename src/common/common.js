@@ -1,4 +1,5 @@
 import * as api from '../api/api'
+import store from '../store/index'
 export const wxLogin = async function () {
   // session_key 已经失效，需要重新执行登录流程
   return new Promise((resolve) => {
@@ -20,7 +21,7 @@ export const wxGetUser = async function () {
       uni.getUserInfo({
         provider: 'weixin',
         success: function (infoRes) {
-          resolve(true)
+          resolve(infoRes)
         },
         fail() {
           console.log('getUserInfo fail')
@@ -31,6 +32,21 @@ export const wxGetUser = async function () {
   } else {
     console.log('获取用户授权失败')
     return false
+  }
+
+}
+// 获取用户信息
+export const getUserInfo = async function () {
+  let res = await wxGetUser()
+  console.log(res)
+  if (res.iv) {
+    let res2 = await api.getUserInfo({
+      code: getApp().globalData.code,
+      iv: res.iv,
+      encryptedDataStr: res.encryptedData
+    })
+    console.log(store, res2)
+    store.commit('setUserInfo', res2.data)
   }
 
 }

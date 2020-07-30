@@ -141,3 +141,20 @@ export async function getPaymentGetDetail(data) {
     url: `${apiHost}/api/PaymentBill/GetDetail`,
   });
 }
+
+// /api/User/GetUserInfo
+export async function getUserInfo(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/User/GetUserInfo`,
+  });
+}
+// /api/User/UpdateUserInfo
+export async function updateUserInfo(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/User/UpdateUserInfo`,
+  });
+}

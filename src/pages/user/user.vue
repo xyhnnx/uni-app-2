@@ -1,5 +1,15 @@
 <template>
 	<view class="content padding0">
+		<view class="logo" @click="toUserDetail('/pages/user/user-detail')" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
+			<image class="logo-img" :src="userInfo.avatarUrl ? userInfo.avatarUrl :avatarUrl"></image>
+			<view class="logo-title">
+				<view>
+					<view class="uer-name">Hi，{{userInfo.nickName ? userInfo.nickName : '您未登录'}}</view>
+					<view class="phone-number">手机号：{{userInfo.phoneNumber || '无'}}</view>
+				</view>
+				<text class="go-login navigat-arrow">&#xe65e;</text>
+			</view>
+		</view>
 		<view class="height0">
 			<view class="background-primary"></view>
 		</view>
@@ -59,6 +69,7 @@
 		},
 		data() {
 			return {
+				avatarUrl: '/static/logo.png',
 				background: ['color1', 'color2', 'color3'],
 				indicatorDots: true,
 				autoplay: true,
@@ -66,7 +77,9 @@
 				duration: 500
 			}
 		},
-		computed: mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom']),
+		computed: mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom','userInfo']),
+		watch: {
+		},
 		methods: {
 			...mapMutations(['setStateData']),
 			scanningCode() {
@@ -113,6 +126,18 @@
 				uni.navigateTo({
 					url
 				});
+			},
+			async toUserDetail (url) {
+				if(this.userInfo.nickName) {
+					// // 获取微信code
+					await common.wxLogin()
+					let res = await common.getUserInfo()
+				} else {
+					//在起始页面跳转到test.vue页面并传递参数
+					uni.navigateTo({
+						url
+					});
+				}
 			}
 		},
 		onLoad() {
@@ -150,7 +175,9 @@
 	.padding0 {
 		padding: 0;
 	}
-
+	.phone-number {
+		color: #fff
+	}
 	.height0 {
 		height: 0;
 
@@ -201,4 +228,112 @@
 	.panel-title {
 		font-weight: bold;
 	}
+
+
+
+	/* 个人中心 */
+
+	.logo {
+		display: flex;
+		width: 750upx;
+		height: 240upx;
+		padding: 20upx;
+		box-sizing: border-box;
+		background-color: $uni-color-primary;
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.logo-hover {
+		opacity: 0.8;
+	}
+
+	.logo-img {
+		width: 150upx;
+		height: 150upx;
+		border-radius: 150upx;
+	}
+
+	.logo-title {
+		height: 150upx;
+		flex: 1;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: row;
+		margin-left: 20upx;
+		display: flex;
+	}
+
+	.uer-name {
+		height: 60upx;
+		line-height: 60upx;
+		font-size: 38upx;
+		color: #FFFFFF;
+	}
+
+	.go-login.navigat-arrow {
+		font-size: 38upx;
+		color: #FFFFFF;
+	}
+
+	.login-title {
+		height: 150upx;
+		align-items: self-start;
+		justify-content: center;
+		flex-direction: column;
+		margin-left: 20upx;
+	}
+
+	.center-list {
+		background-color: #FFFFFF;
+		margin-top: 20upx;
+		width: 750upx;
+		flex-direction: column;
+	}
+
+	.center-list-item {
+		height: 90upx;
+		width: 750upx;
+		box-sizing: border-box;
+		flex-direction: row;
+		padding: 0upx 20upx;
+	}
+
+	.border-bottom {
+		border-bottom-width: 1upx;
+		border-color: #c8c7cc;
+		border-bottom-style: solid;
+	}
+
+	.list-icon {
+		width: 40upx;
+		height: 90upx;
+		line-height: 90upx;
+		font-size: 34upx;
+		color: #FF80AB;
+		text-align: center;
+		font-family: texticons;
+		margin-right: 20upx;
+	}
+
+	.list-text {
+		height: 90upx;
+		line-height: 90upx;
+		font-size: 34upx;
+		color: #555;
+		flex: 1;
+		text-align: left;
+	}
+
+	.navigat-arrow {
+		height: 90upx;
+		width: 40upx;
+		line-height: 90upx;
+		font-size: 34upx;
+		color: #555;
+		text-align: right;
+		font-family: texticons;
+	}
+
+
 </style>
