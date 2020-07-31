@@ -129,8 +129,6 @@
 			},
 			async toUserDetail (url) {
 				if(!this.userInfo.nickName) {
-					// // 获取微信code
-					await common.wxLogin()
 					let res = await common.getUserInfo()
 				} else {
 					//在起始页面跳转到test.vue页面并传递参数

@@ -37,16 +37,30 @@ export const wxGetUser = async function () {
 }
 // 获取用户信息
 export const getUserInfo = async function () {
-  let res = await wxGetUser()
-  if (res.iv) {
-    let res2 = await api.getUserInfo({
-      code: getApp().globalData.code,
-      iv: res.iv,
-      encryptedDataStr: res.encryptedData
-    })
+  if (!store.state.userInfo.nickName) {
+    // 获取微信code
+    await wxLogin()
+    let res = await wxGetUser()
+    if (res.iv) {
+      let res2 = await api.getUserInfo({
+        code: getApp().globalData.code,
+        iv: res.iv,
+        encryptedDataStr: res.encryptedData
+      })
+      store.commit('setUserInfo', res2.data)
+    }
+  } else {
+    let res2 = await api.getUserInfo()
     store.commit('setUserInfo', res2.data)
   }
 
+
+}
+// 获取用户信息
+export const updateUserInfo = async function (userInfo) {
+  let res2 = await api.updateUserInfo(userInfo)
+  getUserInfo()
+  return res2
 }
 // 提前向用户发起授权请求
 export const wxAuthorize = function (scope = 'scope.userInfo') {

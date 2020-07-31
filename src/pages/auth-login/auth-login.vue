@@ -156,8 +156,6 @@
       }
     },
     async onLoad (option) {
-      // 获取微信code
-      await common.wxLogin()
       await common.getUserInfo()
       console.log('userInfo', this.userInfo)
       if(this.userInfo.phoneNumber) {

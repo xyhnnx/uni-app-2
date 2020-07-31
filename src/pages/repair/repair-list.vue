@@ -2,7 +2,8 @@
 	<view class="content">
 		<view class="head-box">
 			<view>
-				<button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>
+				<!--<button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>-->
+				<change-room-btn></change-room-btn>
 			</view>
 			<view class="height5"></view>
 			<uni-segmented-control :current="currentTabIndex"
@@ -76,6 +77,8 @@
 	import UniList from '../../components/uni-list/uni-list'
 	import UniListItem from '../../components/uni-list-item/uni-list-item'
 	import NoData from '../../components/my-components/no-data'
+	import ChangeRoomBtn from '../../common/change-room-btn'
+
 	import {
 		mapState,
 		mapMutations
@@ -86,6 +89,7 @@
 			UniSegmentedControl,
 			UniList,
 			UniListItem,
+			ChangeRoomBtn,
 			NoData
 		},
 		computed: {
@@ -150,6 +154,11 @@
 					}
 				]
 			},
+		},
+		watch: {
+			currentRoom () {
+				this.getServiceList()
+			}
 		},
 		data() {
 			return {
