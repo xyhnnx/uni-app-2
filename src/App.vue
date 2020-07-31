@@ -18,9 +18,6 @@
         },
 		async onLaunch () {
 			console.log('App Launch');
-			// // 获取微信code
-          await common.wxLogin()
-          await common.getUserInfo()
 		},
 		onShow: function() {
 			console.log('App Show');
@@ -29,8 +26,6 @@
               //session_key 未过期，并且在本生命周期一直有效
             },
             fail () {
-              console.log('fail')
-              common.wxLogin()
             }
           })
 		},

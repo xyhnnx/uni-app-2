@@ -21,7 +21,6 @@ const store = new Vuex.Store({
 	},
 	mutations: {
 		async setUserInfo(state, data) {
-			console.log(data,'data')
 			state.userInfo = data || {}
 		},
 		login(state, userName) {

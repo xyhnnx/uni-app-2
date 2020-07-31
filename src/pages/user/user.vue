@@ -128,7 +128,7 @@
 				});
 			},
 			async toUserDetail (url) {
-				if(this.userInfo.nickName) {
+				if(!this.userInfo.nickName) {
 					// // 获取微信code
 					await common.wxLogin()
 					let res = await common.getUserInfo()

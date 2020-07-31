@@ -40,7 +40,7 @@
         }
       }
     },
-    computed: mapState(['forcedLogin']),
+    computed: mapState(['forcedLogin','userInfo']),
     methods: {
       ...mapMutations(['login','setStateData']),
       initProvider() {
@@ -99,8 +99,6 @@
         });
       },
       async getUserInfo(res) {
-        // // 获取微信code
-        await common.wxLogin()
         if (res.detail) {
           getApp().globalData.encryptedData = res.detail.encryptedData
           getApp().globalData.iv = res.detail.iv
@@ -117,8 +115,11 @@
         uni.showLoading({
           title: '登录中'
         });
+        // // 获取微信code
+        await common.wxLogin()
         // 获取用户信息
         let res2 = await common.login({
+          Code: getApp().globalData.code,
           // roomId: this.onLoadInfo.roomId,
           EncryptedDataStr: getApp().globalData.encryptedData,
           IV: getApp().globalData.iv
@@ -155,9 +156,13 @@
       }
     },
     async onLoad (option) {
-      // console.log('onLoad', option)
-      // 扫码参数在这里
-      // this.onLoadInfo = option
+      // 获取微信code
+      await common.wxLogin()
+      await common.getUserInfo()
+      console.log('userInfo', this.userInfo)
+      if(this.userInfo.phoneNumber) {
+        this.login()
+      }
     },
     async onReady(option) {
       this.initPosition();

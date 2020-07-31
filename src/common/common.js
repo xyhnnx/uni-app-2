@@ -38,14 +38,12 @@ export const wxGetUser = async function () {
 // 获取用户信息
 export const getUserInfo = async function () {
   let res = await wxGetUser()
-  console.log(res)
   if (res.iv) {
     let res2 = await api.getUserInfo({
       code: getApp().globalData.code,
       iv: res.iv,
       encryptedDataStr: res.encryptedData
     })
-    console.log(store, res2)
     store.commit('setUserInfo', res2.data)
   }
 
@@ -57,7 +55,6 @@ export const wxAuthorize = function (scope = 'scope.userInfo') {
       scope,
       success() {
         // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
-        console.log(`wxAuthorize--${scope}--success`)
         resolve(true)
       },
       fail() {
@@ -70,7 +67,6 @@ export const wxAuthorize = function (scope = 'scope.userInfo') {
 
 export const login = async function (obj = {}) {
   let data = {
-    Code: getApp().globalData.code,
     ...obj
   }
   let res = await api.login(data)
