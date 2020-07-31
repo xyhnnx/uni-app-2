@@ -37,24 +37,20 @@ export const wxGetUser = async function () {
 }
 // 获取用户信息
 export const getUserInfo = async function () {
-  if (!store.state.userInfo.nickName) {
-    // 获取微信code
-    await wxLogin()
+  let res2 = await api.getUserInfo()
+  if(!res2.data.nickName) { // 未获取用户信息
     let res = await wxGetUser()
     if (res.iv) {
-      let res2 = await api.getUserInfo({
+      // 获取微信code
+      await wxLogin()
+      res2 = await api.getUserInfo({
         code: getApp().globalData.code,
         iv: res.iv,
         encryptedDataStr: res.encryptedData
       })
-      store.commit('setUserInfo', res2.data)
     }
-  } else {
-    let res2 = await api.getUserInfo()
-    store.commit('setUserInfo', res2.data)
   }
-
-
+  store.commit('setUserInfo', res2.data)
 }
 // 获取用户信息
 export const updateUserInfo = async function (userInfo) {
@@ -85,4 +81,20 @@ export const login = async function (obj = {}) {
   }
   let res = await api.login(data)
   return res
+}
+
+export const uploadFileItem = async function (path) {
+  return new Promise((resolve) => {
+    uni.uploadFile({
+      url: getApp().globalData.uploadFileUrl, // 仅为示例，非真实的接口地址
+      filePath: path,
+      name: 'uploadfile_ant',
+      formData: {
+        'uploadfile_ant': path
+      },
+      success: (uploadFileRes) => {
+        resolve(uploadFileRes.data)
+      }
+    });
+  })
 }

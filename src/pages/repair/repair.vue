@@ -87,10 +87,12 @@
   } from 'vuex'
   import service from '../../service.js';
   import * as api from '../../api/api'
+  import * as common from '../../common/common'
   import mInput from '../../components/m-input.vue';
   import uniList from "@/components/uni-list/uni-list.vue"
   import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
   import myPopupSelect from '@/components/my-components/my-popup-select'
+
 
   export default {
     components: {
@@ -132,25 +134,10 @@
         });
       },
       async uploadFile () {
-        let uploadItem = (path) => {
-          return new Promise((resolve) => {
-            uni.uploadFile({
-              url: getApp().globalData.uploadFileUrl, // 仅为示例，非真实的接口地址
-              filePath: path,
-              name: 'uploadfile_ant',
-              formData: {
-                'uploadfile_ant': path
-              },
-              success: (uploadFileRes) => {
-                resolve(uploadFileRes.data)
-              }
-            });
-          })
-        }
 
         let arr = []
         for(let i = 0;i < this.imageList.length; i++) {
-          arr.push(uploadItem(this.imageList[i]))
+          arr.push(common.uploadFileItem(this.imageList[i]))
         }
 
         return await Promise.all(arr)

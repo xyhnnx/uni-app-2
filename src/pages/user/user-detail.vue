@@ -2,10 +2,10 @@
 <template>
 	<view class="content">
 		<view class="content-box">
-			<view class="item">
+			<view class="item" @click="chooseImg">
 				<view class="label">头像</view>
 				<view class="value">
-					<image class="logo-img" :src="userInfo.avatarUrl ? userInfo.avatarUrl :avatarUrl"></image>
+					<image class="logo-img" :src="userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
 					<text class="go-login navigat-arrow">&#xe65e;</text>
 				</view>
 
@@ -76,10 +76,37 @@
 			showGender (val) {
 				return val === 1? '男': '女'
 			},
+			getImgSrc (src = '') {
+				if(src.startsWith('http')) {
+					return src
+				} else {
+					return `${this.$filePrefix}/${src.slice(1)}`
+				}
+			},
 			toDetail (url) {
 				//在起始页面跳转到test.vue页面并传递参数
 				uni.navigateTo({
 					url
+				});
+			},
+			chooseImg () {
+				uni.chooseImage({
+					count: 1,
+					success: async (res) => {
+						let res2 = await common.uploadFileItem(res.tempFilePaths[0])
+						let data = {
+							...this.userInfo,
+							avatarUrl: res2
+						}
+
+						let res3 = await common.updateUserInfo(data)
+						if(res3.success) {
+							uni.showToast({
+								icon: 'none',
+								title: '修改成功！'
+							});
+						}
+					}
 				});
 			},
 		},

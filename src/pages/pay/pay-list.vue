@@ -63,7 +63,7 @@
 		methods: {
 			...mapMutations(['setStateData']),
 			getSrc(src) {
-				return `${this.$filePrefix}/${src.replace('~', '')}`
+				return `${this.$filePrefix}/${src.slice(1)}`
 			},
 			getTime (e) {
 				return util.dateFormat(new Date(e).getTime())

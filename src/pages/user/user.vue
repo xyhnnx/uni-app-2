@@ -1,7 +1,7 @@
 <template>
 	<view class="content padding0">
 		<view class="logo" @click="toUserDetail('/pages/user/user-detail')" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
-			<image class="logo-img" :src="userInfo.avatarUrl ? userInfo.avatarUrl :avatarUrl"></image>
+			<image class="logo-img" :src="userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
 			<view class="logo-title">
 				<view>
 					<view class="uer-name">Hi，{{userInfo.nickName ? userInfo.nickName : '您未登录'}}</view>
@@ -82,6 +82,13 @@
 		},
 		methods: {
 			...mapMutations(['setStateData']),
+			getImgSrc (src = '') {
+				if(src.startsWith('http')) {
+					return src
+				} else {
+					return `${this.$filePrefix}/${src.slice(1)}`
+				}
+			},
 			scanningCode() {
 				console.log('scanningCodescanningCode')
 				// 允许从相机和相册扫码
