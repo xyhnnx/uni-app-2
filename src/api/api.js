@@ -52,6 +52,22 @@ export async function getServiceList(data) {
     url: `${apiHost}/api/Service/GetList`,
   });
 }
+// 6.我的报修详情
+export async function getServiceGetDetail(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/Service/GetDetail`,
+  });
+}
+// 6.我的报修详情-修改
+export async function getServiceChangeService(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/Service/ChangeService`,
+  });
+}
 
 // /api/Notice/GetList
 // 根据openid和小区id获取公告

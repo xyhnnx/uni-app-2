@@ -59,12 +59,12 @@
                     <view>我的房产</view>
                 </view>
                 <view class="split"></view>
-                <view class="item" @click="toDetail('/pages/repair/repair-list')">
-                    <view>
-                        <image mode="aspectFit" class="img" src="../../static/img/oval-image.png" alt=""/>
-                    </view>
-                    <view></view>
-                </view>
+                <!--<view class="item" @click="toDetail('/pages/repair/repair-list')">-->
+                    <!--<view>-->
+                        <!--<image mode="aspectFit" class="img" src="../../static/img/oval-image.png" alt=""/>-->
+                    <!--</view>-->
+                    <!--<view></view>-->
+                <!--</view>-->
             </view>
 			<view class="height10"></view>
 		</view>

@@ -37,7 +37,7 @@
 							<!--// 待处理-->
 							<template v-if="item.state === 0">
 								<button class="btn" type="primary" @click="cancelClick(item)">取消</button>
-								<button class="btn" type="primary">编辑</button>
+								<button class="btn" type="primary" @click="toEdit(item)">编辑</button>
 							</template>
 							<!--// 处理中-->
 							<template v-else-if="item.state === 1">
@@ -206,6 +206,14 @@
 							console.log('用户点击取消');
 						}
 					}
+				});
+			},
+			// 编辑
+			toEdit (item) {
+				console.log(item)
+				//在起始页面跳转到test.vue页面并传递参数-
+				uni.navigateTo({
+					url: `/pages/repair/repair?serviceId=${item.serviceId}`
 				});
 			},
 			cancelClick (item) {

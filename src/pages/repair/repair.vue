@@ -1,15 +1,15 @@
 <template>
     <view class="content">
-        <view class="page-title">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</view>
+        <view v-if="!serviceId" class="page-title">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</view>
         <view class="height5"></view>
 
         <view class="text-area-box">
-            <textarea placeholder="请输入内容..." @blur="bindTextAreaBlur" auto-height />
+            <textarea placeholder="请输入内容..." v-model="formData.contentInfo" auto-height />
         </view>
         <view class="img-box">
             <view class="img-list">
                 <view class="img-item" v-for="(item, index) in imageList" key="item">
-                    <image mode="aspectFit" class="img" :src="item" alt=""/>
+                    <image mode="aspectFit" class="img" :src="getImgSrc(item)" alt=""/>
                     <view @click="delImg(index)" class="close">×</view>
                 </view>
             </view>
@@ -26,12 +26,12 @@
 
         <view class="input-group">
             <!--1＝业主报修，2＝投诉-->
-            <view class="input-row">
+            <view class="input-row" v-if="!serviceId">
                 <text class="title">类型</text>
                 <m-input @click.native="serviceTypeClick" class="input" type="text" focus disabled v-model="formData.servicesTypeName" placeholder="请选择"></m-input>
                 <text class="iconfont icon-jiantouyou "></text>
             </view>
-            <view class="input-row" v-if="formData.servicesType === 1">
+            <view class="input-row" v-if="formData.servicesType === 1 && !serviceId">
                 <text class="title">报修类型</text>
                 <m-input @click.native="repairTypeClick" class="input" type="text" focus disabled v-model="formData.repairName" placeholder="请选择"></m-input>
                 <text class="iconfont icon-jiantouyou "></text>
@@ -103,6 +103,7 @@
     },
     data() {
       return {
+        serviceId: '',
         email: '',
         imageList: [],
         formData: {
@@ -124,6 +125,13 @@
     },
     computed: mapState(['serviceTypeList', 'hasLogin', 'userName', 'roomList','currentRoom']),
     methods: {
+      getImgSrc (src = '') {
+        if(src.startsWith('http')) {
+          return src
+        } else {
+          return `${this.$filePrefix}/${src.slice(1)}`
+        }
+      },
       chooseImg () {
         uni.chooseImage({
           count: 4 - this.imageList.length, //默认9
@@ -137,7 +145,16 @@
 
         let arr = []
         for(let i = 0;i < this.imageList.length; i++) {
-          arr.push(common.uploadFileItem(this.imageList[i]))
+          let src = this.imageList[i]
+          if(src.startsWith('~')) {
+            arr.push(
+              new Promise(resolve => {
+                resolve(src)
+              })
+            )
+          } else {
+            arr.push(common.uploadFileItem(src))
+          }
         }
 
         return await Promise.all(arr)
@@ -170,7 +187,7 @@
           });
           return
         }
-        if (!this.formData.roomID) {
+        if (!this.formData.roomID && !this.serviceId) {
           uni.showToast({
             icon: 'none',
             title: '请选择户号！',
@@ -196,26 +213,45 @@
           return
         }
         let photos = await this.uploadFile();
-        let res = await api.serviceInsert({
-          ...this.formData,
-          photos
-        })
-        if(res.success) {
-          uni.showModal({
-            title: '提示',
-            content: '提交成功，请联系物业处理！',
-            showCancel: false,
-            success: (res3) => {
-              if (res3.confirm) {
-                console.log('用户点击确定');
-                uni.reLaunch({
-                  url: '/pages/main/main',
-                });
-              } else if (res3.cancel) {
-                console.log('用户点击取消');
+        if(this.serviceId) {
+          let res = await api.getServiceChangeService({
+            serviceId: this.serviceId,
+            ...this.formData,
+            photos
+          })
+          if(res.success) {
+            uni.showModal({
+              title: '提示',
+              content: '修改成功！',
+              showCancel: false,
+              success: (res3) => {
+                if (res3.confirm) {
+                  uni.reLaunch({
+                    url: '/pages/main/main',
+                  });
+                }
               }
-            }
-          });
+            });
+          }
+        } else {
+          let res = await api.serviceInsert({
+            ...this.formData,
+            photos
+          })
+          if(res.success) {
+            uni.showModal({
+              title: '提示',
+              content: '提交成功，请联系物业处理！',
+              showCancel: false,
+              success: (res3) => {
+                if (res3.confirm) {
+                  uni.reLaunch({
+                    url: '/pages/main/main',
+                  });
+                }
+              }
+            });
+          }
         }
       },
       bindTextAreaBlur: function (e) {
@@ -237,6 +273,9 @@
       },
       // 户号
       roomClick () {
+        if(this.serviceId) {
+          return
+        }
         this.$refs.refRoomList.open()
       },
 
@@ -259,8 +298,29 @@
         this.formData.roomName = item.roomName
         this.formData.roomID = item.roomId
       },
+      async getServiceGetDetail () {
+        let res = await api.getServiceGetDetail({
+          serviceId: this.serviceId
+        })
+
+        this.formData.contentInfo = res.data.contentInfo
+        this.formData.servicesType = res.data.servicesType
+        this.formData.roomName = res.data.roomName
+        this.formData.contacts = res.data.contacts
+        this.formData.contactsPhone = res.data.contactsPhone
+        this.imageList = res.data.servicePhotos
+        // this.formData.roomID = res.data.roomId || (this.roomList && this.roomList.find(e => e.roomName == res.data.roomName) && this.roomList.find(e => e.roomName == res.data.roomName).roomId) || 1
+
+        console.log(this.formData.servicesType)
+      }
     },
-    onLoad () {
+    onLoad (e) {
+      if (e && e.serviceId) {
+        this.serviceId = e.serviceId
+        this.getServiceGetDetail()
+
+      }
+      console.log(e)
       this.getRepairType()
     }
   }
