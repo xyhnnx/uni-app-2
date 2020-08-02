@@ -53,6 +53,12 @@
 			}
 		},
 		{
+			"path": "pages/user/user-detail-room",
+			"style": {
+				"navigationBarTitleText": "我的房产"
+			}
+		},
+		{
 			"path": "pages/shop/shop",
 			"style": {
 				"navigationBarTitleText": "商城"

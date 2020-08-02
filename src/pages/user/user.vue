@@ -50,6 +50,23 @@
 				</view>
 			</view>
 			<view class="height10"></view>
+
+			<view class="card-box panel-section">
+                <view class="item" @click="toDetail('/pages/user/user-detail-room')">
+                    <view>
+                        <image mode="aspectFit" class="img" src="../../static/img/image.png" alt=""/>
+                    </view>
+                    <view>我的房产</view>
+                </view>
+                <view class="split"></view>
+                <view class="item" @click="toDetail('/pages/repair/repair-list')">
+                    <view>
+                        <image mode="aspectFit" class="img" src="../../static/img/oval-image.png" alt=""/>
+                    </view>
+                    <view></view>
+                </view>
+            </view>
+			<view class="height10"></view>
 		</view>
 	</view>
 </template>
