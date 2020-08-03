@@ -3,15 +3,9 @@
 		<view class="head-box">
 			<view>
 				<!--<button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>-->
-				<change-room-btn></change-room-btn>
+				<change-room-btn :readOnly="true"></change-room-btn>
 			</view>
 			<view class="height5"></view>
-			<uni-segmented-control :current="currentTabIndex"
-								   :values="items.filter(e=>e.isShow)"
-								   @clickItem="onClickItem"
-								   style-type="text"
-								   :active-color="primaryColor">
-			</uni-segmented-control>
 		</view>
 		<view class="height10"></view>
 		<view class="content">
@@ -21,7 +15,7 @@
 					<text>{{item.roomName}}</text>
 				</view>
 				<view class="content-box">
-					<view class="head" @click="toDetail(item)">
+					<view class="head">
 						<view>【{{servicesTypeEnum[item.servicesType]}}】 {{getTime(item.createDate)}}</view>
 						<view class="btn-text">{{getStatus(item.state)}}></view>
 					</view>
@@ -34,34 +28,22 @@
 					<view class="foot">
 						<view></view>
 						<view class="right">
-							<!--// 待处理-->
-							<template v-if="item.state === 0">
-								<button class="btn" type="primary" @click="cancelClick(item)">取消</button>
-								<button class="btn" type="primary" @click="toEdit(item)">编辑</button>
-							</template>
-							<!--// 处理中-->
-							<template v-else-if="item.state === 1">
-							</template>
-							<!--// 待确认-->
-							<template v-else-if="item.state === 2">
-								<button class="btn" type="primary">未完成服务</button>
-								<button class="btn" type="primary">完成服务</button>
-							</template>
-							<!--// 已完成-->
-							<template v-else-if="item.state === 10">
-								<button class="btn" type="primary">评价</button>
-
-							</template>
-							<!--// 已退回-->
-							<template v-else-if="item.state === 5">
-								<button class="btn" type="primary" @click="deleteClick(item)">删除</button>
-								<button class="btn" type="primary">编辑</button>
-							</template>
-							<!--// 已取消-->
-							<template v-else-if="item.state === 6">
-								<button class="btn" type="primary" @click="deleteClick(item)">删除</button>
-							</template>
 						</view>
+					</view>
+				</view>
+			</view>
+			<view class="process">
+				<view class="title">过程记录</view>
+				<view class="box">
+					<view class="line"></view>
+					<view class="item" v-for="(item, index) in serviceProcess" :key="index">
+						<text class="dot"></text>
+						<text class="time">
+							{{getTime(item.createDate)}}
+						</text>
+						<text class="text">
+							{{item.nodeName}}
+						</text>
 					</view>
 				</view>
 			</view>
@@ -96,14 +78,7 @@
 			...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
 			listModal() {
 				if(this.dataList && this.dataList.length) {
-					let currentStatus = this.items[this.currentTabIndex].state
-					if(currentStatus === '') {
-						return this.dataList
-					} else {
-						return this.dataList.filter(e=>{
-							return e.state === currentStatus
-						})
-					}
+					return this.dataList
 				}
 				return []
 			},
@@ -153,11 +128,10 @@
 						isShow: false
 					}
 				]
-			},
+			}
 		},
 		watch: {
 			currentRoom () {
-				this.getServiceList()
 			}
 		},
 		data() {
@@ -166,8 +140,9 @@
 					1: '报修',
 					2: '投诉'
 				},
-				currentTabIndex: 0,
-				dataList: []
+				serviceId: '',
+				dataList: [],
+				serviceProcess: []
 			}
 		},
 		methods: {
@@ -178,108 +153,28 @@
 			getTime (e) {
 				return util.dateFormat(new Date(e).getTime())
 			},
+			getTime2 (e) {
+				return util.dateFormat(new Date(e).getTime(),'yyyy-MM-dd hh:mm')
+			},
 			getStatus(state) {
 				let item = this.items.find(e => {
 					return e.state === state
 				})
 				return item && item.label
 			},
-			deleteClick (item) {
-				uni.showModal({
-					title: '提示',
-					content: `确定要删除当前${this.servicesTypeEnum[item.servicesType]}信息吗？`,
-					showCancel: true,
-					success: async (res3) => {
-						if (res3.confirm) {
-							console.log('用户点击确定');
-							let res =  await api.deleteService({
-								serviceId: item.serviceId
-							})
-							if(res.success) {
-								uni.showToast({
-									icon: 'none',
-									title: '操作成功！'
-								});
-								this.getServiceList()
-							}
-						} else if (res3.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				});
-			},
-			// 编辑
-			toEdit (item) {
-				//在起始页面跳转到test.vue页面并传递参数-
-				uni.navigateTo({
-					url: `/pages/repair/repair?serviceId=${item.serviceId}`
-				});
-			},
-			toDetail (item) {
-				//在起始页面跳转到test.vue页面并传递参数-
-				uni.navigateTo({
-					url: `/pages/repair/repair-detail?serviceId=${item.serviceId}`
-				});
-			},
-			cancelClick (item) {
-				uni.showModal({
-					title: '提示',
-					content: `确定要取消当前${this.servicesTypeEnum[item.servicesType]}信息吗？`,
-					showCancel: true,
-					success: async (res3) => {
-						if (res3.confirm) {
-							console.log('用户点击确定');
-							let res =  await api.setServiceStatus({
-								serviceId: item.serviceId,
-								changeStateId: 6
-							})
-							if(res.success) {
-								uni.showToast({
-									icon: 'none',
-									title: '操作成功！'
-								});
-								this.getServiceList()
-							}
-						} else if (res3.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				});
-
-			},
-			changeState(state) {
-
-			},
-			onClickItem(e) {
-				if (this.currentTabIndex !== e.currentIndex) {
-					this.currentTabIndex = e.currentIndex;
-				}
-			},
-			showActionSheet() {
-				uni.showActionSheet({
-					itemList: this.roomList.map(e => e.courtName),
-					success: (res) => {
-						this.setStateData({
-							currentRoom: this.roomList[res.tapIndex]
-						})
-					},
-					fail: function (res) {
-						console.log(res.errMsg);
-					}
-				});
-			},
-			async getServiceList() {
-				let res = await api.getServiceList({
-					courtId: this.currentRoom.courtId,
-					stateId: -1
+			async getServiceGetDetail () {
+				let res = await api.getServiceGetDetail({
+					serviceId: this.serviceId
 				})
-				if (res.success) {
-					this.dataList = res.data
+				if(res.success) {
+					this.dataList = res.data?[res.data]:[]
+					this.serviceProcess = (res.data && res.data.serviceProcess) || []
 				}
-			},
+			}
 		},
-		onLoad() {
-			this.getServiceList()
+		onLoad(e) {
+			this.serviceId = e.serviceId
+			this.getServiceGetDetail()
 		}
 	}
 </script>
@@ -346,6 +241,52 @@
 				}
 			}
 
+		}
+	}
+	.process {
+		.title{
+			color: red;
+			line-height: 40px;
+			padding: 0 20px;
+		}
+		.box {
+			background-color: #fff;
+			padding-left: 31px;
+			position: relative;
+			.line{
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 36px;
+				width: 1px;
+				background-color: $uni-text-color-grey-9;
+				z-index: 1;
+			}
+		}
+		.item {
+			display: flex;
+			align-items: center;
+			.dot {
+				margin-right: 10px;
+				width: 10px;
+				height: 10px;
+				background-color: $uni-color-primary;
+				border-radius: 50%;
+				position: relative;
+				z-index: 2;
+			}
+			.time {
+				line-height: 40px;
+				margin-right: 20px;
+			}
+			.text {
+				line-height: 40px;
+				flex: 1;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				word-break: break-all;
+			}
 		}
 	}
 </style>

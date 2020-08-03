@@ -83,6 +83,12 @@
 			}
 		},
 		{
+			"path": "pages/repair/repair-detail",
+			"style": {
+				"navigationBarTitleText": "报修投诉详情"
+			}
+		},
+		{
 			"path": "pages/notice/detail",
 			"style": {
 				"navigationBarTitleText": "公告详情"

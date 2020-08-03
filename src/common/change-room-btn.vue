@@ -33,9 +33,15 @@
         detail: {}
       }
     },
+    props: {
+      readOnly: Boolean
+    },
     methods: {
       ...mapMutations(['setStateData']),
       showActionSheet () {
+        if (this.readOnly) {
+          return
+        }
         let arr = []
         this.roomList.forEach(e=>{
           if(!arr.some(e2=>e2.courtId === e.courtId)) {
