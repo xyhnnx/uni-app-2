@@ -33,5 +33,6 @@
     .no-data {
         color: $uni-text-color-placeholder;
         text-align: center;
+        padding: 10px 0;
     }
 </style>

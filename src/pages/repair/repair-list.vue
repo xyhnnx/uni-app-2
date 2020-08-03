@@ -14,7 +14,7 @@
 			</uni-segmented-control>
 		</view>
 		<view class="height10"></view>
-		<view class="content">
+		<view class="content" v-if="listModal && listModal.length">
 			<view class="card-item" v-for="(item, index) in listModal" :key="index">
 				<view class="title">
 					<image mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
@@ -44,18 +44,18 @@
 							</template>
 							<!--// 待确认-->
 							<template v-else-if="item.state === 2">
-								<button class="btn" type="primary">未完成服务</button>
-								<button class="btn" type="primary">完成服务</button>
+								<button class="btn" @click="changeStatus(item, 1)" type="primary">未完成服务</button>
+								<button class="btn" @click="changeStatus(item, 3)" type="primary">完成服务</button>
 							</template>
 							<!--// 已完成-->
 							<template v-else-if="item.state === 10">
-								<button class="btn" type="primary">评价</button>
+								<button class="btn" type="primary" @click="toComment(item)">评价</button>
 
 							</template>
 							<!--// 已退回-->
 							<template v-else-if="item.state === 5">
 								<button class="btn" type="primary" @click="deleteClick(item)">删除</button>
-								<button class="btn" type="primary">编辑</button>
+								<button class="btn" type="primary" @click="toEdit(item)">编辑</button>
 							</template>
 							<!--// 已取消-->
 							<template v-else-if="item.state === 6">
@@ -65,6 +65,9 @@
 					</view>
 				</view>
 			</view>
+		</view>
+		<view v-else>
+			<NoData></NoData>
 		</view>
 	</view>
 </template>
@@ -215,10 +218,49 @@
 					url: `/pages/repair/repair?serviceId=${item.serviceId}`
 				});
 			},
+			// 编辑
+			toComment (item) {
+				//在起始页面跳转到test.vue页面并传递参数-
+				uni.navigateTo({
+					url: `/pages/repair/repair-comment?serviceId=${item.serviceId}`
+				});
+			},
 			toDetail (item) {
 				//在起始页面跳转到test.vue页面并传递参数-
 				uni.navigateTo({
 					url: `/pages/repair/repair-detail?serviceId=${item.serviceId}`
+				});
+			},
+			changeStatus (item, state) {
+				// 1未完成服务（处理中） 3 完成服务（已完成）
+				let obj = {
+					1: '未完成',
+					3: '已完成'
+				}
+				uni.showModal({
+					title: '提示',
+					content: `确定要当前${this.servicesTypeEnum[item.servicesType]}${obj[state]}吗？`,
+					showCancel: true,
+					success: async (res3) => {
+						if (res3.confirm) {
+							console.log('用户点击确定');
+							let res =  await api.setServiceStatus({
+								courtId: this.currentRoom.courtId,
+								stateId: item.state,
+								serviceId: item.serviceId,
+								changeStateId: state,
+							})
+							if(res.success) {
+								uni.showToast({
+									icon: 'none',
+									title: '操作成功！'
+								});
+								this.getServiceList()
+							}
+						} else if (res3.cancel) {
+							console.log('用户点击取消');
+						}
+					}
 				});
 			},
 			cancelClick (item) {
@@ -230,8 +272,10 @@
 						if (res3.confirm) {
 							console.log('用户点击确定');
 							let res =  await api.setServiceStatus({
+								courtId: this.currentRoom.courtId,
+								stateId: item.state,
 								serviceId: item.serviceId,
-								changeStateId: 6
+								changeStateId: 6,
 							})
 							if(res.success) {
 								uni.showToast({

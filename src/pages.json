@@ -89,6 +89,12 @@
 			}
 		},
 		{
+			"path": "pages/repair/repair-comment",
+			"style": {
+				"navigationBarTitleText": "评价"
+			}
+		},
+		{
 			"path": "pages/notice/detail",
 			"style": {
 				"navigationBarTitleText": "公告详情"

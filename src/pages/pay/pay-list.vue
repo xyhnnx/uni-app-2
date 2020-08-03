@@ -5,7 +5,7 @@
 				<change-room-btn></change-room-btn>
 			</view>
 		</view>
-		<view class="content">
+		<view class="content" v-if="listModal && listModal.length">
 			<view class="card-item" v-for="(item, index) in listModal" :key="index" @click="toDetail(item)">
 				<view class="title-top"> {{getTime(item.chargeTime)}}</view>
 				<view class="title">
@@ -22,6 +22,9 @@
 					</view>
 				</view>
 			</view>
+		</view>
+		<view v-else>
+			<NoData></NoData>
 		</view>
 	</view>
 </template>
