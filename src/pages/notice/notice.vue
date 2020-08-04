@@ -1,5 +1,5 @@
 <template>
-    <view class="content">
+    <view class="content" v-if="roomList && roomList.length">
         <view class="head-box">
             <uni-segmented-control :current="currentTabIndex"
                                    :values="items"
@@ -8,7 +8,7 @@
                                    :active-color="primaryColor">
             </uni-segmented-control>
             <view>
-                <button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>
+                <change-room-btn></change-room-btn>
             </view>
         </view>
         <view class="height10"></view>
@@ -54,6 +54,9 @@
             </view>
         </view>
     </view>
+    <view v-else class="common-no-data-box">
+        <no-data text="请扫码房产二维码"></no-data>
+    </view>
 </template>
 
 <script>
@@ -64,6 +67,8 @@
   import UniList from '../../components/uni-list/uni-list'
   import UniListItem from '../../components/uni-list-item/uni-list-item'
   import NoData from '../../components/my-components/no-data'
+  import ChangeRoomBtn from '../../common/change-room-btn'
+
   import {
     mapState,
     mapMutations
@@ -74,6 +79,7 @@
       UniSegmentedControl,
       UniList,
       UniListItem,
+      ChangeRoomBtn,
       NoData
     },
     computed: {
@@ -97,6 +103,14 @@
             }
           })
         }
+      }
+    },
+    watch: {
+      currentRoom () {
+        // d获取公告
+        this.getNoticeList()
+        // 催缴通知
+        this.getPayCallList()
       }
     },
     data() {

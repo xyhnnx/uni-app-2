@@ -26,3 +26,11 @@ button.radius{
 button[type=primary] {
   background-color: $uni-color-primary!important;
 }
+
+.common-no-data-box {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}

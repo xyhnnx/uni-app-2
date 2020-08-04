@@ -1,5 +1,5 @@
 <template>
-    <view class="content padding0">
+    <view class="content padding0" v-if="roomList && roomList.length">
         <view class="height0">
             <view class="background-primary"></view>
         </view>
@@ -58,6 +58,9 @@
             </view>
         </view>
     </view>
+    <view v-else class="common-no-data-box">
+        <NoData text="请扫码房产二维码"></NoData>
+    </view>
 </template>
 
 <script>
@@ -68,10 +71,13 @@
   import * as api from '../../api/api'
   import * as common from '../../common/common'
   import ChangeRoomBtn from '../../common/change-room-btn'
+  import NoData from '../../components/my-components/no-data'
+
 
   export default {
     components: {
-      ChangeRoomBtn
+      ChangeRoomBtn,
+      NoData
     },
     data() {
       return {

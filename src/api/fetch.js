@@ -25,20 +25,25 @@ export async function request (obj = {}) {
   console.log(obj.url, res)
   if (res.success) {
     return res
-  } else if(res.errorCode) {
-    uni.showToast({
-      title: `${res.errorCode}:${res.errorMessage}`,
-      duration: 2000,
-      icon: 'none'
-    });
-    return false
   } else {
-    uni.showToast({
-      title: `服务器繁忙，请稍后重试（${res.errorCode || ''}:${res.errorMessage || ''}）`,
-      duration: 2000,
-      icon: 'none'
-    });
-    return false
+    if (obj.hideErrorMsg) {
+      return res
+    }
+    if(res.errorCode) {
+      uni.showToast({
+        title: `${res.errorCode}:${res.errorMessage}`,
+        duration: 2000,
+        icon: 'none'
+      });
+      return false
+    } else {
+      uni.showToast({
+        title: `服务器繁忙，请稍后重试（${res.errorCode || ''}:${res.errorMessage || ''}）`,
+        duration: 2000,
+        icon: 'none'
+      });
+      return false
+    }
   }
 
 

@@ -4,7 +4,7 @@
             <view class="oauth-image" v-for="provider in providerList" :key="provider.value">
 
                 <!-- #ifdef MP-WEIXIN -->
-                <button class="login-btn" open-type="getPhoneNumber" @getphonenumber="getUserInfo">
+                <button class="login-btn" type="primary" open-type="getPhoneNumber" @getphonenumber="getUserInfo">
                     <image class="img" :src="provider.image" @tap="oauth(provider.value)"></image>
                     微信授权登录
                 </button>
@@ -35,9 +35,7 @@
         positionTop: 0,
         isDevtools: false,
         // 扫码进入的页面的参数
-        onLoadInfo: {
-          roomId: 361102
-        }
+        launchQueryData: {}
       }
     },
     computed: mapState(['forcedLogin','userInfo']),
@@ -118,9 +116,10 @@
         // // 获取微信code
         await common.wxLogin()
         // 获取用户信息
+        // code小程序Code，必传，roomid  扫码就传码上的参数  不扫码就只要传个code  扫码的时候再传这2个 EncryptedDataStr  加密数据 IV  向量 为了获取用户手机号
         let res2 = await common.login({
           Code: getApp().globalData.code,
-          // roomId: this.onLoadInfo.roomId,
+          roomId: this.launchQueryData.roomId,
           EncryptedDataStr: getApp().globalData.encryptedData,
           IV: getApp().globalData.iv
         })
@@ -156,9 +155,11 @@
       }
     },
     async onLoad (option) {
+      this.launchQueryData = wx.getLaunchOptionsSync().query
       await common.getUserInfo()
       console.log('userInfo', this.userInfo)
-      if(this.userInfo.phoneNumber) {
+      // 扫码带参数则重新登陆
+      if(this.userInfo.phoneNumber && !this.launchQueryData.roomId) {
         this.login()
       }
     },
@@ -193,6 +194,7 @@
 
 <style scoped lang="scss">
     .login-btn {
+        margin:  0 10px;
         display: flex;
         align-items: center;
         justify-content: center;

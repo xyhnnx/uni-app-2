@@ -163,6 +163,7 @@ export async function getUserInfo(data) {
   return await request({
     method: "post",
     data,
+    hideErrorMsg: true,
     url: `${apiHost}/api/User/GetUserInfo`,
   });
 }

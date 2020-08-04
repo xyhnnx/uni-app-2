@@ -8,10 +8,6 @@
   export default {
     name: "no-data",
     props: {
-      tes: {
-        type: Array,
-        default: []
-      },
       text: {
         type: [Number, String],
         default: '暂无数据'
@@ -33,6 +29,7 @@
     .no-data {
         color: $uni-text-color-placeholder;
         text-align: center;
-        padding: 10px 0;
+        padding: 10px;
+        margin: auto;
     }
 </style>

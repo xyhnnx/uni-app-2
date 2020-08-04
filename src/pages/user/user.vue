@@ -1,5 +1,5 @@
 <template>
-	<view class="content padding0">
+	<view class="content padding0" v-if="roomList && roomList.length">
 		<view class="logo" @click="toUserDetail('/pages/user/user-detail')" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
 			<image class="logo-img" :src="userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
 			<view class="logo-title">
@@ -69,6 +69,9 @@
 			<view class="height10"></view>
 		</view>
 	</view>
+	<view v-else class="common-no-data-box">
+		<no-data text="请扫码房产二维码"></no-data>
+	</view>
 </template>
 
 <script>
@@ -79,10 +82,12 @@
 	import * as api from '../../api/api'
 	import * as common from '../../common/common'
 	import ChangeRoomBtn from '../../common/change-room-btn'
+	import NoData from '../../components/my-components/no-data'
 
 	export default {
 		components: {
-			ChangeRoomBtn
+			ChangeRoomBtn,
+			NoData
 		},
 		data() {
 			return {
