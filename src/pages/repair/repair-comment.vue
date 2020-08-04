@@ -5,9 +5,7 @@
 				<!--<button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>-->
 				<change-room-btn :readOnly="true"></change-room-btn>
 			</view>
-			<view class="height5"></view>
 		</view>
-		<view class="height10"></view>
 		<view class="content">
 			<view class="card-item" v-for="(item, index) in listModal" :key="index">
 				<view class="title">
@@ -57,7 +55,7 @@
 				</view>
 			</view>
 			<view>
-				<button type="primary" class="primary" @tap="submit">提交</button>
+				<button type="primary" class="primary submit-btn" @tap="submit">提交</button>
 			</view>
 		</view>
 	</view>
@@ -139,6 +137,12 @@
 						value: this.dataList.filter(e => e.state === 6).length,
 						state: 6,
 						isShow: false
+					},
+					{
+						label: '已评价',
+						value: this.dataList.filter(e => e.state === 4).length,
+						state: 4,
+						isShow: false
 					}
 				]
 			}
@@ -155,10 +159,10 @@
 				},
 				serviceId: '',
 				dataList: [],
-				value1: 0,
-				value2: 0,
-				value3: 0,
-				value4: 0,
+				value1: 5,
+				value2: 5,
+				value3: 5,
+				value4: 5,
 				textareaValue: ''
 			}
 		},
@@ -194,9 +198,33 @@
 				})
 				if(res.success) {
 					this.dataList = res.data?[res.data]:[]
+					console.log(this.dataList)
+					console.log(this.listModal)
 				}
 			},
-			submit () {
+			async submit () {
+				let item = this.dataList[0] || {}
+				let res = await api.setServiceStatus({
+					courtId: this.currentRoom.courtId,
+					stateId: item.state,
+					serviceId: item.serviceId,
+					contentInfo: this.textareaValue,
+					changeStateId: 4,
+					starLevel: this.value1,
+					arrivalTime: this.value2,
+					serviceAttitude: this.value3,
+					serviceQuality: this.value4
+				})
+				if(res.success) {
+					uni.showToast({
+						icon: 'none',
+						title: '提交成功！',
+						duration: 3000
+					});
+				}
+				uni.navigateBack({
+					delta: 1
+				});
 			}
 		},
 		onLoad(e) {
@@ -294,4 +322,7 @@
 			 }
 		 }
 	 }
+	.submit-btn {
+		margin: 10px;
+	}
 </style>

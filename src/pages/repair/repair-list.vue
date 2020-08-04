@@ -154,6 +154,12 @@
 						value: this.dataList.filter(e => e.state === 6).length,
 						state: 6,
 						isShow: false
+					},
+					{
+						label: '已评价',
+						value: this.dataList.filter(e => e.state === 4).length,
+						state: 4,
+						isShow: false
 					}
 				]
 			},
@@ -329,7 +335,7 @@
 				}
 			},
 		},
-		onLoad() {
+		onShow() {
 			this.getServiceList()
 		}
 	}
