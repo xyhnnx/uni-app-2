@@ -22,7 +22,7 @@
 					<view class="body">
 						<view>{{item.contentInfo}}</view>
 						<view v-if="item.servicePhotos && item.servicePhotos.length">
-							<image v-for="img in item.servicePhotos" :key="item" mode="aspectFit" class="img" :src="getSrc(img)" alt=""/>
+							<image @click="lookImg(index,item.servicePhotos)" v-for="(img, index) in item.servicePhotos" :key="item" mode="aspectFit" class="img" :src="getSrc(img)" alt=""/>
 						</view>
 					</view>
 					<view class="foot">
@@ -181,6 +181,12 @@
 					return e.state === state
 				})
 				return item && item.label
+			},
+			lookImg (index,list) {
+				uni.previewImage({
+					current: this.getSrc(list[index]),
+					urls: list.map(e => this.getSrc(e))
+				})
 			},
 			async getServiceGetDetail () {
 				let res = await api.getServiceGetDetail({

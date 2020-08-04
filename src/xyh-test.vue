@@ -151,6 +151,11 @@
           showCancel: false
         });
 
+        uni.previewImage({
+          current: this.data[index].src,
+          urls: this.data.map(e => e.src)
+        })
+
 
       },
     },

@@ -9,7 +9,7 @@
         <view class="img-box">
             <view class="img-list">
                 <view class="img-item" v-for="(item, index) in imageList" key="item">
-                    <image mode="aspectFit" class="img" :src="getImgSrc(item)" alt=""/>
+                    <image @click="lookImg(index,imageList)" mode="aspectFit" class="img" :src="getImgSrc(item)" alt=""/>
                     <view @click="delImg(index)" class="close">×</view>
                 </view>
             </view>
@@ -131,6 +131,12 @@
         } else {
           return `${this.$filePrefix}/${src.slice(1)}`
         }
+      },
+      lookImg (index,list) {
+        uni.previewImage({
+          current: this.getImgSrc(list[index]),
+          urls: list.map(e => this.getImgSrc(e))
+        })
       },
       chooseImg () {
         uni.chooseImage({
