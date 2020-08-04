@@ -6,6 +6,7 @@ const apiHost = 'http://bsb_test.962460.com'
 export async function login(data) {
   return await request({
     method: "post",
+    hideErrorMsg: true,
     data,
     url: `${apiHost}/api/Login/Login`,
   });
@@ -173,5 +174,21 @@ export async function updateUserInfo(data) {
     method: "post",
     data,
     url: `${apiHost}/api/User/UpdateUserInfo`,
+  });
+}
+// /api/User/UpdateUserInfo
+export async function getRoomChargeBalance(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/PaymentBill/GetRoomChargeBalance`,
+  });
+}
+//
+export async function deleteUserRoomInfo(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/User/DeleteUserRoomInfo`,
   });
 }

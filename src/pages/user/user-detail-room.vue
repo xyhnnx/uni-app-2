@@ -14,6 +14,7 @@
 <script>
 	import service from '../../service.js';
 	import * as common from '../../common/common'
+	import * as api from '../../api/api'
 	import {
 		mapState,
 		mapMutations
@@ -37,10 +38,19 @@
 				let item = this.roomList[index]
 				uni.showModal({
 					title: '提示',
-					content: '确定删除该房产',
-					success: (res) => {
+					content: '确定删除该房产？',
+					success: async (res) => {
 						if (res.confirm) {
-							this.login(item)
+							let res = await api.deleteUserRoomInfo({
+								roomId: item.roomId
+							})
+							if(res.success) {
+								uni.showToast({
+									icon: 'none',
+									title: '删除成功！'
+								});
+								this.login(item)
+							}
 						} else if (res.cancel) {
 						}
 					}

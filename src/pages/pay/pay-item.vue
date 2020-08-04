@@ -18,7 +18,7 @@
             <uni-collapse class="collapse-box">
                 <uni-collapse-item class="collapse-box-item" :title="item.itemName" v-for="item in items" :key="item.value">
                     <view slot="title-left" @click.stop>
-                        <checkbox color="#fb7349" :value="item.keyID" :checked="item.checked" />
+                        <checkbox @tap="itemClick" :data-item="item" color="#fb7349" :value="item.keyID" :checked="item.checked" />
                     </view>
                     <view slot="right" class="money">{{item.balance}}</view>
                     <view class="item-content">
@@ -125,7 +125,10 @@
         },
         detail: {},
         items: [],
-        checkAll: false
+        checkAll: false,
+        chargeIdStr: [],
+        daiShouIdStr: [],
+        timer: 0
       }
     },
     methods: {
@@ -185,6 +188,59 @@
           this.$set(item,'checked',!isCheckAll)
         }
       },
+      itemClick (e) {
+        let item = e.currentTarget.dataset.item
+        let keyID = item.keyID
+        item = this.items.find(e => e.keyID === keyID)
+        let checked = item.checked
+        let isDaiShou = item.isDaiShou
+        if(checked) {
+          if(isDaiShou) {
+            this.daiShouIdStr.push(keyID)
+          } else {
+            this.chargeIdStr.push(keyID)
+          }
+        } else {
+          if(isDaiShou) {
+            let index = this.daiShouIdStr.findIndex(e=> e === keyID)
+            if(index>-1) {
+              this.daiShouIdStr.splice(index, 1)
+            }
+          } else {
+            let index = this.chargeIdStr.findIndex(e=> e === keyID)
+            if(index>-1) {
+              this.chargeIdStr.splice(index, 1)
+            }
+          }
+        }
+        this.getRoomChargeBalance()
+      },
+      async getRoomChargeBalance () {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(async ()=>{
+          let chargeIdStr = [ // 选中的放前面
+            ...this.chargeIdStr,
+            ...this.items.filter(e => !e.checked && !e.isDaiShou).map(e => e.keyID)
+          ]
+          let daiShouIdStr = [ // 选中的放前面
+            ...this.daiShouIdStr,
+            ...this.items.filter(e => !e.checked && e.isDaiShou).map(e => e.keyID)
+          ]
+          console.log(chargeIdStr,daiShouIdStr)
+          let res = await api.getRoomChargeBalance({
+            roomId: this.query.roomId,
+            chargeIdStr: chargeIdStr.join(','),
+            daiShouIdStr: daiShouIdStr.join(',')
+          })
+          if (res.success) {
+            let data = res.data
+            data.forEach(e => {
+              let item = this.items.find(e2 => e2.keyID === e.keyID)
+              this.$set(item,'currentCanBalance', e.currentCanBalance)
+            })
+          }
+        },100)
+      },
       checkboxChange (e) {
         var items = this.items,
           values = e.detail.value;
@@ -199,6 +255,7 @@
       }
     },
     onLoad(e) {
+      console.log(e)
       this.query = e
       this.getRoomChargeItemDatas()
     }
