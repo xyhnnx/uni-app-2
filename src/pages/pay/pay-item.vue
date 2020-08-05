@@ -187,6 +187,7 @@
           const item = items[i]
           this.$set(item,'checked',!isCheckAll)
         }
+        this.getRoomChargeBalance()
       },
       itemClick (e) {
         let item = e.currentTarget.dataset.item
