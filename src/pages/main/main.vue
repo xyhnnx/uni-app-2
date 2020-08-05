@@ -42,14 +42,14 @@
             </view>
             <view class="height5"></view>
             <view class="card-box panel-section">
-                <view class="item">
+                <view class="item" @click="toDetail('/pages/building/building')">
                     <view>
                         <image mode="aspectFit" class="img" src="../../static/img/oval-3-image.png" alt=""/>
                     </view>
                     <view>居家服务</view>
                 </view>
                 <view class="split"></view>
-                <view class="item">
+                <view class="item" @click="toDetail('/pages/building/building')">
                     <view>
                         <image mode="aspectFit" class="img" src="../../static/img/oval-4-image.png" alt=""/>
                     </view>

@@ -3,71 +3,44 @@
 		<view class="logo" @click="toUserDetail('/pages/user/user-detail')" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
 			<image class="logo-img" :src="userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
 			<view class="logo-title">
-				<view>
-					<view class="uer-name">Hi，{{userInfo.nickName ? userInfo.nickName : '您未登录'}}</view>
-					<view class="phone-number">手机号：{{userInfo.phoneNumber || '无'}}</view>
-				</view>
-				<text class="go-login navigat-arrow">&#xe65e;</text>
+				<view class="uer-name">{{userInfo.nickName ? userInfo.nickName : '您未登录'}}</view>
+				<view class="phone-number">手机号：{{userInfo.phoneNumber || '无'}}</view>
 			</view>
 		</view>
-		<view class="height0">
-			<view class="background-primary"></view>
-		</view>
-		<view class="content-box">
-
-			<view class="height10"></view>
-			<view class="card-box">
-				<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
-						:duration="duration">
-					<swiper-item>
-						<view class="swiper-item">
-							<image mode="scaleToFill" class="img" src="../../static/img/banner1.png" alt=""/>
-						</view>
-					</swiper-item>
-					<swiper-item>
-						<view class="swiper-item">
-							<image mode="scaleToFill" class="img" src="../../static/img/banner1.png" alt=""/>
-						</view>
-					</swiper-item>
-				</swiper>
-			</view>
-			<view class="height10"></view>
-
-			<view class="height10"></view>
-			<view class="card-box panel-section">
-				<view class="item" @click="toDetail('/pages/pay/pay-list')">
-					<view>
-						<image mode="aspectFit" class="img" src="../../static/img/image.png" alt=""/>
-					</view>
-					<view>我的缴费</view>
-				</view>
-				<view class="split"></view>
-				<view class="item" @click="toDetail('/pages/repair/repair-list')">
-					<view>
-						<image mode="aspectFit" class="img" src="../../static/img/oval-image.png" alt=""/>
-					</view>
-					<view>我的报修投诉</view>
-				</view>
-			</view>
-			<view class="height10"></view>
-
-			<view class="card-box panel-section">
-                <view class="item" @click="toDetail('/pages/user/user-detail-room')">
-                    <view>
-                        <image mode="aspectFit" class="img" src="../../static/img/image.png" alt=""/>
-                    </view>
-                    <view>我的房产</view>
-                </view>
-                <view class="split"></view>
-                <!--<view class="item" @click="toDetail('/pages/repair/repair-list')">-->
-                    <!--<view>-->
-                        <!--<image mode="aspectFit" class="img" src="../../static/img/oval-image.png" alt=""/>-->
-                    <!--</view>-->
-                    <!--<view></view>-->
-                <!--</view>-->
-            </view>
-			<view class="height10"></view>
-		</view>
+		<view class="height10"></view>
+		<view class="height10"></view>
+		<!-- 包含图片 -->
+		<uni-list>
+			<uni-list-item title="我的订单"
+						   class="my-list-item"
+						   @click="toDetail('/pages/building/building')"
+						   :show-arrow="true"
+						   thumb="/static/img/订单.png">
+				<template v-slot:right="">
+				</template>
+			</uni-list-item>
+			<uni-list-item title="我的缴费"
+						   @click="toDetail('/pages/pay/pay-list')"
+						   :show-arrow="true"
+						   thumb="/static/img/缴费.png">
+				<template v-slot:right="">
+				</template>
+			</uni-list-item>
+			<uni-list-item title="我的报修投诉"
+						   @click="toDetail('/pages/repair/repair-list')"
+						   :show-arrow="true"
+						   thumb="/static/img/维修.png">
+				<template v-slot:right="">
+				</template>
+			</uni-list-item>
+			<uni-list-item title="我的房产"
+						   @click="toDetail('/pages/user/user-detail-room')"
+						   :show-arrow="true"
+						   thumb="/static/img/房产.png">
+				<template v-slot:right="">
+				</template>
+			</uni-list-item>
+		</uni-list>
 	</view>
 	<view v-else class="common-no-data-box">
 		<no-data text="请扫码房产二维码"></no-data>
@@ -261,55 +234,44 @@
 	/* 个人中心 */
 
 	.logo {
+		padding-top: 20px;
 		display: flex;
-		width: 750upx;
-		height: 240upx;
-		padding: 20upx;
+		height: 210px;
+		width: 100%;
+		flex-direction: column;
 		box-sizing: border-box;
 		background-color: $uni-color-primary;
-		flex-direction: row;
 		align-items: center;
+		.logo-img {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			border: 2px solid #fff;
+		}
+		.logo-title {
+			display: block;
+			text-align: center;
+			color: #fff;
+			.uer-name {
+				font-size: 16px;
+				line-height: 40px;
+			}
+			.phone-number {
+				font-size: 14px;
+			}
+		}
 	}
 
 	.logo-hover {
 		opacity: 0.8;
 	}
 
-	.logo-img {
-		width: 150upx;
-		height: 150upx;
-		border-radius: 150upx;
-	}
-
-	.logo-title {
-		height: 150upx;
-		flex: 1;
-		align-items: center;
-		justify-content: space-between;
-		flex-direction: row;
-		margin-left: 20upx;
-		display: flex;
-	}
-
-	.uer-name {
-		height: 60upx;
-		line-height: 60upx;
-		font-size: 38upx;
-		color: #FFFFFF;
-	}
 
 	.go-login.navigat-arrow {
 		font-size: 38upx;
 		color: #FFFFFF;
 	}
 
-	.login-title {
-		height: 150upx;
-		align-items: self-start;
-		justify-content: center;
-		flex-direction: column;
-		margin-left: 20upx;
-	}
 
 	.center-list {
 		background-color: #FFFFFF;

@@ -21,7 +21,7 @@
 					<uni-badge v-if="showBadge" :type="badgeType" :text="badgeText" />
 					<switch v-if="showSwitch" :disabled="disabled" :checked="switchChecked" @change="onSwitchChange" />
 					<slot name="right"></slot>
-					<uni-icons v-if="showArrow" :size="20" class="uni-icon-wrapper" color="#bbb" type="arrowright" />
+					<uni-icons v-if="showArrow" :size="20" class="uni-icon-wrapper" color="#333" type="arrowright" />
 				</view>
 			</view>
 		</view>
@@ -163,6 +163,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		padding-left: $uni-spacing-row-lg;
+		border-bottom: 1px solid #f1f1f1;
 	}
 
 	.uni-list-item--disabled {
@@ -202,7 +203,7 @@
 		top: 0;
 		right: 0;
 		left: 0;
-		height: 1px;
+		height: 0px;
 		content: '';
 		-webkit-transform: scaleY(.5);
 		transform: scaleY(.5);
@@ -232,7 +233,7 @@
 
 	.uni-list-item__content-title {
 		font-size: $uni-font-size-base;
-		color: #3b4144;
+		color: #333;
 		overflow: hidden;
 	}
 

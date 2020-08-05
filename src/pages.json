@@ -133,6 +133,12 @@
 			"style": {
 				"navigationBarTitleText": "缴费详情"
 			}
+		},
+		{
+			"path": "pages/building/building",
+			"style": {
+				"navigationBarTitleText": "宅享生活"
+			}
 		}
 	],
 	"tabBar": {

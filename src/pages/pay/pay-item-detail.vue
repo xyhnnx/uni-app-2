@@ -14,19 +14,23 @@
                 <view class="label">缴费项目</view>
                 <view class="value">{{detail.itemName}}</view>
             </view>
-            <view class="item">
+            <view class="item" v-if="detail.realLastPayDate">
                 <view class="label">缴费周期</view>
                 <view class="value">{{getTime2(detail.realLastPayDate)}}~{{getTime2(detail.realStopPayDate)}}</view>
             </view>
-            <view class="item">
+            <view class="item" v-if="detail.realMoney">
                 <view class="label">应缴金额</view>
-                <view class="value">{{detail.realMoney}}</view>
+                <view class="value red">{{detail.realMoney}}</view>
+            </view>
+            <view class="item" v-if="detail.yueMoney">
+                <view class="label">余额支付</view>
+                <view class="value red">{{detail.yueMoney}}</view>
             </view>
             <view class="item">
                 <view class="label">实缴金额</view>
                 <view class="value red">{{detail.realAllMoney}}</view>
             </view>
-            <view class="item">
+            <view class="item" v-if="detail.tradeNo">
                 <view class="label">订单号</view>
                 <view class="value">{{detail.tradeNo}}</view>
             </view>

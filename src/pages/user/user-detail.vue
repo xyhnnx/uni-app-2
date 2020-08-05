@@ -147,4 +147,7 @@
 		height: 80upx;
 		border-radius: 80upx;
 	}
+	.go-login {
+		color: #333;
+	}
 </style>

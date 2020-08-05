@@ -22,7 +22,7 @@
                                    :key="index"
                                    :note="item.time"
                                    :show-arrow="false"
-                                   thumb="/static/img/qq.png">
+                                   thumb="/static/img/tip.png">
                         <template v-slot:right="">
                             <view class="list-right-box">
                                 <text v-if="item.isTop" class="txt">置顶</text>
@@ -42,7 +42,7 @@
                                    :key="index"
                                    :note="item.time"
                                    :show-arrow="false"
-                                   thumb="/static/img/qq.png">
+                                   thumb="/static/img/cuijiao.png">
                         <template v-slot:right="">
                             <view class="list-right-box">
                                 <text v-if="!item.isRead" class="dot">·</text>
