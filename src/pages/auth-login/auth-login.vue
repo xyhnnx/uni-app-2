@@ -13,6 +13,7 @@
 
 <script>
   import * as common from '../../common/common'
+  import * as api from '../../api/api'
   import {
     mapState,
     mapMutations
@@ -153,12 +154,9 @@
     },
     async onLoad (option) {
       this.launchQueryData = wx.getLaunchOptionsSync().query
-      console.log('xxxxx1')
-      await common.getUserInfo()
-      console.log('xxxxx2')
-      console.log(this.userInfo, this.launchQueryData)
+      let res = await api.getUserInfo()
       // 扫码带参数则重新登陆
-      if(this.userInfo.phoneNumber && !this.launchQueryData.roomId) {
+      if(res && res.data && res.data.phoneNumber && !this.launchQueryData.roomId) {
         this.login()
       }
     }

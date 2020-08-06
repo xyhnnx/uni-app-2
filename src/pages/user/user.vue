@@ -3,7 +3,9 @@
 		<view class="logo" @click="toUserDetail('/pages/user/user-detail')" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
 			<image class="logo-img" :src="userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
 			<view class="logo-title">
-				<view class="uer-name">{{userInfo.nickName ? userInfo.nickName : '暂无用户信息'}}</view>
+				<view class="uer-name">{{userInfo.nickName ? userInfo.nickName : '暂无用户信息'}}
+					<button class="get-user-button" @getuserinfo="getUserInfo" open-type="getUserInfo">点击获取用户信息</button>
+				</view>
 				<view class="phone-number">手机号：{{userInfo.phoneNumber || '无'}}</view>
 			</view>
 		</view>
@@ -77,8 +79,11 @@
 		},
 		methods: {
 			...mapMutations(['setStateData']),
+			getUserInfo (e) {
+				console.log(e)
+			},
 			getImgSrc (src = '') {
-				if(src.startsWith('http')) {
+				if(src && src.startsWith('http')) {
 					return src
 				} else {
 					return `${this.$filePrefix}/${src.slice(1)}`
@@ -147,6 +152,12 @@
 </script>
 
 <style lang="scss" scoped>
+	.get-user-button {
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		display: inline;
+	}
 	.padding0 {
 		padding: 0;
 	}

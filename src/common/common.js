@@ -38,10 +38,7 @@ export const wxGetUser = async function () {
 // 获取用户信息
 export const getUserInfo = async function () {
   let res2 = await api.getUserInfo()
-  if (!res2.success) {
-    return
-  }
-  if(!res2.data.nickName) { // 未获取用户信息
+  if(!(res2 && res2.data && res2.data.nickName)) { // 未获取用户信息
     let res = await wxGetUser()
     if (res.iv) {
       // 获取微信code
