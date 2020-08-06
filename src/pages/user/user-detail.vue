@@ -5,7 +5,7 @@
 			<view class="item" @click="chooseImg">
 				<view class="label">头像</view>
 				<view class="value">
-					<image class="logo-img" :src="userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
+					<image class="logo-img" :src="!!userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
 					<text class="go-login navigat-arrow">&#xe65e;</text>
 				</view>
 
@@ -13,7 +13,7 @@
 			<view class="item" @click="toDetail('/pages/user/user-detail-name')">
 				<view class="label">昵称</view>
 				<view class="value">
-					<text>{{userInfo.nickName}}</text>
+					<text>{{userInfo.nickName || ''}}</text>
 					<text class="go-login navigat-arrow">&#xe65e;</text>
 				</view>
 			</view>

@@ -63,7 +63,7 @@
 
 		},
 		onLoad() {
-			this.nickName = this.userInfo.nickName
+			this.nickName = this.userInfo.nickName || ''
 		}
 	}
 </script>

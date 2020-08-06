@@ -135,14 +135,18 @@
 				});
 			},
 			async toUserDetail (url) {
-				if(!this.userInfo.nickName) {
-					let res = await common.getUserInfo()
-				} else {
-					//在起始页面跳转到test.vue页面并传递参数
-					uni.navigateTo({
-						url
-					});
-				}
+				// if(!this.userInfo.nickName) {
+				// 	let res = await common.getUserInfo()
+				// } else {
+				// 	//在起始页面跳转到test.vue页面并传递参数
+				// 	uni.navigateTo({
+				// 		url
+				// 	});
+				// }
+				//在起始页面跳转到test.vue页面并传递参数
+				uni.navigateTo({
+					url
+				});
 			}
 		},
 		onShow() {
