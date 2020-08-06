@@ -331,7 +331,10 @@
 					stateId: -1
 				})
 				if (res.success) {
-					this.dataList = res.data
+					res.data.sort((a,b)=>{
+						return a.createDate > b.createDate ? -1: 1
+					})
+					this.dataList = res.data || []
 				}
 			},
 		},

@@ -14,7 +14,7 @@
 				</view>
 				<view class="content-box">
 					<view class="head">
-						<view> {{item.itemName}}</view>
+						<view> {{item.itemName || ''}}</view>
 						<view class="btn-text">{{item.realAllMoney}}</view>
 					</view>
 					<view class="body">
@@ -37,6 +37,8 @@
 	import UniList from '../../components/uni-list/uni-list'
 	import UniListItem from '../../components/uni-list-item/uni-list-item'
 	import NoData from '../../components/my-components/no-data'
+	import ChangeRoomBtn from '../../common/change-room-btn'
+
 	import {
 		mapState,
 		mapMutations
@@ -47,7 +49,8 @@
 			UniSegmentedControl,
 			UniList,
 			UniListItem,
-			NoData
+			NoData,
+			ChangeRoomBtn
 		},
 		computed: {
 			...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
@@ -57,6 +60,11 @@
 				}
 				return []
 			},
+		},
+		watch: {
+			currentRoom () {
+				this.getPaymentBillList()
+			}
 		},
 		data() {
 			return {
@@ -98,7 +106,7 @@
 				});
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.getPaymentBillList()
 		}
 	}
@@ -125,6 +133,7 @@
 			padding: 0 10px;
 			color: $uni-color-primary;
 			line-height: 30px;
+			margin-top: 10px;
 		}
 		.title{
 			padding: 0 10px;

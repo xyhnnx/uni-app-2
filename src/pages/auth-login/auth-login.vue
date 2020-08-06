@@ -1,14 +1,11 @@
 <template>
     <view class="content">
-        <view class="oauth-row" v-if="hasProvider" v-bind:style="{top: positionTop + 'px'}">
-            <view class="oauth-image" v-for="provider in providerList" :key="provider.value">
-
-                <!-- #ifdef MP-WEIXIN -->
+        <view class="oauth-row">
+            <view class="oauth-image">
                 <button class="login-btn" type="primary" open-type="getPhoneNumber" @getphonenumber="getUserInfo">
                     <image class="img" :src="provider.image" @tap="oauth(provider.value)"></image>
                     微信授权登录
                 </button>
-                <!-- #endif -->
             </view>
         </view>
     </view>
@@ -156,13 +153,14 @@
     },
     async onLoad (option) {
       this.launchQueryData = wx.getLaunchOptionsSync().query
+      console.log('xxxxx1')
       await common.getUserInfo()
+      console.log('xxxxx2')
+      console.log(this.userInfo, this.launchQueryData)
       // 扫码带参数则重新登陆
       if(this.userInfo.phoneNumber && !this.launchQueryData.roomId) {
         this.login()
       }
-    },
-    async onReady(option) {
     }
   }
 </script>

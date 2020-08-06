@@ -4,10 +4,11 @@
         <div class="picker-view-wrap">
             <div class="btn-box">
                 <div class="btn" @click="pickerClick(0)">取消</div>
-                <div class="btn" @click="pickerClick(1)">确认</div>
+                <div class="btn primary" @click="pickerClick(1)">确认</div>
             </div>
             <picker-view class="my-picker-view"
                          indicator-class="indicator-row"
+                         indicator-style="height:50px;"
                          :value="value"
                          @pickstart="pickerStart"
                          @pickend="pickerEnd"
@@ -91,6 +92,9 @@
 </script>
 
 <style scoped lang="scss">
+    .primary{
+        color: $uni-color-primary;
+    }
     .picker-view-wrap {
         background-color: #fff;
         height: 300px;
@@ -108,7 +112,7 @@
     .indicator-row {
         height: 50px;
         font-weight: bold;
-        border-top: 1px solid $uni-border-color;
+        border-top: 1px solid red;
         border-bottom: 1px solid $uni-border-color;
     }
     .my-picker-view {

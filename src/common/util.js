@@ -6,7 +6,7 @@
  */
 export function dateFormat (time, format = 'yyyy-MM-dd hh:mm:ss') {
   if (!time) {
-    return
+    return ''
   }
   if (!format) {
     return time

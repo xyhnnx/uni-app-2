@@ -93,6 +93,7 @@
             }
           })
         }
+        return []
       },
       list2Modal() {
         if (this.payCallList && this.payCallList.length) {
@@ -103,6 +104,7 @@
             }
           })
         }
+        return []
       }
     },
     watch: {
@@ -126,26 +128,23 @@
       onClickItem(e) {
         if (this.currentTabIndex !== e.currentIndex) {
           this.currentTabIndex = e.currentIndex;
-        }
-      },
-      showActionSheet() {
-        uni.showActionSheet({
-          itemList: this.roomList.map(e => e.courtName),
-          success: (res) => {
-            this.setStateData({
-              currentRoom: this.roomList[res.tapIndex]
-            })
-          },
-          fail: function (res) {
-            console.log(res.errMsg);
+          if(this.currentTabIndex === 0) {
+            // d获取公告
+            this.getNoticeList()
+          } else {
+            // 催缴通知
+            this.getPayCallList()
           }
-        });
+        }
       },
       async getNoticeList() {
         let res = await api.getNoticeList({
           courtId: this.currentRoom.courtId
         })
         if (res.success) {
+          res.data.sort((a,b)=> {
+            return b.isTop - a.isTop
+          })
           this.noticeList = res.data
         }
       },

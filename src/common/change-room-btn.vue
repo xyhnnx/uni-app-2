@@ -40,7 +40,8 @@
       return {
         query: {},
         detail: {},
-        list: []
+        list: [],
+        courtList: []
       }
     },
     props: {
@@ -51,7 +52,7 @@
       confirmClick (item) {
           this.$refs.refRooms.close()
           this.setStateData({
-              currentRoom: this.list[item.value]
+              currentRoom: this.courtList[item.value]
           })
       },
       showActionSheet () {
@@ -64,6 +65,7 @@
               arr.push(e)
           }
         })
+        this.courtList = arr
         this.list = arr.map((e, index) => {
             return {
                 label: e.courtName,

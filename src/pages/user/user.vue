@@ -3,7 +3,7 @@
 		<view class="logo" @click="toUserDetail('/pages/user/user-detail')" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
 			<image class="logo-img" :src="userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
 			<view class="logo-title">
-				<view class="uer-name">{{userInfo.nickName ? userInfo.nickName : '您未登录'}}</view>
+				<view class="uer-name">{{userInfo.nickName ? userInfo.nickName : '暂无用户信息'}}</view>
 				<view class="phone-number">手机号：{{userInfo.phoneNumber || '无'}}</view>
 			</view>
 		</view>
@@ -140,33 +140,8 @@
 				}
 			}
 		},
-		onLoad() {
-			// if (!this.hasLogin) {
-			// 	uni.showModal({
-			// 		title: '未登录',
-			// 		content: '您未登录，需要登录后才能继续',
-			// 		/**
-			// 		 * 如果需要强制登录，不显示取消按钮
-			// 		 */
-			// 		showCancel: !this.forcedLogin,
-			// 		success: (res) => {
-			// 			if (res.confirm) {
-			// 				/**
-			// 				 * 如果需要强制登录，使用reLaunch方式
-			// 				 */
-			// 				if (this.forcedLogin) {
-			// 					uni.reLaunch({
-			// 						url: '../login/login'
-			// 					});
-			// 				} else {
-			// 					uni.navigateTo({
-			// 						url: '../login/login'
-			// 					});
-			// 				}
-			// 			}
-			// 		}
-			// 	});
-			// }
+		onShow() {
+			common.getUserInfo()
 		}
 	}
 </script>
