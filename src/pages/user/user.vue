@@ -11,14 +11,6 @@
 		<view class="height10"></view>
 		<!-- 包含图片 -->
 		<uni-list>
-			<uni-list-item title="我的订单"
-						   class="my-list-item"
-						   @click="toDetail('/pages/building/building')"
-						   :show-arrow="true"
-						   thumb="/static/img/dingdan.png">
-				<template v-slot:right="">
-				</template>
-			</uni-list-item>
 			<uni-list-item title="我的缴费"
 						   @click="toDetail('/pages/pay/pay-list')"
 						   :show-arrow="true"
@@ -37,6 +29,14 @@
 						   @click="toDetail('/pages/user/user-detail-room')"
 						   :show-arrow="true"
 						   thumb="/static/img/fangchan.png">
+				<template v-slot:right="">
+				</template>
+			</uni-list-item>
+			<uni-list-item title="我的订单"
+						   class="my-list-item"
+						   @click="toDetail('/pages/building/building')"
+						   :show-arrow="true"
+						   thumb="/static/img/dingdan.png">
 				<template v-slot:right="">
 				</template>
 			</uni-list-item>

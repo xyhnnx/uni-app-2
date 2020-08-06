@@ -1,6 +1,6 @@
 <template>
     <view class="content">
-        <view v-if="!serviceId" class="page-title">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</view>
+        <ChangeRoomBtn v-if="!serviceId"></ChangeRoomBtn>
         <view class="height5"></view>
 
         <view class="text-area-box">
@@ -72,7 +72,7 @@
                          label-key="repairType">
         </my-popup-select>
         <!--户号-->
-        <my-popup-select :list="roomList"
+        <my-popup-select :list="roomListModal"
                          ref="refRoomList"
                          @pickerConfirm="pickerRoomConfirm"
                          label-key="roomName">
@@ -92,6 +92,7 @@
   import uniList from "@/components/uni-list/uni-list.vue"
   import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
   import myPopupSelect from '@/components/my-components/my-popup-select'
+  import ChangeRoomBtn from '../../common/change-room-btn'
 
 
   export default {
@@ -99,7 +100,8 @@
       mInput,
       uniList,
       uniListItem,
-      myPopupSelect
+      myPopupSelect,
+      ChangeRoomBtn
     },
     data() {
       return {
@@ -120,10 +122,22 @@
           ]
         },
         repairTypeList: [],
-
       }
     },
-    computed: mapState(['serviceTypeList', 'hasLogin', 'userName', 'roomList','currentRoom']),
+    computed: {
+        ...mapState(['serviceTypeList', 'hasLogin', 'userName', 'roomList','currentRoom', 'userInfo']),
+        roomListModal () {
+            return this.roomList.filter(e => {
+                return this.currentRoom.courtId === e.courtId
+            })
+        }
+    },
+    watch: {
+        currentRoom () {
+            this.formData.roomName = this.roomListModal[0] && this.roomListModal[0].roomName
+            this.formData.roomID = this.roomListModal[0] && this.roomListModal[0].roomId
+        }
+    },
     methods: {
       getImgSrc (src = '') {
         if(src.startsWith('~')) {
@@ -324,9 +338,12 @@
       if (e && e.serviceId) {
         this.serviceId = e.serviceId
         this.getServiceGetDetail()
-
+      } else {
+        this.formData.contacts = this.userInfo.nickName
+        this.formData.contactsPhone = this.userInfo.phoneNumber
+          this.formData.roomName = this.roomListModal[0] && this.roomListModal[0].roomName
+          this.formData.roomID = this.roomListModal[0] && this.roomListModal[0].roomId
       }
-      console.log(e)
       this.getRepairType()
     }
   }

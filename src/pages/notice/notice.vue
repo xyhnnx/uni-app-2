@@ -168,7 +168,7 @@
         });
       }
     },
-    onLoad() {
+    onShow() {
       // d获取公告
       this.getNoticeList()
       // 催缴通知
