@@ -9,6 +9,8 @@
             <picker-view class="my-picker-view"
                          indicator-class="indicator-row"
                          :value="value"
+                         @pickstart="pickerStart"
+                         @pickend="pickerEnd"
                          @change="bindChange">
                 <picker-view-column>
                     <view class="item" v-for="(item,index) in listModel" :key="index">{{item.label}}</view>
@@ -41,7 +43,8 @@
     },
     data() {
       return {
-        selectIndex: 0
+        selectIndex: 0,
+        pickerIng: false
       }
     },
     computed: {
@@ -64,11 +67,20 @@
       close() {
         this.$refs.popup.close()
       },
+      pickerStart () {
+          this.pickerIng = true
+      },
+      pickerEnd () {
+          this.pickerIng = false
+      },
       bindChange(val) {
         this.selectIndex = val.detail.value
       },
       pickerClick (val) {
         if (val) {
+          if(this.pickerIng) {
+              return
+          }
           this.$emit('pickerConfirm', this.list[this.selectIndex])
         } else {
           this.close()

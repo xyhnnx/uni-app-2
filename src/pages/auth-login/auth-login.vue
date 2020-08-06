@@ -157,37 +157,12 @@
     async onLoad (option) {
       this.launchQueryData = wx.getLaunchOptionsSync().query
       await common.getUserInfo()
-      console.log('userInfo', this.userInfo)
       // 扫码带参数则重新登陆
       if(this.userInfo.phoneNumber && !this.launchQueryData.roomId) {
         this.login()
       }
     },
     async onReady(option) {
-      this.initPosition();
-      this.initProvider();
-      // #ifdef MP-WEIXIN
-      this.isDevtools = uni.getSystemInfoSync().platform === 'devtools';
-      // #endif
-
-      // 获取用户信息
-      // let res = await common.login()
-      // if (!res.success) {
-      //   if (res.errorCode === '1005') { // 请扫描房产二维码
-      //     uni.showModal({
-      //       title: '提示',
-      //       content: res.errorMessage,
-      //       showCancel: false,
-      //       success: function (res) {
-      //         if (res.confirm) {
-      //           console.log('用户点击确定');
-      //         } else if (res.cancel) {
-      //           console.log('用户点击取消');
-      //         }
-      //       }
-      //     });
-      //   }
-      // }
     }
   }
 </script>

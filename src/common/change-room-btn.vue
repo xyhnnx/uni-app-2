@@ -1,6 +1,12 @@
 <template>
     <view>
         <button @click="showActionSheet">{{(currentRoom && currentRoom.courtName) || '未关联房间'}}</button>
+        <!--房产-->
+        <my-popup-select :list="list"
+                         ref="refRooms"
+                         @pickerConfirm="confirmClick"
+                         label-key="label">
+        </my-popup-select>
     </view>
 </template>
 
@@ -12,6 +18,8 @@
   import UniList from '../components/uni-list/uni-list'
   import UniListItem from '../components/uni-list-item/uni-list-item'
   import NoData from '../components/my-components/no-data'
+  import myPopupSelect from '@/components/my-components/my-popup-select'
+
   import {
     mapState,
     mapMutations
@@ -22,7 +30,8 @@
       UniSegmentedControl,
       UniList,
       UniListItem,
-      NoData
+      NoData,
+      myPopupSelect
     },
     computed: {
       ...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
@@ -30,7 +39,8 @@
     data() {
       return {
         query: {},
-        detail: {}
+        detail: {},
+        list: []
       }
     },
     props: {
@@ -38,6 +48,12 @@
     },
     methods: {
       ...mapMutations(['setStateData']),
+      confirmClick (item) {
+          this.$refs.refRooms.close()
+          this.setStateData({
+              currentRoom: this.list[item.value]
+          })
+      },
       showActionSheet () {
         if (this.readOnly) {
           return
@@ -45,22 +61,27 @@
         let arr = []
         this.roomList.forEach(e=>{
           if(!arr.some(e2=>e2.courtId === e.courtId)) {
-            if(arr.length<=6) {
               arr.push(e)
-            }
           }
         })
-        uni.showActionSheet({
-          itemList: arr.map(e => e.courtName),
-          success: (res) => {
-            this.setStateData({
-              currentRoom: arr[res.tapIndex]
-            })
-          },
-          fail: function (res) {
-            console.log(res.errMsg);
-          }
-        });
+        this.list = arr.map((e, index) => {
+            return {
+                label: e.courtName,
+                value: index
+            }
+        })
+        this.$refs.refRooms.open()
+        // uni.showActionSheet({
+        //   itemList: arr.map(e => e.courtName),
+        //   success: (res) => {
+        //     this.setStateData({
+        //       currentRoom: arr[res.tapIndex]
+        //     })
+        //   },
+        //   fail: function (res) {
+        //     console.log(res.errMsg);
+        //   }
+        // });
       },
     },
   }
