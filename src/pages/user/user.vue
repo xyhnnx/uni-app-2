@@ -15,28 +15,28 @@
 						   class="my-list-item"
 						   @click="toDetail('/pages/building/building')"
 						   :show-arrow="true"
-						   thumb="/static/img/订单.png">
+						   thumb="/static/img/dingdan.png">
 				<template v-slot:right="">
 				</template>
 			</uni-list-item>
 			<uni-list-item title="我的缴费"
 						   @click="toDetail('/pages/pay/pay-list')"
 						   :show-arrow="true"
-						   thumb="/static/img/缴费.png">
+						   thumb="/static/img/jiaofei.png">
 				<template v-slot:right="">
 				</template>
 			</uni-list-item>
 			<uni-list-item title="我的报修投诉"
 						   @click="toDetail('/pages/repair/repair-list')"
 						   :show-arrow="true"
-						   thumb="/static/img/维修.png">
+						   thumb="/static/img/weixiu.png">
 				<template v-slot:right="">
 				</template>
 			</uni-list-item>
 			<uni-list-item title="我的房产"
 						   @click="toDetail('/pages/user/user-detail-room')"
 						   :show-arrow="true"
-						   thumb="/static/img/房产.png">
+						   thumb="/static/img/fangchan.png">
 				<template v-slot:right="">
 				</template>
 			</uni-list-item>

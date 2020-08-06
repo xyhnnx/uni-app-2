@@ -8,7 +8,7 @@
         </view>
         <view class="img-box">
             <view class="img-list">
-                <view class="img-item" v-for="(item, index) in imageList" key="item">
+                <view class="img-item" v-for="(item, index) in imageList" :key="item">
                     <image @click="lookImg(index,imageList)" mode="aspectFit" class="img" :src="getImgSrc(item)" alt=""/>
                     <view @click="delImg(index)" class="close">×</view>
                 </view>
@@ -126,10 +126,10 @@
     computed: mapState(['serviceTypeList', 'hasLogin', 'userName', 'roomList','currentRoom']),
     methods: {
       getImgSrc (src = '') {
-        if(src.startsWith('http')) {
-          return src
-        } else {
+        if(src.startsWith('~')) {
           return `${this.$filePrefix}/${src.slice(1)}`
+        } else {
+          return src
         }
       },
       lookImg (index,list) {
