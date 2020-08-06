@@ -4,7 +4,7 @@
 			<image class="logo-img" :src="userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
 			<view class="logo-title">
 				<view class="uer-name">{{userInfo.nickName ? userInfo.nickName : '暂无用户信息'}}
-					<button class="get-user-button" @getuserinfo="getUserInfo" open-type="getUserInfo">点击获取用户信息</button>
+					<!--<button class="get-user-button" @getuserinfo="getUserInfo" open-type="getUserInfo">点击获取用户信息</button>-->
 				</view>
 				<view class="phone-number">手机号：{{userInfo.phoneNumber || '无'}}</view>
 			</view>
