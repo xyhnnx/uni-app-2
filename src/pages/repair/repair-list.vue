@@ -7,7 +7,7 @@
 			</view>
 			<view class="height5"></view>
 			<uni-segmented-control :current="currentTabIndex"
-								   :values="items.filter(e=>e.isShow)"
+								   :values="items"
 								   @clickItem="onClickItem"
 								   style-type="text"
 								   :active-color="primaryColor">
@@ -161,7 +161,7 @@
 						state: 4,
 						isShow: false
 					}
-				]
+				].filter(e=>e.isShow)
 			},
 		},
 		watch: {
