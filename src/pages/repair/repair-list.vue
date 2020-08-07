@@ -110,7 +110,7 @@
 				}
 				return []
 			},
-			items () {
+			itemList () {
 				// -1-全部,10-已完成,0-待处理,1-处理中,2-待确认,5-已退回,6-已取消
 				return [
 					{
@@ -121,47 +121,56 @@
 					},
 					{
 						label: '待处理',
-						value: this.dataList.filter(e => e.state ===0).length,
 						state: 0,
 						isShow: true
 					},
 					{
 						label: '处理中',
-						value: this.dataList.filter(e => e.state ===1).length,
 						state: 1,
 						isShow: true
 					},
 					{
 						label: '待确认',
-						value: this.dataList.filter(e => e.state ===2).length,
 						state: 2,
 						isShow: true
 					},
 					{
 						label: '已完成',
-						value: this.dataList.filter(e => e.state === 10).length,
 						state: 10,
 						isShow: true
 					},
 					{
 						label: '已退回',
-						value: this.dataList.filter(e => e.state === 5).length,
 						state: 5,
 						isShow: false
 					},
 					{
 						label: '已取消',
-						value: this.dataList.filter(e => e.state === 6).length,
 						state: 6,
 						isShow: false
 					},
 					{
 						label: '已评价',
-						value: this.dataList.filter(e => e.state === 4).length,
 						state: 4,
 						isShow: false
 					}
-				].filter(e=>e.isShow)
+				]
+			},
+			items () {
+				let arr = []
+				this.itemList.forEach(e => {
+					if(e.isShow) {
+						let item = {
+							label: e.label,
+							state: e.state
+						}
+						if(e.state !== '') {
+							item.value = this.dataList.filter(e2 => e2.state === e.state).length
+						}
+						arr.push(item)
+					}
+				})
+				return arr
 			},
 		},
 		watch: {
@@ -188,7 +197,7 @@
 				return util.dateFormat(new Date(e).getTime())
 			},
 			getStatus(state) {
-				let item = this.items.find(e => {
+				let item = this.itemList.find(e => {
 					return e.state === state
 				})
 				return item && item.label
