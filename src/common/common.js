@@ -38,18 +38,6 @@ export const wxGetUser = async function () {
 // 获取用户信息
 export const getUserInfo = async function () {
   let res2 = await api.getUserInfo()
-  if(!(res2 && res2.data && res2.data.nickName)) { // 未获取用户信息
-    let res = await wxGetUser()
-    if (res.iv) {
-      // 获取微信code
-      await wxLogin()
-      res2 = await api.getUserInfo({
-        code: getApp().globalData.code,
-        iv: res.iv,
-        encryptedDataStr: res.encryptedData
-      })
-    }
-  }
   store.commit('setUserInfo', res2.data)
 }
 // 获取用户信息

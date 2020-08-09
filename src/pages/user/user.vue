@@ -1,14 +1,18 @@
 <template>
 	<view class="content padding0" v-if="roomList && roomList.length">
-		<view class="logo" @click="toUserDetail('/pages/user/user-detail')" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
-			<image class="logo-img" :src="userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
-			<view class="logo-title">
-				<view class="uer-name">{{userInfo.nickName ? userInfo.nickName : '暂无用户信息'}}
-					<!--<button class="get-user-button" @getuserinfo="getUserInfo" open-type="getUserInfo">点击获取用户信息</button>-->
+
+		<view class="logo" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
+			<button class="get-user-button" @getuserinfo="getUserInfo" open-type="getUserInfo">
+				<image class="logo-img" :src="userInfo.avatarUrl ? getImgSrc(userInfo.avatarUrl) :avatarUrl"></image>
+				<view class="logo-title">
+					<view class="uer-name">{{userInfo.nickName ? userInfo.nickName : '点击获取用户信息'}}
+						<!---->
+					</view>
+					<view class="phone-number">手机号：{{userInfo.phoneNumber || '无'}}</view>
 				</view>
-				<view class="phone-number">手机号：{{userInfo.phoneNumber || '无'}}</view>
-			</view>
+			</button>
 		</view>
+
 		<view class="height10"></view>
 		<view class="height10"></view>
 		<!-- 包含图片 -->
@@ -79,8 +83,19 @@
 		},
 		methods: {
 			...mapMutations(['setStateData']),
-			getUserInfo (e) {
-				console.log(e)
+			async getUserInfo (e) {
+				if(!(this.userInfo && this.userInfo.nickName)) { // 未获取用户信息
+					// 获取微信code
+					await common.wxLogin()
+					let res2 = await api.getUserInfo({
+						code: getApp().globalData.code,
+						iv: e.detail.iv,
+						encryptedDataStr: e.detail.encryptedData
+					})
+					this.toUserDetail()
+				} else {
+					this.toUserDetail()
+				}
 			},
 			getImgSrc (src = '') {
 				if(src && src.startsWith('http')) {
@@ -134,18 +149,10 @@
 					url
 				});
 			},
-			async toUserDetail (url) {
-				// if(!this.userInfo.nickName) {
-				// 	let res = await common.getUserInfo()
-				// } else {
-				// 	//在起始页面跳转到test.vue页面并传递参数
-				// 	uni.navigateTo({
-				// 		url
-				// 	});
-				// }
+			async toUserDetail () {
 				//在起始页面跳转到test.vue页面并传递参数
 				uni.navigateTo({
-					url
+					url: '/pages/user/user-detail'
 				});
 			}
 		},
@@ -156,12 +163,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.get-user-button {
-		background-color: transparent;
-		border: none;
-		padding: 0;
-		display: inline;
-	}
+
 	.padding0 {
 		padding: 0;
 	}
@@ -224,14 +226,28 @@
 	/* 个人中心 */
 
 	.logo {
-		padding-top: 20px;
-		display: flex;
+		display: block;
 		height: 210px;
 		width: 100%;
-		flex-direction: column;
 		box-sizing: border-box;
 		background-color: $uni-color-primary;
-		align-items: center;
+		overflow: hidden;
+		.get-user-button {
+			display: flex;
+			width: 100%;
+			height: 100%;
+			background-color: transparent;
+			border: none;
+			padding: 20px 0 0;
+			margin: 0;
+			border-radius: 0;
+			flex-direction: column;
+			justify-content: start;
+			box-sizing: border-box;
+			align-items: center;
+			overflow: hidden;
+			margin-top: -1px;
+		}
 		.logo-img {
 			width: 100px;
 			height: 100px;

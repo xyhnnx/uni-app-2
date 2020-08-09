@@ -110,7 +110,7 @@
 				});
 			},
 		},
-		async onLoad(e) {
+		async onShow(e) {
 			await common.getUserInfo()
 		}
 	}
