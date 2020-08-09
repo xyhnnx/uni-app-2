@@ -33,7 +33,7 @@
                             </view>
                             <view class="item-content">
                                 <view>可用余额</view>
-                                <view>{{item.currentCanBalance}}</view>
+                                <view>{{showCanMoney(item)}}</view>
                             </view>
                         </template>
                         <template v-else>
@@ -59,7 +59,7 @@
                             </view>
                             <view class="item-content">
                                 <view>可用余额</view>
-                                <view>{{item.currentCanBalance}}</view>
+                                <view>{{showCanMoney(item)}}</view>
                             </view>
                         </template>
                     </view>
@@ -133,6 +133,14 @@
     },
     methods: {
       ...mapMutations(['setStateData']),
+      // 获取
+      showCanMoney (item) {
+        if(item.checked) {
+          return item.currentCanBalance>=item.balance?item.balance:item.currentCanBalance
+        }else {
+         return 0
+        }
+      },
       // 显示面积
       showSpace (item) {
         if(`${item.itemName}`.includes('车位')) {
@@ -183,11 +191,11 @@
       checkAllClick () {
         var items = this.items
         let isCheckAll = items.every(e=> e.checked)
-        for (var i = 0, lenI = items.length; i < lenI; ++i) {
+        for (let i = 0, lenI = items.length; i < lenI; ++i) {
           const item = items[i]
           this.$set(item,'checked',!isCheckAll)
+          this.itemClick({currentTarget:{dataset:{item:item}}})
         }
-        this.getRoomChargeBalance()
       },
       itemClick (e) {
         let item = e.currentTarget.dataset.item
