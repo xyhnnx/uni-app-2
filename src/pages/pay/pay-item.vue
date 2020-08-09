@@ -66,6 +66,7 @@
                 </uni-collapse-item>
             </uni-collapse>
         </checkbox-group>
+        <view style="height: 70px;"></view>
         <view class="flex-bottom">
             <view class="left">
                 <text class="label">合计：</text>
@@ -113,7 +114,8 @@
       total () {
         let total = 0
         this.items.filter(e => e.checked).forEach(e=>{
-          total += Number(e.realChargeBalance)
+          let realChargeBalance = e.currentCanBalance>=e.balance ? 0 : ((e.balance || 0) - (e.currentCanBalance || 0))
+          total += Number(realChargeBalance)
         })
         return total.toFixed(2)
       }
