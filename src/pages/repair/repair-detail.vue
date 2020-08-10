@@ -9,7 +9,7 @@
 		</view>
 		<view class="height10"></view>
 		<view class="content">
-			<view class="card-item" v-for="(item, index) in listModal" :key="index">
+			<view class="common-repair-card-item" v-for="(item, index) in listModal" :key="index">
 				<view class="title">
 					<image mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
 					<text>{{item.roomName}}</text>
@@ -20,7 +20,7 @@
 						<view class="btn-text">{{getStatus(item.state)}}></view>
 					</view>
 					<view class="body">
-						<view>{{item.contentInfo}}</view>
+						<view class="content-info">{{item.contentInfo}}</view>
 						<view v-if="item.servicePhotos && item.servicePhotos.length">
 							<image @click="lookImg(index,item.servicePhotos)" v-for="(img, index) in item.servicePhotos" :key="item" mode="aspectFit" class="img" :src="getSrc(img)" alt=""/>
 						</view>
@@ -205,54 +205,6 @@
 			height: 8px;
 			margin-left: 5px;
 			line-height: 0;
-		}
-	}
-	.card-item{
-		.title{
-			display: flex;
-			line-height: 32px;
-			.img{
-				width: 30px;
-				height: 30px;
-			}
-			align-items: center;
-		}
-		.content-box{
-			background-color: #fff;
-			padding: 5px;
-			.head{
-				line-height: 50px;
-				border-bottom: 1px solid $uni-border-color;
-				display: flex;
-				justify-content: space-between;
-				.btn-text{
-					color: $uni-color-primary;
-				}
-			}
-			.body{
-				padding: 5px;
-				.img{
-					width: 80px;
-					height: 80px;
-				}
-			}
-			.foot{
-				padding: 5px 0;
-				border-top: 1px solid $uni-border-color;
-				display: flex;
-				justify-content: space-between;
-				.right{
-					display: flex;
-				}
-				.btn{
-					width: 100px;
-					margin: 0;
-					margin-left: 10px;
-					font-size: 14px;
-					color: #fff;
-				}
-			}
-
 		}
 	}
 	.process {

@@ -7,7 +7,7 @@
 			</view>
 		</view>
 		<view class="content">
-			<view class="card-item" v-for="(item, index) in listModal" :key="index">
+			<view class="common-repair-card-item" v-for="(item, index) in listModal" :key="index">
 				<view class="title">
 					<image mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
 					<text>{{item.roomName}}</text>
@@ -18,7 +18,7 @@
 						<view class="btn-text">{{getStatus(item.state)}}></view>
 					</view>
 					<view class="body">
-						<view>{{item.contentInfo}}</view>
+						<view class="content-info">{{item.contentInfo}}</view>
 						<view v-if="item.servicePhotos && item.servicePhotos.length">
 							<image @click="lookImg(index,item.servicePhotos)" v-for="(img, index) in item.servicePhotos" :key="item" mode="aspectFit" class="img" :src="getSrc(img)" alt=""/>
 						</view>

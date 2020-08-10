@@ -34,3 +34,56 @@ button[type=primary] {
   align-items: center;
   justify-content: center;
 }
+
+.common-repair-card-item{
+  .title{
+    display: flex;
+    line-height: 32px;
+    .img{
+      width: 30px;
+      height: 30px;
+    }
+    align-items: center;
+  }
+  .content-box{
+    background-color: #fff;
+    padding: 5px;
+    .head{
+      line-height: 50px;
+      border-bottom: 1px solid $uni-border-color;
+      display: flex;
+      justify-content: space-between;
+      .btn-text{
+        color: $uni-color-primary;
+      }
+    }
+    .body{
+      padding: 5px;
+      .content-info {
+        display: flex;
+        word-break: break-all;
+      }
+      .img{
+        width: 80px;
+        height: 80px;
+      }
+    }
+    .foot{
+      padding: 5px 0;
+      border-top: 1px solid $uni-border-color;
+      display: flex;
+      justify-content: space-between;
+      .right{
+        display: flex;
+      }
+      .btn{
+        width: 100px;
+        margin: 0;
+        margin-left: 10px;
+        font-size: 14px;
+        color: #fff;
+      }
+    }
+
+  }
+}

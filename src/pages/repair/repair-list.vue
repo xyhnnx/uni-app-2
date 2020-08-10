@@ -15,7 +15,7 @@
 		</view>
 		<view class="height10"></view>
 		<view class="content" v-if="listModal && listModal.length">
-			<view class="card-item" v-for="(item, index) in listModal" :key="index">
+			<view class="common-repair-card-item" v-for="(item, index) in listModal" :key="index">
 				<view class="title">
 					<image mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
 					<text>{{item.roomName}}</text>
@@ -26,9 +26,12 @@
 						<view class="btn-text">{{getStatus(item.state)}}></view>
 					</view>
 					<view class="body">
-						<view>{{item.contentInfo}}</view>
+						<view class="content-info">{{item.contentInfo}}</view>
 						<view v-if="item.servicePhotos && item.servicePhotos.length">
-							<image @click="lookImg(index,item.servicePhotos)" v-for="(img, index) in item.servicePhotos" :key="item" mode="aspectFit" class="img" :src="getSrc(img)" alt=""/>
+							<image v-for="(img, index) in item.servicePhotos"
+								   :key="item" mode="aspectFit" class="img"
+								   @click="lookImg(index,JSON.parse(JSON.stringify(item.servicePhotos)))"
+								   :src="getSrc(img)" alt=""/>
 						</view>
 					</view>
 					<view class="foot">
@@ -203,7 +206,6 @@
 				return item && item.label
 			},
 			lookImg (index,list) {
-				console.log(index,list)
 				uni.previewImage({
 					current: this.getSrc(list[index]),
 					urls: list.map(e => this.getSrc(e))
@@ -393,6 +395,10 @@
 			}
 			.body{
 				padding: 5px;
+				.content-info {
+					display: flex;
+					word-break: break-all;
+				}
 				.img{
 					width: 80px;
 					height: 80px;
