@@ -143,6 +143,7 @@
             'roomList': res2.data.roomInfos || [],
             'currentRoom': res2.data.roomInfos && res2.data.roomInfos[0]
           })
+          common.getUserInfo()
           this.toMain()
         }
       },

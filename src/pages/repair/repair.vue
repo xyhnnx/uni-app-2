@@ -4,7 +4,7 @@
         <view class="height5"></view>
 
         <view class="text-area-box">
-            <textarea placeholder="请输入内容..." v-model="formData.contentInfo" auto-height />
+            <textarea placeholder="请输入内容..." v-model="formData.contentInfo" />
         </view>
         <view class="img-box">
             <view class="img-list">
@@ -31,7 +31,7 @@
                 <m-input @click.native="serviceTypeClick" class="input" type="text" focus disabled v-model="formData.servicesTypeName" placeholder="请选择"></m-input>
                 <text class="iconfont icon-jiantouyou "></text>
             </view>
-            <view class="input-row" v-if="formData.servicesType === 1 && !serviceId">
+            <view class="input-row" v-if="formData.servicesType === 1">
                 <text class="title">报修类型</text>
                 <m-input @click.native="repairTypeClick" class="input" type="text" focus disabled v-model="formData.repairName" placeholder="请选择"></m-input>
                 <text class="iconfont icon-jiantouyou "></text>
@@ -288,7 +288,8 @@
         this.$refs.refServiceType.open()
       },
       // 报修类型
-      repairTypeClick () {
+      async repairTypeClick () {
+        await this.getRepairType()
         this.$refs.refRepair.open()
       },
       // 户号
@@ -329,6 +330,10 @@
         this.formData.contacts = res.data.contacts
         this.formData.contactsPhone = res.data.contactsPhone
         this.imageList = res.data.servicePhotos
+        if(res.data.servicesType === 1) { // todo 不确定报修返回的字段是啥
+          this.formData.repairName = res.data.repairName
+          this.formData.serviceTypeID = res.data.serviceTypeID || res.data.serviceTypeID
+        }
         // this.formData.roomID = res.data.roomId || (this.roomList && this.roomList.find(e => e.roomName == res.data.roomName) && this.roomList.find(e => e.roomName == res.data.roomName).roomId) || 1
 
         console.log(this.formData.servicesType)
@@ -344,7 +349,6 @@
           this.formData.roomName = this.roomListModal[0] && this.roomListModal[0].roomName
           this.formData.roomID = this.roomListModal[0] && this.roomListModal[0].roomId
       }
-      this.getRepairType()
     }
   }
 </script>
@@ -360,9 +364,13 @@
     }
 
     .text-area-box {
-        padding: 20px;
-        height: 20px;
+        padding: 20px 10px 0;
         background-color: #fff;
+        textarea {
+            display: block;
+            height: 80px;
+            width: 100%;
+        }
     }
     .img-box{
         padding: 10px;
