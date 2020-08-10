@@ -38,12 +38,22 @@
 					<view class="line"></view>
 					<view class="item" v-for="(item, index) in serviceProcess" :key="index">
 						<text class="dot"></text>
-						<text class="time">
-							{{getTime(item.createDate)}}
-						</text>
-						<text class="text">
-							{{item.nodeName}}
-						</text>
+						<view class="right">
+							<view class="info-box">
+								<text class="time">
+									{{getTime(item.createDate)}}
+								</text>
+								<text class="text">
+									{{item.nodeName}}
+								</text>
+							</view>
+							<view class="img-box" v-if="item.processPhotos && item.processPhotos.length">
+								<image class="img" v-for="(img, i) in item.processPhotos"
+									   :key="i"
+									   mode="aspectFit"
+									   :src="getSrc(img)"></image>
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -239,18 +249,33 @@
 				position: relative;
 				z-index: 2;
 			}
-			.time {
-				line-height: 40px;
-				margin-right: 20px;
+			.right{
+				display: block;
+				.info-box {
+					display: flex;
+					flex-wrap: wrap;
+					.time {
+						line-height: 40px;
+						margin-right: 20px;
+					}
+					.text {
+						line-height: 40px;
+						flex: 1;
+					}
+				}
+
+				.img-box {
+					display: flex;
+					overflow: auto;
+					.img{
+						width: 80px;
+						height: 80px;
+						border: 1px solid $uni-border-color;
+						margin-right: 5px;
+					}
+				}
 			}
-			.text {
-				line-height: 40px;
-				flex: 1;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				word-break: break-all;
-			}
+
 		}
 	}
 </style>

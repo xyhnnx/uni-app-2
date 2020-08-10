@@ -66,6 +66,8 @@ button[type=primary] {
       .img{
         width: 80px;
         height: 80px;
+        border: 1px solid $uni-border-color;
+        margin-right: 5px;
       }
     }
     .foot{
