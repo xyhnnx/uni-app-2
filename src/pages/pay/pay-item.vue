@@ -308,11 +308,11 @@
             }
             .item-content {
                 background-color: #fff;
-                padding: 10px 10px 10px 20px;
+                padding: 5px 10px 5px 20px;
                 .item-content {
                     display: flex;
                     justify-content: space-between;
-                    font-size: 12px;
+                    font-size: 14px;
                     color: $uni-text-color-grey;
                 }
             }
