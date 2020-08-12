@@ -204,24 +204,12 @@
         let keyID = item.keyID
         item = this.items.find(e => e.keyID === keyID)
         let checked = item.checked
-        let isDaiShou = item.isDaiShou
         if(checked) {
-          if(isDaiShou) {
-            this.daiShouIdStr.push(keyID)
-          } else {
-            this.chargeIdStr.push(keyID)
-          }
+          this.chargeIdStr.push(keyID)
         } else {
-          if(isDaiShou) {
-            let index = this.daiShouIdStr.findIndex(e=> e === keyID)
-            if(index>-1) {
-              this.daiShouIdStr.splice(index, 1)
-            }
-          } else {
-            let index = this.chargeIdStr.findIndex(e=> e === keyID)
-            if(index>-1) {
-              this.chargeIdStr.splice(index, 1)
-            }
+          let index = this.chargeIdStr.findIndex(e=> e === keyID)
+          if(index>-1) {
+            this.chargeIdStr.splice(index, 1)
           }
         }
         this.getRoomChargeBalance()
@@ -231,17 +219,11 @@
         this.timer = setTimeout(async ()=>{
           let chargeIdStr = [ // 选中的放前面
             ...this.chargeIdStr,
-            ...this.items.filter(e => !e.checked && !e.isDaiShou).map(e => e.keyID)
+            ...this.items.filter(e => !e.checked).map(e => e.keyID)
           ]
-          let daiShouIdStr = [ // 选中的放前面
-            ...this.daiShouIdStr,
-            ...this.items.filter(e => !e.checked && e.isDaiShou).map(e => e.keyID)
-          ]
-          console.log(chargeIdStr,daiShouIdStr)
           let res = await api.getRoomChargeBalance({
             roomId: this.query.roomId,
-            chargeIdStr: chargeIdStr.join(','),
-            daiShouIdStr: daiShouIdStr.join(',')
+            chargeIdStr: chargeIdStr.join(',')
           })
           if (res.success) {
             let data = res.data
