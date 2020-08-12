@@ -31,7 +31,7 @@
                 <m-input @click.native="serviceTypeClick" class="input" type="text" focus disabled v-model="formData.servicesTypeName" placeholder="请选择"></m-input>
                 <text class="iconfont icon-jiantouyou "></text>
             </view>
-            <view class="input-row" v-if="formData.servicesType === 1">
+            <view class="input-row" v-if="formData.servicesType === 1 && !serviceId">
                 <text class="title">报修类型</text>
                 <m-input @click.native="repairTypeClick" class="input" type="text" focus disabled v-model="formData.repairName" placeholder="请选择"></m-input>
                 <text class="iconfont icon-jiantouyou "></text>
@@ -199,7 +199,8 @@
           });
           return
         }
-        if (this.formData.servicesType ===1 && !this.formData.serviceTypeID) {
+        // 新增需要，修改不要
+        if (this.formData.servicesType ===1 && !this.formData.serviceTypeID && !this.serviceId) {
           uni.showToast({
             icon: 'none',
             title: '请选择报修类型！',
@@ -330,13 +331,10 @@
         this.formData.contacts = res.data.contacts
         this.formData.contactsPhone = res.data.contactsPhone
         this.imageList = res.data.servicePhotos
-        if(res.data.servicesType === 1) { // todo 不确定报修返回的字段是啥
-          this.formData.repairName = res.data.repairName
-          this.formData.serviceTypeID = res.data.serviceTypeID || res.data.serviceTypeID
-        }
+        this.formData.repairName = undefined
+        this.formData.serviceTypeID = undefined
         // this.formData.roomID = res.data.roomId || (this.roomList && this.roomList.find(e => e.roomName == res.data.roomName) && this.roomList.find(e => e.roomName == res.data.roomName).roomId) || 1
 
-        console.log(this.formData.servicesType)
       }
     },
     onLoad (e) {
