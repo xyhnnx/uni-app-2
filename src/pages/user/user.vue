@@ -1,5 +1,5 @@
 <template>
-	<view class="content padding0" v-if="roomList && roomList.length">
+	<view class="page-user content padding0" v-if="roomList && roomList.length">
 
 		<view class="logo" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
 			<button class="get-user-button" @getuserinfo="getUserInfo" open-type="getUserInfo">
@@ -161,7 +161,11 @@
 		}
 	}
 </script>
-
+<style lang="stylus">
+	.page-user
+		.uni-list-item__content-title
+			font-size 16px!important
+</style>
 <style lang="scss" scoped>
 
 	.padding0 {
