@@ -15,7 +15,7 @@
             </view>
         </view>
         <view class="btn-box">
-            <button type="primary" class="radius" @click="tolist">立即缴费</button>
+            <button type="primary" class="radius" @click="pay">立即缴费</button>
         </view>
         <view class="fixed-bottom">
             数据来源于江苏百事帮电子商务有限公司
@@ -50,20 +50,33 @@
     },
     data() {
       return {
-        query: {
-          roomId: 361111
-        },
-        detail: {}
+        query: {},
+        detail: {},
+        orderData: {},
+        qryAcqSsn: ''
       }
     },
     methods: {
       ...mapMutations(['setStateData']),
-      async getNoticeDetail() {
-        let res = await api.getNoticeDetail({
-          noticeId: this.query.noticeId
+      async getQryAcqSsn() {
+        let res = await api.getQryAcqSsn({
+          roomId: this.query.roomId,
+          chargeIdStr: this.query.chargeIdStr,
         })
-        if (res.success) {
-          this.detail = res.data || {}
+        console.log(res)
+        if(res.success) {
+          this.qryAcqSsn = res.data.qryAcqSsn
+        }
+      },
+      async paymentBill() {
+        let res = await api.paymentBill({
+          roomId: this.query.roomId,
+          chargeIdStr: this.query.chargeIdStr,
+          qryAcqSsn: this.qryAcqSsn,
+        })
+        console.log(res)
+        if(res.success) {
+          this.orderData = res.data
         }
       },
       tolist () {
@@ -76,13 +89,41 @@
         uni.reLaunch({
           url
         });
+      },
+      async pay () {
+        uni.showLoading({
+          title: '请稍后...'
+        });
+        await this.getQryAcqSsn()
+        await this.paymentBill()
+        uni.hideLoading()
+        let jsApiModel = this.orderData.jsApiModel || {}
+        wx.requestPayment({
+          ...jsApiModel,
+          package: jsApiModel.packAge,
+          success: async (res) => {
+            await uni.showModal({
+              title: '提示',
+              content: '支付成功！',
+              showCancel: false
+            });
+            console.log('支付成功',res)
+            this.tolist()
+          },
+          async fail (res) {
+            await uni.showModal({
+              title: '提示',
+              content: '支付失败，请重试！',
+              showCancel: false
+            })
+            console.log('支付失败',res)
+          }
+        })
       }
 
     },
     onLoad(e) {
       this.query = e
-      // d获取公告
-      this.getNoticeDetail()
     }
   }
 </script>

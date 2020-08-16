@@ -165,8 +165,9 @@
             '/pages/pay/pay-detail',
             {
               total: this.total,
-              keyIDs: payList.map(e=>e.keyID).join(','),
+              chargeIdStr: this.chargeIdStr,
               roomId: this.query.roomId
+
             }
           )
           //在起始页面跳转到test.vue页面并传递参数

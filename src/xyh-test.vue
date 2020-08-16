@@ -155,6 +155,11 @@
           current: this.data[index].src,
           urls: this.data.map(e => e.src)
         })
+        uni.showLoading({
+          title: '登录中'
+        });
+        uni.hideLoading()
+
 
 
       },

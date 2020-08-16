@@ -192,3 +192,21 @@ export async function deleteUserRoomInfo(data) {
     url: `${apiHost}/api/User/DeleteUserRoomInfo`,
   });
 }
+//
+// 创建光大银行订单
+export async function getQryAcqSsn(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/PaymentBill/GetQryAcqSsn`,
+  });
+}
+// /api/PaymentBill/Pay
+// 创建光大银行付款接口
+export async function paymentBill(data) {
+  return await request({
+    method: "post",
+    data,
+    url: `${apiHost}/api/PaymentBill/Pay`,
+  });
+}
