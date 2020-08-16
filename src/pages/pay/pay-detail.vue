@@ -77,7 +77,9 @@
         console.log(res)
         if(res.success) {
           this.orderData = res.data
+          return true
         }
+        return false
       },
       tolist () {
         const url = util.webUrlSplicing(
@@ -95,7 +97,13 @@
           title: '请稍后...'
         });
         await this.getQryAcqSsn()
-        await this.paymentBill()
+        let success = false
+        for(let i = 0;i< 3;i++) {
+          success = await this.paymentBill()
+          if(success) {
+            break
+          }
+        }
         uni.hideLoading()
         let jsApiModel = this.orderData.jsApiModel || {}
         wx.requestPayment({

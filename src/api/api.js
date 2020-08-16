@@ -205,6 +205,7 @@ export async function getQryAcqSsn(data) {
 // 创建光大银行付款接口
 export async function paymentBill(data) {
   return await request({
+    hideErrorMsg: true,
     method: "post",
     data,
     url: `${apiHost}/api/PaymentBill/Pay`,
