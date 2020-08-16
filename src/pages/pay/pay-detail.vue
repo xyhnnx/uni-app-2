@@ -74,7 +74,6 @@
           chargeIdStr: this.query.chargeIdStr,
           qryAcqSsn: this.qryAcqSsn,
         })
-        console.log(res)
         if(res.success) {
           this.orderData = res.data
           return true
