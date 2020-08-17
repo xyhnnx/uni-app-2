@@ -47,3 +47,12 @@ export function webUrlSplicing(url, params) {
   const paramString = paramArray.join('&')
   return `${url}?${paramString}`
 }
+
+// 延时
+export function timeout (time = 1000) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};

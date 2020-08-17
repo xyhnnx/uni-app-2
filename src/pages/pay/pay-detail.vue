@@ -97,10 +97,12 @@
         });
         await this.getQryAcqSsn()
         let success = false
-        for(let i = 0;i< 3;i++) {
+        for(let i = 0;i< 5;i++) {
           success = await this.paymentBill()
           if(success) {
             break
+          } else {
+            await util.timeout(2000)
           }
         }
         uni.hideLoading()
