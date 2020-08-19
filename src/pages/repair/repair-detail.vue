@@ -44,7 +44,7 @@
 									{{getTime(item.createDate)}}
 								</text>
 								<text class="text">
-									{{item.nodeName}}
+									{{item.nodeName}} {{item.contentInfo}}
 								</text>
 							</view>
 							<view class="img-box" v-if="item.processPhotos && item.processPhotos.length">
