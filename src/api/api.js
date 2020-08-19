@@ -211,3 +211,12 @@ export async function paymentBill(data) {
     url: `${apiHost}/api/PaymentBill/Pay`,
   });
 }
+// /api/PaymentBill/PaidLog
+export async function paidLog(data) {
+  return await request({
+    hideErrorMsg: true,
+    method: "post",
+    data,
+    url: `${apiHost}/api/PaymentBill/PaidLog`,
+  });
+}

@@ -248,6 +248,7 @@
 				border-radius: 50%;
 				position: relative;
 				z-index: 2;
+				flex-shrink: 0;
 			}
 			.right{
 				display: block;

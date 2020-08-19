@@ -53,7 +53,8 @@
         query: {},
         detail: {},
         orderData: {},
-        qryAcqSsn: ''
+        qryAcqSsn: '',
+        isPaySuccessed: false
       }
     },
     methods: {
@@ -66,6 +67,7 @@
         console.log(res)
         if(res.success) {
           this.qryAcqSsn = res.data.qryAcqSsn
+          this.isPaySuccessed = res.data.isPaySuccessed
         }
       },
       async paymentBill() {
@@ -91,43 +93,62 @@
           url
         });
       },
+      async paidLog () {
+        let res = await api.paidLog({
+          roomId: this.query.roomId,
+          chargeIdStr: this.query.chargeIdStr,
+          qryAcqSsn: this.qryAcqSsn,
+        })
+      },
       async pay () {
         uni.showLoading({
           title: '请稍后...'
         });
         await this.getQryAcqSsn()
-        let success = false
-        for(let i = 0;i< 5;i++) {
-          success = await this.paymentBill()
-          if(success) {
-            break
-          } else {
-            await util.timeout(2000)
+        if(this.isPaySuccessed) {
+          // this.paidLog()
+          await uni.showModal({
+            title: '提示',
+            content: '支付成功！',
+            showCancel: false
+          });
+          console.log('支付成功---isPaySuccessed=true')
+        } else { // 用的余额支付；实际支付金额为0
+          let success = false
+          for(let i = 0;i< 5;i++) {
+            success = await this.paymentBill()
+            if(success) {
+              break
+            } else {
+              await util.timeout(2000)
+            }
           }
+          uni.hideLoading()
+          let jsApiModel = this.orderData.jsApiModel || {}
+          wx.requestPayment({
+            ...jsApiModel,
+            package: jsApiModel.packAge,
+            success: async (res) => {
+              this.paidLog()
+              await uni.showModal({
+                title: '提示',
+                content: '支付成功！',
+                showCancel: false
+              });
+              console.log('支付成功',res)
+              this.tolist()
+            },
+            async fail (res) {
+              await uni.showModal({
+                title: '提示',
+                content: '支付失败，请重试！',
+                showCancel: false
+              })
+              console.log('支付失败',res)
+            }
+          })
         }
-        uni.hideLoading()
-        let jsApiModel = this.orderData.jsApiModel || {}
-        wx.requestPayment({
-          ...jsApiModel,
-          package: jsApiModel.packAge,
-          success: async (res) => {
-            await uni.showModal({
-              title: '提示',
-              content: '支付成功！',
-              showCancel: false
-            });
-            console.log('支付成功',res)
-            this.tolist()
-          },
-          async fail (res) {
-            await uni.showModal({
-              title: '提示',
-              content: '支付失败，请重试！',
-              showCancel: false
-            })
-            console.log('支付失败',res)
-          }
-        })
+
       }
 
     },
