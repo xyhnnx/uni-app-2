@@ -63,10 +63,12 @@
     },
     methods: {
       open() {
+        this.pickerIng = false
         this.$refs.popup.open()
       },
       close() {
         this.$refs.popup.close()
+        this.pickerIng = false
       },
       pickerStart () {
           this.pickerIng = true
@@ -75,6 +77,7 @@
           this.pickerIng = false
       },
       bindChange(val) {
+        console.log('change')
         this.selectIndex = val.detail.value
       },
       pickerClick (val) {
