@@ -77,7 +77,6 @@
           this.pickerIng = false
       },
       bindChange(val) {
-        console.log('change')
         this.selectIndex = val.detail.value
       },
       pickerClick (val) {
