@@ -15,7 +15,7 @@
 				<view class="content-box">
 					<view class="head">
 						<view> {{item.itemName || ''}}</view>
-						<view class="btn-text">{{item.realAllMoney}}</view>
+						<view class="btn-text">{{item.realMoney}}</view>
 					</view>
 					<view class="body">
 						<view>缴费周期：{{getTime2(item.realLastPayDate)}}~{{getTime2(item.realStopPayDate)}}</view>

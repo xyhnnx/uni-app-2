@@ -114,6 +114,7 @@
 				return []
 			},
 			itemList () {
+				// （0＝待受理，1＝处理中，2＝待确认，3 4 7＝已完成(3是用户完成 4是已经评价 7是物业完成)，5＝已退回，6＝已取消）
 				// -1-全部,10-已完成,0-待处理,1-处理中,2-待确认,5-已退回,6-已取消
 				return [
 					{
@@ -153,8 +154,18 @@
 						isShow: false
 					},
 					{
+						label: '待评价',
+						state: 3,
+						isShow: false
+					},
+					{
 						label: '已评价',
 						state: 4,
+						isShow: false
+					},
+					{
+						label: '物业完成',
+						state: 7,
 						isShow: false
 					}
 				]
@@ -169,6 +180,11 @@
 						}
 						if(e.state !== '') {
 							item.value = this.dataList.filter(e2 => e2.state === e.state).length
+							if (e.state === 10) {
+								item.value = this.dataList.filter(e2 => {
+									return [3,4,7,10].includes(e2.state)
+								}).length
+							}
 						}
 						arr.push(item)
 					}
@@ -322,19 +338,6 @@
 				if (this.currentTabIndex !== e.currentIndex) {
 					this.currentTabIndex = e.currentIndex;
 				}
-			},
-			showActionSheet() {
-				uni.showActionSheet({
-					itemList: this.roomList.map(e => e.courtName),
-					success: (res) => {
-						this.setStateData({
-							currentRoom: this.roomList[res.tapIndex]
-						})
-					},
-					fail: function (res) {
-						console.log(res.errMsg);
-					}
-				});
 			},
 			async getServiceList() {
 				let res = await api.getServiceList({

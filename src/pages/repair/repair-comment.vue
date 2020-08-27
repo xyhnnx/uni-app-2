@@ -94,6 +94,7 @@
 				return []
 			},
 			items () {
+				// （0＝待受理，1＝处理中，2＝待确认，3 4 7＝已完成(3是用户完成 4是已经评价 7是物业完成)，5＝已退回，6＝已取消）
 				// -1-全部,10-已完成,0-待处理,1-处理中,2-待确认,5-已退回,6-已取消
 				return [
 					{
@@ -104,44 +105,47 @@
 					},
 					{
 						label: '待处理',
-						value: this.dataList.filter(e => e.state ===0).length,
 						state: 0,
 						isShow: true
 					},
 					{
 						label: '处理中',
-						value: this.dataList.filter(e => e.state ===1).length,
 						state: 1,
 						isShow: true
 					},
 					{
 						label: '待确认',
-						value: this.dataList.filter(e => e.state ===2).length,
 						state: 2,
 						isShow: true
 					},
 					{
 						label: '已完成',
-						value: this.dataList.filter(e => e.state === 10).length,
 						state: 10,
 						isShow: true
 					},
 					{
 						label: '已退回',
-						value: this.dataList.filter(e => e.state === 5).length,
 						state: 5,
 						isShow: false
 					},
 					{
 						label: '已取消',
-						value: this.dataList.filter(e => e.state === 6).length,
 						state: 6,
 						isShow: false
 					},
 					{
+						label: '待评价',
+						state: 3,
+						isShow: false
+					},
+					{
 						label: '已评价',
-						value: this.dataList.filter(e => e.state === 4).length,
 						state: 4,
+						isShow: false
+					},
+					{
+						label: '物业完成',
+						state: 7,
 						isShow: false
 					}
 				]
