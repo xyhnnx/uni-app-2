@@ -51,7 +51,7 @@
 								<button class="btn" @click="changeStatus(item, 3)" type="primary">完成服务</button>
 							</template>
 							<!--// 已完成-->
-							<template v-else-if="item.state === 10">
+							<template v-else-if="item.state === 3">
 								<button class="btn" type="primary" @click="toComment(item)">评价</button>
 
 							</template>

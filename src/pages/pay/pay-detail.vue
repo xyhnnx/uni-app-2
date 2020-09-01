@@ -113,6 +113,7 @@
             showCancel: false
           });
           console.log('支付成功---isPaySuccessed=true')
+          uni.hideLoading()
         } else { // 用的余额支付；实际支付金额为0
           let success = false
           for(let i = 0;i< 5;i++) {

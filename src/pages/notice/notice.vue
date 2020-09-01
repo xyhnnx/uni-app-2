@@ -53,6 +53,9 @@
                 <no-data v-else></no-data>
             </view>
         </view>
+        <view class="fix-bottom-btn-box">
+            <button @tap="requestSubscribeMessage"><text class="xyh-icon list-icon">&#xe611;</text>更新提醒</button>
+        </view>
     </view>
     <view v-else class="common-no-data-box">
         <no-data text="请扫码房产二维码"></no-data>
@@ -125,6 +128,13 @@
     },
     methods: {
       ...mapMutations(['setStateData']),
+      requestSubscribeMessage () {
+        console.log('xxxcxcxs')
+        wx.requestSubscribeMessage({
+          tmplIds: [''],
+          success (res) { }
+        })
+      },
       onClickItem(e) {
         if (this.currentTabIndex !== e.currentIndex) {
           this.currentTabIndex = e.currentIndex;
@@ -190,6 +200,24 @@
            height: 8px;
            margin-left: 5px;
            line-height: 0;
+       }
+   }
+   .fix-bottom-btn-box {
+       position: fixed;
+       bottom: 10px;
+       margin: auto;
+       width: 140px;
+       text-align: center;
+       left: 0;
+       right: 0;
+       button {
+           color: $uni-color-primary;
+           &:after{
+               border-color: $uni-color-primary;
+           }
+           text {
+               margin-right: 3px;
+           }
        }
    }
 </style>

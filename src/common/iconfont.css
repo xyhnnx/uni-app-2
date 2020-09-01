@@ -9,6 +9,19 @@
   url('~@/static/icon/iconfont.svg?t=1592314210664#iconfont') format('svg'); /* iOS 4.1- */
 }
 
+@font-face {
+  font-family: 'icon-xyh';  /* project id 2023598 */
+  src: url('//at.alicdn.com/t/font_2023598_6b9xghzignu.eot');
+  src: url('//at.alicdn.com/t/font_2023598_6b9xghzignu.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_2023598_6b9xghzignu.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_2023598_6b9xghzignu.woff') format('woff'),
+  url('//at.alicdn.com/t/font_2023598_6b9xghzignu.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_2023598_6b9xghzignu.svg#icon-xyh') format('svg');
+}
+.xyh-icon {
+  font-family:"icon-xyh" !important;
+}
+
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
