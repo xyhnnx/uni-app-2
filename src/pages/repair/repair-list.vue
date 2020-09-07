@@ -105,6 +105,10 @@
 					let currentStatus = this.items[this.currentTabIndex].state
 					if(currentStatus === '') {
 						return this.dataList
+					} else if(currentStatus === 10) {
+						return this.dataList.filter(e2 => {
+							return [3,4,7,10].includes(e2.state)
+						}).length
 					} else {
 						return this.dataList.filter(e=>{
 							return e.state === currentStatus

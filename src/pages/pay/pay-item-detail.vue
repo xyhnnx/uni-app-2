@@ -3,7 +3,7 @@
     <view class="content">
         <view class="header">
             <view></view>
-            <view>{{(detail && detail.courtName) || '加载中'}}</view>
+            <view>{{(detail && detail.courtName) || ''}}</view>
         </view>
         <view class="content-box">
             <view class="item">
@@ -34,7 +34,7 @@
                 <view class="label">订单号</view>
                 <view class="value">{{detail.tradeNo}}</view>
             </view>
-            <view class="item">
+            <view class="item" v-if="detail.payNo">
                 <view class="label">流水号</view>
                 <view class="value">{{detail.payNo}}</view>
             </view>
