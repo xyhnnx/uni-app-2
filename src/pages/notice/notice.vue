@@ -129,10 +129,15 @@
     methods: {
       ...mapMutations(['setStateData']),
       requestSubscribeMessage () {
-        console.log('xxxcxcxs')
         wx.requestSubscribeMessage({
-          tmplIds: [''],
-          success (res) { }
+          tmplIds: ['Eg-nOfVHoK4ybpQkqMAFpGvAkyKGFMmm59BUk8PiI5E', '4lVMTp3fhrZaR26KUd2C1SPeZjOjlIOXWa2syeQ2hZs'],
+          success (res) {
+              uni.showToast({
+                  title: '订阅消息成功!',
+                  icon: 'none',
+                  duration: 2000
+              });
+          }
         })
       },
       onClickItem(e) {

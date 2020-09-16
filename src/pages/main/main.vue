@@ -97,6 +97,11 @@
       }
     },
     computed: mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom']),
+    watch: {
+        currentRoom () {
+            this.getAdvert()
+        }
+    },
     methods: {
       ...mapMutations(['setStateData']),
       scanningCode() {
