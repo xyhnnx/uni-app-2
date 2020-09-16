@@ -154,7 +154,8 @@
       },
       async getAdvert () {
         let res = await api.getAdvert({
-          advertPage: 2
+          advertPage: 2,
+          courtId: this.currentRoom.courtId
         })
         if(res.success && res.data && res.data.length) {
           this.adData = res.data
