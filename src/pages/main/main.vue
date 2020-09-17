@@ -11,9 +11,9 @@
             <view class="card-box">
                 <swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
                         :duration="duration">
-                    <swiper-item v-for="(item,index) in adData" :key="index" @click="bannerClick(index)">
+                    <swiper-item v-for="(item,index) in adDataModel" :key="index" @click="bannerClick(index)">
                         <view class="swiper-item">
-                            <image mode="scaleToFill" class="img" :src="item.link_url" alt=""/>
+                            <image mode="aspectFill" class="img" :src="item.link_url" alt=""/>
                         </view>
                     </swiper-item>
                 </swiper>
@@ -86,17 +86,28 @@
         autoplay: true,
         interval: 2000,
         duration: 500,
-        adData: [
-          {
-            link_url: '../../static/img/banner1.png'
-          },
-          {
-            link_url: '../../static/img/banner1.png'
-          },
-        ]
+        adData: null
       }
     },
-    computed: mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom']),
+    computed: {
+        ...mapState(['forcedLogin', 'hasLogin', 'userName', 'roomList','currentRoom']),
+        adDataModel () {
+            if(this.adData && this.adData.length) {
+                return this.adData.map(e => {
+                    return {
+                        link_url: `${this.$filePrefix}${e.link_url}`
+                    }
+                })
+            } else {
+                return [
+                    {
+                        link_url: '../../static/img/banner1.png'
+                    }
+                ]
+            }
+
+        }
+    },
     watch: {
         currentRoom () {
             this.getAdvert()
@@ -159,6 +170,8 @@
         })
         if(res.success && res.data && res.data.length) {
           this.adData = res.data
+        } else {
+          this.adData = null
         }
       }
     },
@@ -210,13 +223,17 @@
     }
 
     .swiper {
-        border-radius: 10px;
-        overflow: hidden;
-        background-color: #fff;
+        background-color: transparent;
         .swiper-item {
+            display: block;
+            width: 100%;
+            height: 100%;
             .img {
+                height: 100%;
                 width: 100%;
                 display: block;
+                border-radius: 10px;
+                overflow: hidden;
             }
         }
     }
