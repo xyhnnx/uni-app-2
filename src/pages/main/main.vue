@@ -37,11 +37,11 @@
                 </view>
             </view>
             <view class="height10"></view>
-            <view class="panel-title">
+            <view class="panel-title" v-if="false">
                 居家服务
             </view>
             <view class="height5"></view>
-            <view class="card-box panel-section">
+            <view class="card-box panel-section" v-if="false">
                 <view class="item" @click="toDetail('/pages/building/building')">
                     <view>
                         <image mode="aspectFit" class="img" src="../../static/img/oval-3-image.png" alt=""/>

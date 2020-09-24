@@ -39,6 +39,7 @@
 				</template>
 			</uni-list-item>
 			<uni-list-item title="我的订单"
+						   v-if="false"
 						   class="my-list-item"
 						   @click="toDetail('/pages/building/building')"
 						   :show-arrow="true"
