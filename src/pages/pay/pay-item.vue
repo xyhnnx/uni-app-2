@@ -154,7 +154,7 @@
         let res = await api.getNoticeDetail({
           noticeId: this.query.noticeId
         })
-        if (res.success) {
+        if (res && res.success) {
           this.detail = res.data || {}
         }
       },
@@ -186,7 +186,7 @@
         let res = await api.getRoomChargeItemDatas({
           roomId: this.query.roomId
         })
-        if(res.success) {
+        if(res && res.success) {
           this.items = res.data
 
         }
@@ -226,7 +226,7 @@
             roomId: this.query.roomId,
             chargeIdStr: chargeIdStr.join(',')
           })
-          if (res.success) {
+          if (res && res.success) {
             let data = res.data
             data.forEach(e => {
               let item = this.items.find(e2 => e2.keyID === e.keyID)

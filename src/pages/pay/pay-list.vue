@@ -89,7 +89,7 @@
 				let res = await api.getPaymentBillList({
 					courtId: this.currentRoom.courtId,
 				})
-				if (res.success) {
+				if (res && res.success) {
 					this.dataList = res.data
 				}
 			},

@@ -240,7 +240,7 @@
             ...this.formData,
             photos
           })
-          if(res.success) {
+          if(res && res.success) {
             uni.showModal({
               title: '提示',
               content: '修改成功！',
@@ -259,7 +259,7 @@
             ...this.formData,
             photos
           })
-          if(res.success) {
+          if(res && res.success) {
             uni.showModal({
               title: '提示',
               content: '提交成功，请联系物业处理！',

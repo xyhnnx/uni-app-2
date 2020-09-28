@@ -122,7 +122,7 @@
           IV: getApp().globalData.iv
         })
         uni.hideLoading()
-        if (!res2.success) {
+        if (!(res2 && res2.success)) {
           if (res2.errorCode === '1005') { // 请扫描房产二维码
             uni.showModal({
               title: '提示',

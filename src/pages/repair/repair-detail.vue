@@ -192,7 +192,7 @@
 				let res = await api.getServiceGetDetail({
 					serviceId: this.serviceId
 				})
-				if(res.success) {
+				if(res && res.success) {
 					this.dataList = res.data?[res.data]:[]
 					this.serviceProcess = (res.data && res.data.serviceProcess) || []
 				}

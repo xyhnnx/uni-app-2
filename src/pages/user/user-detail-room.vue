@@ -44,7 +44,7 @@
 							let res = await api.deleteUserRoomInfo({
 								roomId: item.roomId
 							})
-							if(res.success) {
+							if(res && res.success) {
 								uni.showToast({
 									icon: 'none',
 									title: '删除成功！'
@@ -67,7 +67,7 @@
 					Code: getApp().globalData.code,
 				})
 				uni.hideLoading()
-				if (!res2.success) {
+				if (!(res2 && res2.success)) {
 					if (res2.errorCode === '1005') { // 请扫描房产二维码
 						uni.showModal({
 							title: '提示',

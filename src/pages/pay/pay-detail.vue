@@ -65,7 +65,7 @@
           chargeIdStr: this.query.chargeIdStr,
         })
         console.log(res)
-        if(res.success) {
+        if(res && res.success) {
           this.qryAcqSsn = res.data.qryAcqSsn
           this.isPaySuccessed = res.data.isPaySuccessed
         }
@@ -76,7 +76,7 @@
           chargeIdStr: this.query.chargeIdStr,
           qryAcqSsn: this.qryAcqSsn,
         })
-        if(res.success) {
+        if(res && res.success) {
           this.orderData = res.data
           return true
         }

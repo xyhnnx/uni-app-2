@@ -48,7 +48,7 @@
         let res = await api.getPayCallDetail({
           payCallId: this.query.payCallId
         })
-        if (res.success) {
+        if (res && res.success) {
           this.detail = res.data || {}
         }
       }

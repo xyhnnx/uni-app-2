@@ -50,7 +50,7 @@
 				}
 
 				let res = await common.updateUserInfo(data)
-				if(res.success) {
+				if(res && res.success) {
 					uni.showToast({
 						icon: 'none',
 						title: '修改成功！'

@@ -156,7 +156,7 @@
         let res = await api.getNoticeList({
           courtId: this.currentRoom.courtId
         })
-        if (res.success) {
+        if (res && res.success) {
           res.data.sort((a,b)=> {
             return b.isTop - a.isTop
           })
@@ -167,7 +167,7 @@
         let res = await api.getPayCallList({
           courtId: this.currentRoom.courtId
         })
-        if (res.success) {
+        if (res && res.success) {
           this.payCallList = res.data
         }
       },

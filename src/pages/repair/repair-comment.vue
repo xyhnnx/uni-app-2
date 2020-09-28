@@ -200,7 +200,7 @@
 				let res = await api.getServiceGetDetail({
 					serviceId: this.serviceId
 				})
-				if(res.success) {
+				if(res && res.success) {
 					this.dataList = res.data?[res.data]:[]
 					console.log(this.dataList)
 					console.log(this.listModal)
@@ -219,7 +219,7 @@
 					serviceAttitude: this.value3,
 					serviceQuality: this.value4
 				})
-				if(res.success) {
+				if(res && res.success) {
 					uni.showToast({
 						icon: 'none',
 						title: '提交成功！',

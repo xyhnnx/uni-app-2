@@ -117,7 +117,7 @@
         let res = await api.getPaymentGetDetail({
           payNo: this.query.payNo
         })
-        if (res.success) {
+        if (res && res.success) {
           this.detail = res.data || {}
         }
       },

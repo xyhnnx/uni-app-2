@@ -242,7 +242,7 @@
 							let res =  await api.deleteService({
 								serviceId: item.serviceId
 							})
-							if(res.success) {
+							if(res && res.success) {
 								uni.showToast({
 									icon: 'none',
 									title: '操作成功！'
@@ -294,7 +294,7 @@
 								serviceId: item.serviceId,
 								changeStateId: state,
 							})
-							if(res.success) {
+							if(res && res.success) {
 								uni.showToast({
 									icon: 'none',
 									title: '操作成功！'
@@ -321,7 +321,7 @@
 								serviceId: item.serviceId,
 								changeStateId: 6,
 							})
-							if(res.success) {
+							if(res && res.success) {
 								uni.showToast({
 									icon: 'none',
 									title: '操作成功！'
@@ -348,7 +348,7 @@
 					courtId: this.currentRoom.courtId,
 					stateId: -1
 				})
-				if (res.success) {
+				if (res && res.success) {
 					res.data.sort((a,b)=>{
 						return a.createDate > b.createDate ? -1: 1
 					})

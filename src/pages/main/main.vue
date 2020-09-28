@@ -127,7 +127,7 @@
               IV: getApp().globalData.iv
             })
             console.log('common.login', res2)
-            if (!res2.success) {
+            if (!(res2 && res2.success)) {
               if (res2.errorCode === '1005') { // 请扫描房产二维码
                 uni.showModal({
                   title: '提示',
@@ -168,7 +168,7 @@
           advertPage: 2,
           courtId: this.currentRoom.courtId
         })
-        if(res.success && res.data && res.data.length) {
+        if(res && res.success && res.data && res.data.length) {
           this.adData = res.data
         } else {
           this.adData = null

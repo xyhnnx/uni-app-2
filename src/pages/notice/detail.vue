@@ -48,7 +48,7 @@
         let res = await api.getNoticeDetail({
           noticeId: this.query.noticeId
         })
-        if (res.success) {
+        if (res && res.success) {
           this.detail = res.data || {}
         }
       },
