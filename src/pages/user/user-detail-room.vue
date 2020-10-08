@@ -3,7 +3,10 @@
 		<view class="content-box">
 			<view class="item" v-for="(item, index) in roomList" :key="item.value" :data-index="index" @click="itemClick">
 				<view class="label" >
-					{{item.courtName}} {{item.roomName}}
+					<image mode="aspectFit" class="img" src="../../static/img/homeHL.png" alt=""/>
+					<text>
+						{{item.courtName}} {{item.roomName}}
+					</text>
 				</view>
 				<view class="value"></view>
 			</view>
@@ -113,7 +116,13 @@
 			border-bottom: 1px solid $uni-border-color;
 			line-height: 48px;
 			.label{
+				display: flex;
 				color: #333;
+				align-items: center;
+				.img{
+					width: 30px;
+					height: 30px;
+				}
 			}
 			.value{
 				color: #666;

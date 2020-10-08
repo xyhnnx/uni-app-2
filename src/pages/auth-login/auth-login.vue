@@ -155,10 +155,44 @@
     },
     async onLoad (option) {
       this.launchQueryData = wx.getLaunchOptionsSync().query
-      let res = await api.getUserInfo()
-      // 扫码带参数则重新登陆
-      if(res && res.data && res.data.phoneNumber && !this.launchQueryData.roomId) {
-        this.login()
+      if (this.launchQueryData && this.launchQueryData.roomId) { // 如果是扫码有参数进来的
+      }
+
+      uni.showLoading({
+        title: '请稍后'
+      });
+      // // 获取微信code
+      await common.wxLogin()
+      // 获取用户信息
+      // code小程序Code，必传，roomid  扫码就传码上的参数  不扫码就只要传个code  扫码的时候再传这2个 EncryptedDataStr  加密数据 IV  向量 为了获取用户手机号
+      let res2 = await common.login({
+        Code: getApp().globalData.code,
+        roomId: this.launchQueryData.roomId
+      })
+      uni.hideLoading()
+      if (!(res2 && res2.success)) {
+        if (res2.errorCode === '1005') { // 请扫描房产二维码
+          uni.showModal({
+            title: '提示',
+            content: res2.errorMessage,
+            showCancel: false,
+            success: function (res3) {
+              if (res3.confirm) {
+                console.log('用户点击确定');
+              } else if (res3.cancel) {
+                console.log('用户点击取消');
+              }
+            }
+          });
+        }
+      } else {
+        uni.setStorageSync('jwtToken', res2.data.jwtToken)
+        this.setStateData({
+          'roomList': res2.data.roomInfos || [],
+          'currentRoom': res2.data.roomInfos && res2.data.roomInfos[0]
+        })
+        common.getUserInfo()
+        this.toMain()
       }
     }
   }

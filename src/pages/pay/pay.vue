@@ -23,15 +23,11 @@
                     </view>
                     <view>户号</view>
                 </view>
-                <view class="select-box">
-                    <view>
-                        <uni-combox :labelWidth="0" disabled
-                                    :key="currentRoom.companyName"
-                                    :candidates="selectArr2"
-                                    placeholder="请选择户号"
-                                    v-model="selectIndex2">
-                        </uni-combox>
+                <view class="select-box room-select-box" @tap="roomClick">
+                    <view class="text">
+                        {{selectArr2[selectIndex2]}}
                     </view>
+                    <uni-icons class="uni-combox__input-arrow" type="arrowdown" size="14"></uni-icons>
                 </view>
             </view>
             <view>
@@ -40,6 +36,11 @@
             <!--<button class="btn-" type="primary" @click="toDetail">立即缴费</button>-->
 
         </view>
+        <my-popup-select :list="selectArr2Data"
+                         ref="refRooms"
+                         @pickerConfirm="confirmClick"
+                         label-key="roomName">
+        </my-popup-select>
     </view>
 </template>
 
@@ -53,6 +54,8 @@
   import NoData from '../../components/my-components/no-data'
   import uniCombox  from '../../components/uni-combox/uni-combox'
   import ChangeRoomBtn from '../../common/change-room-btn'
+  import myPopupSelect from '@/components/my-components/my-popup-select'
+
 
   import {
     mapState,
@@ -66,7 +69,8 @@
       UniListItem,
       ChangeRoomBtn,
       uniCombox,
-      NoData
+      NoData,
+      myPopupSelect
     },
     computed: {
       ...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
@@ -94,6 +98,13 @@
     },
     methods: {
       ...mapMutations(['setStateData']),
+      roomClick () {
+        this.$refs.refRooms.open()
+      },
+      confirmClick (item) {
+        this.$refs.refRooms.close()
+        this.selectIndex2 = this.selectArr2Data.findIndex(e => e.roomId === item.roomId)
+      },
       async getNoticeDetail() {
         let res = await api.getNoticeDetail({
           noticeId: this.query.noticeId
@@ -173,5 +184,10 @@
         .select {
 
         }
+    }
+    .room-select-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 </style>
