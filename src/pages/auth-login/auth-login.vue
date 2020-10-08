@@ -162,7 +162,7 @@
     async onLoad (option) {
       this.launchQueryData = wx.getLaunchOptionsSync().query
       this.launchQueryData.roomId = this.launchQueryData.roomId || this.launchQueryData.roomid
-
+      console.log('launchQueryData--->', this.launchQueryData)
       if (this.launchQueryData && this.launchQueryData.roomId) { // 如果是扫码有参数进来的
       }
 

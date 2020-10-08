@@ -9,7 +9,7 @@
         globalData: {
           // test: http://tt.962460.com/handler/api/UploadHandler.ashx?method=ProcessRequest
           // prod: http://wy.962460.com/handler/api/UploadHandler.ashx?method=ProcessRequest
-          uploadFileUrl: 'https://tt.962460.com/handler/api/UploadHandler.ashx?method=ProcessRequest',
+          uploadFileUrl: 'https://wy.962460.com/handler/api/UploadHandler.ashx?method=ProcessRequest',
           // 图片前缀
           // filePrefix: 'http://wy.962460.com',
           code: '',

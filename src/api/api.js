@@ -1,7 +1,7 @@
 import {request} from './fetch.js'
 
-const apiHost = 'http://bsb_test.962460.com'  // test222
-// const apiHost = 'https://zxsh.8002460.com'
+// const apiHost = 'http://bsb_test.962460.com'  // test222
+const apiHost = 'https://zxsh.8002460.com'
 
 // 登录
 export async function login(data) {
