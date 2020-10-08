@@ -148,13 +148,21 @@
         }
       },
       toMain(userName) {
-        uni.reLaunch({
-          url: '../main/main',
-        });
+        if (this.launchQueryData && this.launchQueryData.roomId) { // 如果是扫码有参数进来的
+          uni.reLaunch({
+            url: `/pages/pay/pay-item?roomId=${this.launchQueryData.roomId}`
+          });
+        } else {
+          uni.reLaunch({
+            url: '../main/main',
+          });
+        }
       }
     },
     async onLoad (option) {
       this.launchQueryData = wx.getLaunchOptionsSync().query
+      this.launchQueryData.roomId = this.launchQueryData.roomId || this.launchQueryData.roomid
+
       if (this.launchQueryData && this.launchQueryData.roomId) { // 如果是扫码有参数进来的
       }
 
