@@ -160,8 +160,11 @@
       }
     },
     async onLoad (option) {
-      this.launchQueryData = wx.getLaunchOptionsSync().query
-      this.launchQueryData.roomId = this.launchQueryData.roomId || this.launchQueryData.roomid
+      let query = wx.getLaunchOptionsSync().query
+      if(query && query.scene) {
+          let str = decodeURIComponent(query.scene)
+          this.launchQueryData.roomId = str.split('=')[1]
+      }
       console.log('launchQueryData--->', this.launchQueryData)
       if (this.launchQueryData && this.launchQueryData.roomId) { // 如果是扫码有参数进来的
       }
