@@ -160,12 +160,12 @@
       }
     },
     async onLoad (option) {
-      let query = wx.getLaunchOptionsSync().query
+      console.log('option-->', option)
+      let query = option
       if(query && query.scene) {
           let str = decodeURIComponent(query.scene)
           this.launchQueryData.roomId = str.split('=')[1]
       }
-      console.log('launchQueryData--->', this.launchQueryData)
       if (this.launchQueryData && this.launchQueryData.roomId) { // 如果是扫码有参数进来的
       }
 
@@ -198,9 +198,16 @@
         }
       } else {
         uni.setStorageSync('jwtToken', res2.data.jwtToken)
+        let roomList = res2.data.roomInfos || []
+        let currentRoom = res2.data.roomInfos && res2.data.roomInfos[0]
+        let item = roomList.find(e => `${e.roomId}` === `${this.launchQueryData.roomId}`)
+        if(item) {
+          console.log(`current room--> ${item.roomId}`)
+          currentRoom = item
+        }
         this.setStateData({
-          'roomList': res2.data.roomInfos || [],
-          'currentRoom': res2.data.roomInfos && res2.data.roomInfos[0]
+          'roomList': roomList,
+          'currentRoom': currentRoom
         })
         common.getUserInfo()
         this.toMain()
