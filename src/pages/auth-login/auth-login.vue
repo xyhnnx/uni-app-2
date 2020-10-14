@@ -151,17 +151,23 @@
         if (this.launchQueryData && this.launchQueryData.roomId) { // 如果是扫码有参数进来的
           uni.reLaunch({
             url: `/pages/pay/pay-item?roomId=${this.launchQueryData.roomId}`
-          });
+          })
+        } else if (this.launchQueryData && this.launchQueryData.type) { // 服务提醒进来的
+            let courtId = this.launchQueryData.courtId || this.launchQueryData.courtid
+            uni.reLaunch({
+                url: `/pages/notice/notice?type=${this.launchQueryData.type}&courtId=${courtId}`
+            })
         } else {
           uni.reLaunch({
             url: '../main/main',
-          });
+          })
         }
       }
     },
     async onLoad (option) {
       console.log('option-->', option)
       let query = option
+      this.launchQueryData = option
       if(query && query.scene) {
           let str = decodeURIComponent(query.scene)
           this.launchQueryData.roomId = str.split('=')[1]
@@ -201,6 +207,13 @@
         let roomList = res2.data.roomInfos || []
         let currentRoom = res2.data.roomInfos && res2.data.roomInfos[0]
         let item = roomList.find(e => `${e.roomId}` === `${this.launchQueryData.roomId}`)
+        if(query && query.type) { // 从服务提醒进来的
+            let courtId = query.courtId || query.courtid
+            let item2 = roomList.find(e => `${e.courtId}` === `${courtId}`)
+            if(item2) {
+                item = item2
+            }
+        }
         if(item) {
           console.log(`current room--> ${item.roomId}`)
           currentRoom = item

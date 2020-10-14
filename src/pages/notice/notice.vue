@@ -187,6 +187,13 @@
       this.getNoticeList()
       // 催缴通知
       this.getPayCallList()
+    },
+    onLoad (query) {
+        if(query && query.type) {
+            if(`${query.type}` === '1') {
+                this.currentTabIndex = 1
+            }
+        }
     }
   }
 </script>
