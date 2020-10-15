@@ -139,9 +139,14 @@
           }
         } else {
           uni.setStorageSync('jwtToken', res2.data.jwtToken)
+          let currentRoom = res2.data.roomInfos && res2.data.roomInfos[0]
+          let item = res2.data.roomInfos.find(e => `${e.roomId}` === `${this.launchQueryData.roomId}`)
+          if (item) {
+              currentRoom = item
+          }
           this.setStateData({
             'roomList': res2.data.roomInfos || [],
-            'currentRoom': res2.data.roomInfos && res2.data.roomInfos[0]
+            'currentRoom': currentRoom
           })
           common.getUserInfo()
           this.toMain()
