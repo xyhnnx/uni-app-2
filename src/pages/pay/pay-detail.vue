@@ -15,11 +15,23 @@
             </view>
         </view>
         <view class="btn-box">
-            <button type="primary" class="radius" @click="pay">立即缴费</button>
+            <button type="primary" class="radius" @click="beforePay">立即缴费</button>
         </view>
         <view class="fixed-bottom">
             数据来源于江苏百事帮电子商务有限公司
         </view>
+        <!--区域选择-->
+        <uni-popup ref="popup" type="center">
+            <div class="popup-center-warp">
+                <div>提示</div>
+                <div>
+                    缴费需要确认用户信息
+                </div>
+                <button class="get-user-button" @getuserinfo="getUserInfo" open-type="getUserInfo">
+                    点击获取用户信息
+                </button>
+            </div>
+        </uni-popup>
     </view>
 </template>
 <script>
@@ -30,6 +42,8 @@
   import UniList from '../../components/uni-list/uni-list'
   import UniListItem from '../../components/uni-list-item/uni-list-item'
   import NoData from '../../components/my-components/no-data'
+  import uniPopup from '../../components/uni-popup/uni-popup.vue'
+
   import {
     mapState,
     mapMutations
@@ -40,10 +54,11 @@
       UniSegmentedControl,
       UniList,
       UniListItem,
-      NoData
+      NoData,
+      uniPopup
     },
     computed: {
-      ...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom']),
+      ...mapState(['primaryColor', 'serviceTypeList', 'hasLogin', 'userName', 'roomList', 'currentRoom', 'userInfo']),
       payRoom () {
         return this.roomList.find(e => `${e.roomId}` === `${this.query.roomId}`)
       },
@@ -59,6 +74,24 @@
     },
     methods: {
       ...mapMutations(['setStateData']),
+      async getUserInfo (e) {
+          // 获取微信code
+          await common.wxLogin()
+          let res2 = await api.getUserInfo({
+              code: getApp().globalData.code,
+              iv: e.detail.iv,
+              encryptedDataStr: e.detail.encryptedData
+          })
+          this.pay()
+          this.$refs.popup.close()
+      },
+      async beforePay () {
+          if(!(this.userInfo && this.userInfo.nickName)) { // 未获取用户信息
+              this.$refs.popup.open()
+          } else {
+              this.pay()
+          }
+      },
       async getQryAcqSsn() {
         let res = await api.getQryAcqSsn({
           roomId: this.query.roomId,
@@ -156,6 +189,9 @@
     },
     onLoad(e) {
       this.query = e
+    },
+    onShow() {
+        common.getUserInfo()
     }
   }
 </script>
