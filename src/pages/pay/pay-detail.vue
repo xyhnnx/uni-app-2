@@ -23,9 +23,11 @@
         <!--区域选择-->
         <uni-popup ref="popup" type="center">
             <div class="popup-center-warp">
-                <div>提示</div>
-                <div>
-                    缴费需要确认用户信息
+                <div class="top">
+                    <div class="title">提示</div>
+                    <div class="content">
+                        缴费需要确认用户信息
+                    </div>
                 </div>
                 <button class="get-user-button" @getuserinfo="getUserInfo" open-type="getUserInfo">
                     点击获取用户信息
@@ -75,15 +77,17 @@
     methods: {
       ...mapMutations(['setStateData']),
       async getUserInfo (e) {
+        if (e.detail && e.detail.iv) {
           // 获取微信code
           await common.wxLogin()
           let res2 = await api.getUserInfo({
-              code: getApp().globalData.code,
-              iv: e.detail.iv,
-              encryptedDataStr: e.detail.encryptedData
+            code: getApp().globalData.code,
+            iv: e.detail.iv,
+            encryptedDataStr: e.detail.encryptedData
           })
           this.pay()
           this.$refs.popup.close()
+        }
       },
       async beforePay () {
           if(!(this.userInfo && this.userInfo.nickName)) { // 未获取用户信息
@@ -229,5 +233,38 @@
         line-height: 40px;
         color: $uni-text-color-grey-2;
         font-size: 12px;
+    }
+    .popup-center-warp {
+        .top {
+            padding: 20px;
+            text-align: center;
+        }
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 45px;
+        }
+        .content{
+            padding: 20px 0;
+            background-color: #fff;
+        }
+        border-radius: 10px;
+        background-color: #fff;
+        width: calc(100vw * 0.8);
+        .get-user-button {
+            border: none;
+            border-top: 1px solid $uni-border-color;
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            border-radius: 0;
+            box-sizing: border-box;
+            align-items: center;
+            overflow: hidden;
+            color: $uni-color-primary;
+            &:after {
+                border:none
+            }
+        }
     }
 </style>
